@@ -1,2 +1,4 @@
 .out
 src/com/rockingstar/modules/*
+.idea
+*.iml
