@@ -20,9 +20,7 @@ public class GUIView {
 
     private void setup() {
         _mainWindow.setMaximized(true);
-        //getClass().getResource("styles/base.css").toExternalForm();
-        //_scene.getStylesheets().add(getClass().getResource("/assets/styles/base.css").toExternalForm());
-
+        _scene.getStylesheets().add("styles/base.css");
         _mainWindow.setScene(_scene);
     }
 

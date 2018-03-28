@@ -19,4 +19,10 @@ public class Util {
     public static void displayStatus(String message, boolean success) {
         displayStatus(message + "... [" + (success ? "SUCCESS" : "FAILED") + "]");
     }
+
+    public static void exit(String message) {
+        displayStatus(message, false);
+        displayStatus("Exiting...");
+        System.exit(-1);
+    }
 }

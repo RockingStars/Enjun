@@ -12,6 +12,8 @@ public class Engine extends Application {
     public void boot() {
         Util.displayStatus("Entering boot sequence");
         _gui.display();
+
+        Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
     }
 
     @Override
