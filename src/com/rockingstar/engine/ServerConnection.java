@@ -24,6 +24,8 @@ public class ServerConnection {
             PrintWriter out = new PrintWriter(sock.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
+            Util.displayStatus("Established server connection");
+
             out.println(data);
 
             Thread.sleep(5000000);
@@ -34,6 +36,7 @@ public class ServerConnection {
             String input = in.readLine();
             System.out.println(input);
 
+            // @todo Move to .close() method
             in.close();
             out.close();
             sock.close();
@@ -45,6 +48,8 @@ public class ServerConnection {
                 System.out.printf("Connection was interrupted: %s\n", e.toString());
             else
                 e.printStackTrace();
+
+            Util.exit("Maintaining server connection...");
         }
     }
 
@@ -52,6 +57,7 @@ public class ServerConnection {
         if(uniqueInstance == null){
             uniqueInstance = new ServerConnection();
         }
+
         return uniqueInstance;
     }
 
