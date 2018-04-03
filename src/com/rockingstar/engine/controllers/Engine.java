@@ -1,8 +1,6 @@
 package com.rockingstar.engine.controllers;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.CommandExecutor;
-import com.rockingstar.engine.command.LoginCommand;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
@@ -24,7 +22,7 @@ public class Engine extends Application {
         Util.displayStatus("Entering boot sequence");
 
         _gui.display();
-        _serverConnection = ServerConnection.getInstance();
+        //_serverConnection = ServerConnection.getInstance();
 
         // @todo Move to own class
         setBackgroundMusic();
@@ -37,6 +35,7 @@ public class Engine extends Application {
         _launcher = new Launcher(_gui);
         _launcher.setCentralNode();
 
+        /*
         try {
             Thread.sleep(20000);
         }
@@ -44,7 +43,7 @@ public class Engine extends Application {
             e.printStackTrace();
         }
 
-        _serverConnection.close();
+        _serverConnection.close();*/
     }
 
     @Override

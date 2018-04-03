@@ -1,17 +1,21 @@
-package GameStates;
+package com.rockingstar.engine.gamestates;
+
+import com.rockingstar.modules.TicTacToe.GameFinished;
+import com.rockingstar.modules.TicTacToe.GameStarted;
+import com.rockingstar.modules.TicTacToe.PreGame;
 
 /**
  * Created by Bert de Boer on 4/3/2018.
  */
-public class Game {
+public abstract class Game {
 
-    GameState preGame;
-    GameState gameStarted;
-    GameState gameFinished;
+    protected GameState preGame;
+    protected GameState gameStarted;
+    protected GameState gameFinished;
 
-    GameState currentState;
+    protected GameState currentState;
 
-    public Game(){
+    public Game() {
         preGame = new PreGame(this);
         gameStarted = new GameStarted(this);
         gameFinished = new GameFinished(this);
@@ -20,7 +24,7 @@ public class Game {
 
     }
 
-    void setGameState(GameState newGameState){
+    public void setGameState(GameState newGameState){
         currentState = newGameState;
     }
 

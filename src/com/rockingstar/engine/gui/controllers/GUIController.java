@@ -7,11 +7,11 @@ import javafx.stage.Stage;
 
 public class GUIController {
 
-    private Stage _mainWindow;
+    private Stage _mainStage;
     private MainWindow _view;
 
     public GUIController(Stage mainStage) {
-        _mainWindow = mainStage;
+        _mainStage = mainStage;
         _view = new MainWindow(mainStage);
         _view.setTitle("Enjun game engine");
     }
@@ -21,7 +21,7 @@ public class GUIController {
     }
 
     public void display() {
-        _mainWindow.show();
+        _mainStage.show();
 
         Util.displayStatus("Loading GUI");
     }
