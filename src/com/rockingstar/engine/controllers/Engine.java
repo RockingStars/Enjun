@@ -13,6 +13,8 @@ import java.net.URL;
 public class Engine extends Application {
 
     private GUIController _gui;
+    private GUI _gui;
+    private ServerConnection _serverConnection;
 
     private void boot() {
         Util.displayStatus("Entering boot sequence");
@@ -32,6 +34,8 @@ public class Engine extends Application {
             player.play();
             player.setOnEndOfMedia(() -> player.seek(Duration.ZERO));
         }).start();
+
+        _serverConnection = ServerConnection.getInstance();
     }
 
     @Override
