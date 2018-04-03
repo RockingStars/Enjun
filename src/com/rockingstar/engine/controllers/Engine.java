@@ -8,12 +8,15 @@ import javafx.stage.Stage;
 public class Engine extends Application {
 
     private GUI _gui;
+    private ServerConnection _serverConnection;
 
     public void boot() {
         Util.displayStatus("Entering boot sequence");
         _gui.display();
 
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
+
+        _serverConnection = ServerConnection.getInstance();
     }
 
     @Override
