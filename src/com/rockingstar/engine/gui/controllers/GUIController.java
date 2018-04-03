@@ -1,6 +1,6 @@
 package com.rockingstar.engine.gui.controllers;
 
-import com.rockingstar.engine.gui.views.GUIView;
+import com.rockingstar.engine.gui.views.MainWindow;
 import com.rockingstar.engine.io.models.Util;
 import javafx.scene.Node;
 import javafx.stage.Stage;
@@ -8,11 +8,11 @@ import javafx.stage.Stage;
 public class GUIController {
 
     private Stage _mainWindow;
-    private GUIView _view;
+    private MainWindow _view;
 
     public GUIController(Stage mainStage) {
         _mainWindow = mainStage;
-        _view = new GUIView(mainStage);
+        _view = new MainWindow(mainStage);
         _view.setTitle("Enjun game engine");
     }
 
