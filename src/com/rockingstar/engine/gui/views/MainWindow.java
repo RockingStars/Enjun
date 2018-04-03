@@ -5,13 +5,13 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-public class GUIView {
+public class MainWindow {
 
     private Stage _mainWindow;
     private BorderPane _layout;
     private Scene _scene;
 
-    public GUIView(Stage mainWindow) {
+    public MainWindow(Stage mainWindow) {
         _mainWindow = mainWindow;
         _layout = new BorderPane();
         _scene = new Scene(_layout);
