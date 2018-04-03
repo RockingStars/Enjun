@@ -1,5 +1,6 @@
 package com.rockingstar.engine.controllers;
 
+import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import javafx.application.Application;
@@ -13,7 +14,6 @@ import java.net.URL;
 public class Engine extends Application {
 
     private GUIController _gui;
-    private GUI _gui;
     private ServerConnection _serverConnection;
 
     private void boot() {

@@ -4,7 +4,6 @@ import com.rockingstar.engine.controllers.Engine;
 import com.rockingstar.engine.io.models.Util;
 
 import static javafx.application.Application.launch;
-//import com.rockingstar.engine.ServerConnection;
 
 public class Main {
 
