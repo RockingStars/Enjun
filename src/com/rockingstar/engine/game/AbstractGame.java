@@ -6,7 +6,7 @@ import javafx.scene.Node;
 /**
  * Created by Bert de Boer on 4/3/2018.
  */
-public abstract class AbstractGame {
+public abstract class AbstractGame implements GameInterface {
 
     protected State currentState;
 
@@ -29,38 +29,47 @@ public abstract class AbstractGame {
         currentState = State.PREGAME;
     }
 
-    abstract Node getView();
+    @Override
+    public abstract Node getView();
 
-    public void setGameState(State newGameState){
+    @Override
+    public void setGameState(State newGameState) {
         currentState = newGameState;
     }
 
+    @Override
     public void startGame() {
         currentState = State.GAME_STARTED;
     }
 
+    @Override
     public void doPlayerMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
     }
 
+    @Override
     public void getPlayerToMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
     }
 
+    @Override
     public String getTurnMessage() {
         return null;
     }
 
+    @Override
     public final State getGameState() {
         return currentState;
     }
 
-    public double getPlayerScore(Player player) {
+    @Override
+    public int getPlayerScore(Player player) {
         return player.getScore();
     }
 
+    @Override
     public int getPlayerResult() throws IllegalStateException {
         if (currentState != State.GAME_FINISHED)
             throw new IllegalStateException();
@@ -68,10 +77,12 @@ public abstract class AbstractGame {
         return playerResult;
     }
 
+    @Override
     public final int getMoveDetails() {
         return moveDetails;
     }
 
+    @Override
     public String getMatchResultComment() {
         return null;
     }
