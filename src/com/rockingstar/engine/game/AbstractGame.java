@@ -6,7 +6,7 @@ import javafx.scene.Node;
 /**
  * Created by Bert de Boer on 4/3/2018.
  */
-public abstract class AbstractGame {
+public abstract class AbstractGame implements GameInterface {
 
     protected State currentState;
 
@@ -29,9 +29,9 @@ public abstract class AbstractGame {
         currentState = State.PREGAME;
     }
 
-    abstract Node getView();
+    public abstract Node getView();
 
-    public void setGameState(State newGameState){
+    public void setGameState(State newGameState) {
         currentState = newGameState;
     }
 
@@ -57,7 +57,7 @@ public abstract class AbstractGame {
         return currentState;
     }
 
-    public double getPlayerScore(Player player) {
+    public int getPlayerScore(Player player) {
         return player.getScore();
     }
 
