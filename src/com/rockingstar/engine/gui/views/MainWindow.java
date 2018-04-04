@@ -7,21 +7,21 @@ import javafx.stage.Stage;
 
 public class MainWindow {
 
-    private Stage _mainWindow;
+    private Stage _mainStage;
     private BorderPane _layout;
     private Scene _scene;
 
-    public MainWindow(Stage mainWindow) {
-        _mainWindow = mainWindow;
+    public MainWindow(Stage mainStage) {
+        _mainStage = mainStage;
         _layout = new BorderPane();
         _scene = new Scene(_layout);
         setup();
     }
 
     private void setup() {
-        _mainWindow.setMaximized(true);
+        _mainStage.setMaximized(true);
         _scene.getStylesheets().add("styles/base.css");
-        _mainWindow.setScene(_scene);
+        _mainStage.setScene(_scene);
     }
 
     public void setCenter(Node node) {
@@ -29,6 +29,6 @@ public class MainWindow {
     }
 
     public void setTitle(String title) {
-        _mainWindow.setTitle(title);
+        _mainStage.setTitle(title);
     }
 }

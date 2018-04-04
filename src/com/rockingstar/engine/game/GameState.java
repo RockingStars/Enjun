@@ -1,4 +1,4 @@
-package GameStates;
+package com.rockingstar.engine.game;
 
 /**
  * Created by Bert de Boer on 4/3/2018.
