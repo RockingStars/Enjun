@@ -29,38 +29,47 @@ public abstract class AbstractGame implements GameInterface {
         currentState = State.PREGAME;
     }
 
+    @Override
     public abstract Node getView();
 
+    @Override
     public void setGameState(State newGameState) {
         currentState = newGameState;
     }
 
+    @Override
     public void startGame() {
         currentState = State.GAME_STARTED;
     }
 
+    @Override
     public void doPlayerMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
     }
 
+    @Override
     public void getPlayerToMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
     }
 
+    @Override
     public String getTurnMessage() {
         return null;
     }
 
+    @Override
     public final State getGameState() {
         return currentState;
     }
 
+    @Override
     public int getPlayerScore(Player player) {
         return player.getScore();
     }
 
+    @Override
     public int getPlayerResult() throws IllegalStateException {
         if (currentState != State.GAME_FINISHED)
             throw new IllegalStateException();
@@ -68,10 +77,12 @@ public abstract class AbstractGame implements GameInterface {
         return playerResult;
     }
 
+    @Override
     public final int getMoveDetails() {
         return moveDetails;
     }
 
+    @Override
     public String getMatchResultComment() {
         return null;
     }
