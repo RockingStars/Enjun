@@ -22,7 +22,8 @@ public class Engine extends Application {
         Util.displayStatus("Entering boot sequence");
 
         _gui.display();
-        //_serverConnection = ServerConnection.getInstance();
+        _serverConnection = ServerConnection.getInstance();
+        _serverConnection.start();
 
         // @todo Move to own class
         //setBackgroundMusic();
@@ -32,7 +33,7 @@ public class Engine extends Application {
 
         //CommandExecutor.execute(new LoginCommand(_serverConnection, "Robert"));
 
-        _launcher = new Launcher(_gui);
+        _launcher = new Launcher(_gui, _serverConnection);
         _launcher.setCentralNode();
 
         /*
