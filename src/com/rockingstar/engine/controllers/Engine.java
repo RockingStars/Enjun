@@ -1,7 +1,7 @@
 package com.rockingstar.engine.controllers;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.CommandExecutor;
+import com.rockingstar.engine.io.models.CommandExecutor;
 import com.rockingstar.engine.command.client.LogoutCommand;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
