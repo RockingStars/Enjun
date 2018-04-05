@@ -1,5 +1,6 @@
 package com.rockingstar.engine.lobby.models;
 
+import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LoginView;
 
@@ -16,6 +17,9 @@ public class LobbyModel {
     }
 
     public void addActionHandlers(LoginView loginView, Launcher launcher) {
-        loginView.getContinueButton().setOnAction(e -> launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
+        loginView.getContinueButton().setOnAction(e -> {
+                ServerConnection.getInstance().send("login "+ loginView.getInsertedUsername());
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()));
+        });
     }
 }
