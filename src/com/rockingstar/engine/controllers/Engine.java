@@ -1,6 +1,8 @@
 package com.rockingstar.engine.controllers;
 
 import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.CommandExecutor;
+import com.rockingstar.engine.command.client.LogoutCommand;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
@@ -29,27 +31,17 @@ public class Engine extends Application {
         //setBackgroundMusic();
 
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
-        //_serverConnection.readAll();
-
-        //CommandExecutor.execute(new LoginCommand(_serverConnection, "Robert"));
 
         _launcher = new Launcher(_gui, _serverConnection);
         _launcher.setCentralNode();
 
-        /*
-        try {
-            Thread.sleep(20000);
-        }
-        catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        _serverConnection.close();*/
+        //_serverConnection.close();
     }
 
     @Override
     public void start(Stage primaryStage) {
         _gui = new GUIController(primaryStage);
+        primaryStage.setOnCloseRequest(e -> CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance())));
         boot();
     }
 

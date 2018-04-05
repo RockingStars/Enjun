@@ -1,6 +1,7 @@
-package com.rockingstar.engine.command;
+package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.Command;
 
 public class LoginCommand implements Command {
 
