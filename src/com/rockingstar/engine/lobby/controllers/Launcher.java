@@ -23,7 +23,9 @@ public class Launcher {
 
     private Player[] _players = new Player[2];
 
-    public Launcher(GUIController guiController, ServerConnection serverConnection) {
+    private static Launcher _instance;
+
+    private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
         _serverConnection = serverConnection;
 
@@ -33,7 +35,21 @@ public class Launcher {
         _model.addLoginActionHandlers(_loginView, this);
 
         // @todo Remove
-        _players[1] = new Player("Test", Color.NAVY);
+        _players[1] = new Player("Klaas", Color.NAVY);
+    }
+
+    public static Launcher getInstance() {
+        if (_instance == null)
+            return null;
+
+        return _instance;
+    }
+
+    public static Launcher getInstance(GUIController guiController, ServerConnection serverConnection) {
+        if (_instance == null)
+            _instance = new Launcher(guiController, serverConnection);
+
+        return _instance;
     }
 
     public void setCentralNode() {
@@ -55,5 +71,9 @@ public class Launcher {
 
         _guiController.setCenter(_lobbyView.getNode());
         _model.addGameSelectionActionHandlers(_lobbyView);
+    }
+
+    public AbstractGame getGame() {
+        return _currentGame;
     }
 }

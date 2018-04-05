@@ -1,7 +1,6 @@
 package com.rockingstar.engine.game.models;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.server.ReturnCodeHandler;
 import com.rockingstar.engine.io.models.CommandExecutor;
 import com.rockingstar.engine.command.client.LoginCommand;
 import com.rockingstar.engine.command.server.ReceivedMessageHandler;
@@ -31,8 +30,11 @@ public class Player {
     public void login() {
         CommandExecutor.execute(new LoginCommand(ServerConnection.getInstance(), _username));
         ReceivedMessageHandler messageHandler = CommandExecutor.readReply();
-        (ReturnCodeHandler) messageHandler.getReturnCode();
-        System.out.println(messageHandler);
+
+        /* Doe hier wat
+        switch (messageHandler) {
+            case
+        }*/
     }
 
     public String getUsername() {

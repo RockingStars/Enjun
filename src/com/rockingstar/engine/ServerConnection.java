@@ -1,5 +1,6 @@
 package com.rockingstar.engine;
 
+import com.rockingstar.engine.command.server.GameEventHandler;
 import com.rockingstar.engine.command.server.ReceivedMessageHandler;
 import com.rockingstar.engine.command.server.ReturnCodeHandler;
 import com.rockingstar.engine.io.models.Util;
@@ -67,6 +68,9 @@ public class ServerConnection extends Thread {
                 case "ok":
                 case "err":
                     _handler = new ReturnCodeHandler(response);
+                    break;
+                case "svr":
+                    _handler = new GameEventHandler(response.substring(3).trim());
                     break;
             }
         }

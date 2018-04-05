@@ -32,7 +32,7 @@ public class Engine extends Application {
 
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
 
-        _launcher = new Launcher(_gui, _serverConnection);
+        _launcher = Launcher.getInstance(_gui, _serverConnection);
         _launcher.setCentralNode();
 
         //_serverConnection.close();
