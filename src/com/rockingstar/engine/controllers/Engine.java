@@ -26,7 +26,7 @@ public class Engine extends Application {
         _serverConnection.start();
 
         // @todo Move to own class
-        setBackgroundMusic();
+        //setBackgroundMusic();
 
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
         //_serverConnection.readAll();

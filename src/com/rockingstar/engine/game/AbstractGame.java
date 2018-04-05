@@ -10,6 +10,10 @@ public abstract class AbstractGame implements GameInterface {
 
     protected State currentState;
 
+    protected Player player1;
+    protected Player player2;
+    protected Player currentPlayer;
+
     /**
      * State code for the current move.
      * -1   Invalid move
@@ -25,8 +29,12 @@ public abstract class AbstractGame implements GameInterface {
      */
     protected int playerResult;
 
-    public AbstractGame() {
+    public AbstractGame(Player player1, Player player2) {
         currentState = State.PREGAME;
+        this.player1 = player1;
+        this.player2 = player2;
+
+        currentPlayer = player1;
     }
 
     @Override
@@ -43,19 +51,21 @@ public abstract class AbstractGame implements GameInterface {
     }
 
     @Override
-    public void doPlayerMove() throws IllegalStateException {
+    public void doPlayerMove(int x, int y) throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
     }
 
     @Override
-    public void getPlayerToMove() throws IllegalStateException {
+    public Player getPlayerToMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
+
+        return currentPlayer;
     }
 
     @Override
-    public String getTurnMessage() {
+    public String getTurnMessage(Player player) {
         return null;
     }
 
@@ -85,5 +95,21 @@ public abstract class AbstractGame implements GameInterface {
     @Override
     public String getMatchResultComment() {
         return null;
+    }
+
+    public void setPlayer1(Player player) {
+        player1 = player;
+    }
+
+    public void setPlayer2(Player player) {
+        player2 = player;
+    }
+
+    public void setCurrentPlayer(String name) {
+        currentPlayer = player1.getUsername().equals(name) ? player1 : player2;
+    }
+
+    public void switchPlayers() {
+        currentPlayer = currentPlayer == player1 ? player2 : player1;
     }
 }

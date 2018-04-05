@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 public class LobbyView {
@@ -18,6 +19,10 @@ public class LobbyView {
     private double _iconSize;
 
     private String _username;
+
+    private Button _buttonGame0;
+    private Button _buttonGame1;
+    private Button _buttonGame2;
 
     public LobbyView(LinkedList<String> playerList, LinkedList<String> gameList) {
         _playerList = playerList;
@@ -38,46 +43,31 @@ public class LobbyView {
         layout.add(titleLable, 0, 0);
         layout.add(new Label("Please select your game"),0,3);
 
-        Button buttonGame1 = new Button();
+        _buttonGame0 = new Button();
         Label label1 = new Label("Reversi");
-        Button buttonGame2 = new Button("");
+        _buttonGame1 = new Button("");
         Label label2 = new Label("TicTacToe");
-        Button buttonGame3 = new Button();
+        _buttonGame2 = new Button();
         Label label3 = new Label("etc");
 
-        buttonGame1.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
-        buttonGame1.setMinWidth(_iconSize);
-        buttonGame1.setMinHeight(_iconSize);
+        //_buttonGame0.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
+        _buttonGame0.setMinWidth(_iconSize);
+        _buttonGame0.setMinHeight(_iconSize);
 
-        buttonGame2.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
-        buttonGame2.setMinWidth(_iconSize);
-        buttonGame2.setMinHeight(_iconSize);
+        //_buttonGame1.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
+        _buttonGame1.setMinWidth(_iconSize);
+        _buttonGame1.setMinHeight(_iconSize);
 
-        buttonGame3.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
-        buttonGame3.setMinWidth(_iconSize);
-        buttonGame3.setMinHeight(_iconSize);
+        //_buttonGame2.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
+        _buttonGame2.setMinWidth(_iconSize);
+        _buttonGame2.setMinHeight(_iconSize);
 
-        layout.add(buttonGame1,0, 15);
+        layout.add(_buttonGame0,0, 15);
         layout.add(label1,0,16);
-        layout.add(buttonGame2, 1, 15);
+        layout.add(_buttonGame1, 1, 15);
         layout.add(label2,1,16);
-        layout.add(buttonGame3, 2, 15);
+        layout.add(_buttonGame2, 2, 15);
         layout.add(label3,2,16);
-
-        buttonGame1.setOnAction(e -> {
-            String getValue = String.valueOf(label1.getText());
-            System.out.println(getValue);
-        });
-
-        buttonGame2.setOnAction(e -> {
-            String getValue = String.valueOf(label2.getText());
-            System.out.println(getValue);
-        });
-
-        buttonGame3.setOnAction(e -> {
-            String getValue = String.valueOf(label3.getText());
-            System.out.println(getValue);
-        });
 
         return layout;
     }
@@ -92,5 +82,17 @@ public class LobbyView {
 
     public void setUsername(String username) {
         _username = username;
+    }
+
+    public Button getButtonGame0() {
+        return _buttonGame0;
+    }
+
+    public Button getButtonGame1() {
+        return _buttonGame1;
+    }
+
+    public Button getButtonGame2() {
+        return _buttonGame2;
     }
 }
