@@ -1,7 +1,6 @@
 package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.Command;
 import com.rockingstar.engine.game.models.Player;
 
 public class ChallengeCommand implements Command {

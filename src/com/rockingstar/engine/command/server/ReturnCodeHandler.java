@@ -7,6 +7,6 @@ public class ReturnCodeHandler extends ReceivedMessageHandler {
     }
 
     public String getReturnCode() {
-        return message;
+        return message.substring(0,2).trim();
     }
 }
