@@ -1,5 +1,7 @@
 package com.rockingstar.engine;
 
+import com.rockingstar.engine.command.server.ReceivedMessageHandler;
+import com.rockingstar.engine.command.server.ReturnCodeHandler;
 import com.rockingstar.engine.io.models.Util;
 
 import java.io.BufferedReader;
@@ -17,10 +19,11 @@ public class ServerConnection extends Thread {
     private static ServerConnection uniqueInstance;
 
     private Socket _socket;
+    private ReceivedMessageHandler _handler;
 
     private ServerConnection() {
         try {
-            _socket = new Socket("localhost", 8000);
+            _socket = new Socket("localhost", 7789);
             Util.displayStatus("Established server connection");
         }
         catch(IOException e) {
@@ -51,7 +54,21 @@ public class ServerConnection extends Thread {
             String response = input.readLine();
             Util.displayStatus("Server Response: " + response);
 
-            // TODO : implement handler
+            String[] list = null;
+
+            try {
+                list = response.split(" ");
+            }
+            catch (NullPointerException e) {
+                Util.exit("Receiving transmission");
+            }
+
+            switch (list[0].toLowerCase()) {
+                case "ok":
+                case "err":
+                    _handler = new ReturnCodeHandler(response);
+                    break;
+            }
         }
     }
 
@@ -84,6 +101,10 @@ public class ServerConnection extends Thread {
         }
 
         return uniqueInstance;
+    }
+
+    public ReceivedMessageHandler getReply() {
+        return _handler;
     }
 }
 

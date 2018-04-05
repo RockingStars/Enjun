@@ -1,5 +1,9 @@
 package com.rockingstar.engine.game.models;
 
+import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.CommandExecutor;
+import com.rockingstar.engine.command.client.LoginCommand;
+import com.rockingstar.engine.command.server.ReceivedMessageHandler;
 import javafx.scene.paint.Color;
 
 public class Player {
@@ -21,6 +25,13 @@ public class Player {
         _score = 0;
         _color = color;
         _character = character;
+    }
+
+    public void login() {
+        CommandExecutor.execute(new LoginCommand(ServerConnection.getInstance(), _username));
+        ReceivedMessageHandler messageHandler = CommandExecutor.readReply();
+
+        System.out.println(messageHandler);
     }
 
     public String getUsername() {
