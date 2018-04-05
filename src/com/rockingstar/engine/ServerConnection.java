@@ -91,9 +91,5 @@ public class ServerConnection extends Thread {
 
         return uniqueInstance;
     }
-
-    public ReceivedMessageHandler getReply() {
-        return _handler;
-    }
 }
 

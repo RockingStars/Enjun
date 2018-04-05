@@ -1,6 +1,6 @@
 package com.rockingstar.engine.lobby.models;
 
-import com.rockingstar.engine.game.models.Player;
+import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
