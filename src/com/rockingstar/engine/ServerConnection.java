@@ -20,7 +20,7 @@ public class ServerConnection extends Thread {
 
     private ServerConnection() {
         try {
-            _socket = new Socket("localhost", 8000);
+            _socket = new Socket("localhost", 7789);
             Util.displayStatus("Established server connection");
         }
         catch(IOException e) {

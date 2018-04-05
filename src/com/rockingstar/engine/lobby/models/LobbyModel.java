@@ -6,6 +6,7 @@ import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
+import javafx.scene.control.Alert;
 
 import java.util.LinkedList;
 
@@ -26,10 +27,20 @@ public class LobbyModel {
         return new LinkedList<>();
     }
   
-    public void addActionHandlers(LoginView loginView, Launcher launcher) {
+    public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
+            if (loginView.getInsertedUsername().equals("John Doe")){ //Loop door usernames
+                Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+                uNameAlert.setTitle("Username Error");
+                uNameAlert.setHeaderText(null);
+                uNameAlert.setContentText("Username already used please, choose another username");
+                uNameAlert.showAndWait();
+
+            } else {
                 ServerConnection.getInstance().send("login "+ loginView.getInsertedUsername());
                 launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()));
+
+            }
         });
     }
 
