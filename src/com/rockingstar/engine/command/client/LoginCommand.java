@@ -1,4 +1,4 @@
-package com.rockingstar.engine.command;
+package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
 
