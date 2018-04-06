@@ -1,0 +1,10 @@
+#rage {
+    -fx-background-image:url("maxresdefault.jpg");
+}
+
+#rage:hover {
+	-fx-border-color: teal;
+	-fx-border-outsets: 5;
+	-fx-border-width: 5;
+    -fx-border-style: solid;
+}

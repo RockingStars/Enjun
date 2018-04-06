@@ -4,6 +4,7 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -14,6 +15,7 @@ public class LoginView {
     private GridPane _gridPane;
     private Button _continueButton;
     private TextField _usernameTextField;
+    private String _username;
 
     public LoginView() {
         _gridPane = new GridPane();
@@ -26,11 +28,20 @@ public class LoginView {
         _gridPane.setVgap(5);
         _gridPane.setAlignment(Pos.CENTER);
 
-        _gridPane.add(new Label("Please enter a username"),0,0);
+        Label welcomeMessage = new Label("Welcome to RockingStar Games");
+        Label uNameText = new Label("Please enter a username");
+        _gridPane.add(welcomeMessage,0,0,2,1);
+        _gridPane.add(uNameText, 0,1,2,1);
+
+        welcomeMessage.setId("welcome");
+        uNameText.setId("uName");
+
         _usernameTextField = new TextField();
-        _gridPane.add(_usernameTextField,0,1);
+
+
+        _gridPane.add(_usernameTextField,0,3);
         _continueButton = new Button("Continue");
-        _gridPane.add(_continueButton,0,25);
+        _gridPane.add(_continueButton,0,20);
 
         GridPane.setHalignment(_continueButton, HPos.LEFT);
     }

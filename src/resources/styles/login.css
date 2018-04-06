@@ -1,0 +1,9 @@
+#welcome {
+    -fx-font:32px "Serif";
+    -fx-text-fill:teal;
+}
+
+#uName {
+    -fx-font:22px "Serif";
+    -fx-text-fill:teal;
+}

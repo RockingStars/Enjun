@@ -38,16 +38,19 @@ public class LobbyView {
         GridPane layout = new GridPane();
         borderPane.setCenter(layout);
 
-
         layout.setPadding(new Insets(15));
         layout.setHgap(5);
         layout.setVgap(5);
         layout.setAlignment(Pos.CENTER);
 
-        Label titleLable =  new Label("Welcome " + _username);
-        titleLable.setFont(new Font(20));
-        layout.add(titleLable, 0, 0);
-        layout.add(new Label("Please select your game"),0,3);
+
+        Label titelLable =  new Label("Welcome " + _username);
+        layout.add(titelLable, 0, 0,3,1);
+        Label selectGame = new Label("Please select your game");
+        layout.add(selectGame,0,3,3,1);
+
+        titelLable.setId("topText");
+        selectGame.setId("otherText");
 
         _buttonGame0 = new Button();
         Label label1 = new Label("Reversi");
@@ -56,15 +59,16 @@ public class LobbyView {
         _buttonGame2 = new Button();
         Label label3 = new Label("etc");
 
-        //_buttonGame0.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
+        _buttonGame0.setId("gameButton0");
+        _buttonGame1.setId("gameButton1");
+        _buttonGame2.setId("gameButton2");
+
         _buttonGame0.setMinWidth(_iconSize);
         _buttonGame0.setMinHeight(_iconSize);
 
-        //_buttonGame1.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
         _buttonGame1.setMinWidth(_iconSize);
         _buttonGame1.setMinHeight(_iconSize);
 
-        //_buttonGame2.setStyle("-fx-background-image: url('https://lh3.googleusercontent.com/nCozPyEPkyNFZRLENJ4PqUXDKf6OuD-qcbPiyDNNT6Viw8f4XPtUCQFpns0PnWOR1Lw=w300')");
         _buttonGame2.setMinWidth(_iconSize);
         _buttonGame2.setMinHeight(_iconSize);
 
@@ -75,6 +79,22 @@ public class LobbyView {
         layout.add(_buttonGame2, 2, 15);
         layout.add(label3,2,16);
 
+        titelLable.setMaxWidth(Double.MAX_VALUE);
+        selectGame.setMaxWidth(Double.MAX_VALUE);
+        label1.setMaxWidth(Double.MAX_VALUE);
+        label2.setMaxWidth(Double.MAX_VALUE);
+        label3.setMaxWidth(Double.MAX_VALUE);
+
+        titelLable.setAlignment(Pos.CENTER);
+        selectGame.setAlignment(Pos.CENTER);
+        label1.setAlignment(Pos.CENTER);
+        label2.setAlignment(Pos.CENTER);
+        label3.setAlignment(Pos.CENTER);
+
+        label1.setId("gameText");
+        label2.setId("gameText");
+        label3.setId("gameText");
+
         VBox vbox = new VBox();
 
         ScrollPane scrollPane = new ScrollPane();
@@ -84,7 +104,9 @@ public class LobbyView {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
 
         vbox.getChildren().add(scrollPane);
+
         borderPane.setRight(vbox);
+        borderPane.setCenter(layout);
 
         return borderPane;
     }
