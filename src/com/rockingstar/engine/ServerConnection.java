@@ -12,7 +12,6 @@ import java.net.Socket;
 /**
  * Created by Bert de Boer on 3/27/2018.
  */
-
 public class ServerConnection extends Thread {
 
     private static ServerConnection uniqueInstance;
@@ -51,15 +50,14 @@ public class ServerConnection extends Thread {
     public void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
         while (connected()) {
-
             String response = input.readLine();
 
-            Util.displayStatus("Server Response: " + response);
-
-            _handler.handle(response);
+            if (response != null) {
+                Util.displayStatus("Server Response: " + response);
+                _handler.handle(response);
+            }
         }
     }
-
 
     @Override
     public void run()
@@ -70,7 +68,6 @@ public class ServerConnection extends Thread {
             e.printStackTrace();
         }
     }
-
 
     public void close() {
         try {
@@ -91,5 +88,12 @@ public class ServerConnection extends Thread {
 
         return uniqueInstance;
     }
-}
 
+    public String getResponse() {
+        return _handler.getMessage();
+    }
+
+    public boolean isValidCommand() {
+        return _handler.isValidCommand();
+    }
+}

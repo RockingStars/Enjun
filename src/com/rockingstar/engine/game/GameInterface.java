@@ -11,7 +11,9 @@ public interface GameInterface {
     void setGameState(State newGameState);
 
     void startGame();
+
     void doPlayerMove(int x, int y) throws IllegalStateException;
+    void doPlayerMove(int position) throws IllegalStateException;
     Player getPlayerToMove() throws IllegalStateException;
 
     String getTurnMessage(Player player);

@@ -56,6 +56,12 @@ public abstract class AbstractGame implements GameInterface {
     }
 
     @Override
+    public void doPlayerMove(int position) throws IllegalStateException {
+        if (currentState != State.GAME_STARTED)
+            throw new IllegalStateException();
+    }
+
+    @Override
     public Player getPlayerToMove() throws IllegalStateException {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
@@ -106,6 +112,10 @@ public abstract class AbstractGame implements GameInterface {
 
     public void setCurrentPlayer(String name) {
         currentPlayer = player1.getUsername().equals(name) ? player1 : player2;
+    }
+
+    public void setCurrentPlayer(int id) {
+        currentPlayer = id == 0 ? player1 : player2;
     }
 
     public void switchPlayers() {
