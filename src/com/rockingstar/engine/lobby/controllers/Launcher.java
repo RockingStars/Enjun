@@ -1,7 +1,7 @@
 package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.models.Player;
+import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.ServerConnection;
 
 import com.rockingstar.engine.gui.controllers.GUIController;
