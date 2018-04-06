@@ -12,7 +12,6 @@ import java.net.Socket;
 /**
  * Created by Bert de Boer on 3/27/2018.
  */
-
 public class ServerConnection extends Thread {
 
     private static ServerConnection uniqueInstance;
@@ -58,7 +57,6 @@ public class ServerConnection extends Thread {
         }
     }
 
-
     @Override
     public void run()
     {
@@ -68,7 +66,6 @@ public class ServerConnection extends Thread {
             e.printStackTrace();
         }
     }
-
 
     public void close() {
         try {
@@ -88,5 +85,9 @@ public class ServerConnection extends Thread {
         }
 
         return uniqueInstance;
+    }
+
+    public String getLastReceivedMessage() {
+        return _handler.getMessage();
     }
 }

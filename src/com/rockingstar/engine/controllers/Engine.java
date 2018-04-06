@@ -41,7 +41,10 @@ public class Engine extends Application {
     @Override
     public void start(Stage primaryStage) {
         _gui = new GUIController(primaryStage);
-        primaryStage.setOnCloseRequest(e -> CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance())));
+        primaryStage.setOnCloseRequest(e -> {
+            CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance()));
+            _serverConnection.close();
+        });
         boot();
     }
 

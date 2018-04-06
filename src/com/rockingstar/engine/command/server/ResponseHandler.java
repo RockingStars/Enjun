@@ -2,24 +2,28 @@ package com.rockingstar.engine.command.server;
 
 public class ResponseHandler {
 
+    private String _message;
+
     public ResponseHandler() {
 
     }
 
     public void handle(String response) {
-        response = response.split(" ")[0];
-        switch(response){
-            case "OK": System.out.println("Ok"); break;
-            case "ERR": System.out.println("An error has occurred");  break;
-                //new ErrorHandler(fullResponse);
-                // @TODO vang errors op
+        String responseType = response.split(" ")[0];
+
+        switch(responseType){
+            case "OK":
+                _message = "OK";
+                break;
+            case "ERR":
+                _message = response.substring(4);
+                break;
             case "SVR":
-                handleSVR(response);
+                handleSVR(responseType);
         }
     }
 
     public void handleSVR(String response){
-
         response = response.split(" ")[0];
         //@TODO doe wat met de responses;
         switch(response){
@@ -54,9 +58,7 @@ public class ResponseHandler {
         }
     }
 
-
-
-
-
-
+    public String getMessage() {
+        return _message;
+    }
 }

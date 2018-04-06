@@ -27,6 +27,7 @@ public class GameEventHandler extends ReceivedMessageHandler{
     private void handle() {
         parse();
 
+        // @todo Rename this
         String thingie = message.substring(parameters[0].length());
 
         switch (parameters[0].toLowerCase()) {
