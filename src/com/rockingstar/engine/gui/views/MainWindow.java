@@ -21,8 +21,11 @@ public class MainWindow {
     private void setup() {
         _mainStage.setMaximized(false);
         _scene.getStylesheets().add("styles/base.css");
-        _mainStage.setWidth(1200);
-        _mainStage.setHeight(800);
+
+        _scene.getStylesheets().add("styles/login.css");
+        _scene.getStylesheets().add("styles/gameSelect.css");
+        _scene.getStylesheets().add("styles/TTT.css");
+
         _mainStage.setScene(_scene);
     }
 
