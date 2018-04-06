@@ -1,7 +1,6 @@
 package com.rockingstar.engine.lobby.models;
 
-import com.rockingstar.engine.game.models.Player;
-import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
@@ -31,6 +30,7 @@ public class LobbyModel {
   
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
+
             if (loginView.getInsertedUsername().equals("John Doe")){ //Loop door usernames
                 Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
                 uNameAlert.setTitle("Username Error");

@@ -5,10 +5,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
-import java.awt.event.ActionEvent;
 import java.util.LinkedList;
 
 public class LobbyView {
@@ -32,8 +34,10 @@ public class LobbyView {
     }
 
     public Node getNode() {
-
+        BorderPane borderPane = new BorderPane();
         GridPane layout = new GridPane();
+        borderPane.setCenter(layout);
+
         layout.setPadding(new Insets(15));
         layout.setHgap(5);
         layout.setVgap(5);
@@ -50,7 +54,7 @@ public class LobbyView {
 
         _buttonGame0 = new Button();
         Label label1 = new Label("Reversi");
-        _buttonGame1 = new Button("");
+        _buttonGame1 = new Button();
         Label label2 = new Label("TicTacToe");
         _buttonGame2 = new Button();
         Label label3 = new Label("etc");
@@ -91,7 +95,20 @@ public class LobbyView {
         label2.setId("gameText");
         label3.setId("gameText");
 
-        return layout;
+        VBox vbox = new VBox();
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setPrefViewportWidth(200);
+        scrollPane.setPrefViewportHeight(400);
+        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+
+        vbox.getChildren().add(scrollPane);
+
+        borderPane.setRight(vbox);
+        borderPane.setCenter(layout);
+
+        return borderPane;
     }
 
     public void setPlayerList(LinkedList<String> playerList) {
