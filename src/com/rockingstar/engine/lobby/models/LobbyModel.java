@@ -30,27 +30,13 @@ public class LobbyModel {
     }
   
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
-        loginView.getContinueButton().setOnAction(e -> {
-
-            if (loginView.getInsertedUsername().equals("John Doe")){ //Loop door usernames
-                Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
-                uNameAlert.setTitle("Username Error");
-                uNameAlert.setHeaderText(null);
-                uNameAlert.setContentText("Username already used please, choose another username");
-                uNameAlert.showAndWait();
-
-            } else {
-                ServerConnection.getInstance().send("login "+ loginView.getInsertedUsername());
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()));
-
-            }
-        });
+        loginView.getContinueButton().setOnAction(e ->
+            launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
     }
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
-        lobbyView.getButtonGame0().setOnAction(e -> {
-            _launcher.loadModule(new TTTController(_players[0], _players[1]));
-        });
+        lobbyView.getButtonGame0().setOnAction(e ->
+            _launcher.loadModule(new TTTController(_players[0], _players[1])));
     }
 
     public void setPlayers(Player[] players) {

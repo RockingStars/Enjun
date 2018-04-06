@@ -52,8 +52,10 @@ public class ServerConnection extends Thread {
         while (connected()) {
             String response = input.readLine();
 
-            Util.displayStatus("Server Response: " + response);
-            _handler.handle(response);
+            if (response != null) {
+                Util.displayStatus("Server Response: " + response);
+                _handler.handle(response);
+            }
         }
     }
 
@@ -87,7 +89,7 @@ public class ServerConnection extends Thread {
         return uniqueInstance;
     }
 
-    public String getLastReceivedMessage() {
+    public String getResponse() {
         return _handler.getMessage();
     }
 }

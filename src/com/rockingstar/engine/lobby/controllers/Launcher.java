@@ -35,7 +35,8 @@ public class Launcher {
         _model.addLoginActionHandlers(_loginView, this);
 
         // @todo Remove
-        _players[1] = new Player("Klaas", Color.NAVY);
+        _players[0] = new Player("Klaas", Color.NAVY);
+        _players[0].login();
     }
 
     public static Launcher getInstance() {
@@ -62,15 +63,18 @@ public class Launcher {
     }
 
     public void handleLogin(String username) {
-        _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
         _players[0] = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-        _players[0].login();
+        boolean result = _players[0].login();
 
-        _lobbyView.setUsername(_players[0].getUsername());
-        _model.setPlayers(_players);
+        if (result) {
+            _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
 
-        _guiController.setCenter(_lobbyView.getNode());
-        _model.addGameSelectionActionHandlers(_lobbyView);
+            _lobbyView.setUsername(_players[0].getUsername());
+            _model.setPlayers(_players);
+
+            _guiController.setCenter(_lobbyView.getNode());
+            _model.addGameSelectionActionHandlers(_lobbyView);
+        }
     }
 
     public AbstractGame getGame() {
