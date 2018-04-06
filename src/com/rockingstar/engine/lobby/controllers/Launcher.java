@@ -1,13 +1,10 @@
 package com.rockingstar.engine.lobby.controllers;
 
+import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
-import com.rockingstar.engine.command.client.SendChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.GameInterface;
 import com.rockingstar.engine.game.Player;
-import com.rockingstar.engine.ServerConnection;
-
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
