@@ -1,8 +1,8 @@
-package com.rockingstar.engine.game.models;
+package com.rockingstar.engine.game;
 
 import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.LoginCommand;
-import com.rockingstar.engine.io.models.CommandExecutor;
 import javafx.scene.paint.Color;
 
 public class Player {
@@ -28,8 +28,6 @@ public class Player {
 
     public void login() {
         CommandExecutor.execute(new LoginCommand(ServerConnection.getInstance(), _username));
-        ReceivedMessageHandler messageHandler = CommandExecutor.readReply();
-        System.out.println(messageHandler);
     }
 
     public String getUsername() {
