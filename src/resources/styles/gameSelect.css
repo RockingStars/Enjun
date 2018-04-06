@@ -4,7 +4,7 @@
 }
 
 #otherText{
-	-fx-font:28px "Serif";
+	-fx-font:22px "Serif";
 	-fx-text-fill:teal;
 }
 
@@ -13,37 +13,14 @@
 	-fx-text-fill:teal;
 }
 
-#gameButton0{
+#gameImage{
 	-fx-background-image:url("reversiImage.jpg");
 }
 
-#gameButton0:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
-}
-
-#gameButton1{
-	-fx-background-color:#FBB117;
+#gameImage1{
 	-fx-background-image:url("TTTImage2.gif");
 }
 
-#gameButton1:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
-}
-
-#gameButton2{
+#gameImage2{
 	-fx-background-image:url("connect4Image.jpg");
-}
-
-
-#gameButton2:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
 }
