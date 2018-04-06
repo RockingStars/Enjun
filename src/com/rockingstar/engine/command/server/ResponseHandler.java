@@ -2,6 +2,7 @@ package com.rockingstar.engine.command.server;
 
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
+import javafx.application.Platform;
 
 public class ResponseHandler {
 
@@ -49,7 +50,7 @@ public class ResponseHandler {
                         Launcher.getInstance().startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
-                        Launcher.getInstance().getGame().setCurrentPlayer(0);
+                        Platform.runLater(() -> Launcher.getInstance().getGame().setCurrentPlayer(0));
                         break;
                     case "MOVE":
                         try {

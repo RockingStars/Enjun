@@ -30,7 +30,19 @@ public class Util {
     public static LinkedList<String> parseFakeCollection(String collection) {
         LinkedList<String> elements = new LinkedList<>();
 
-        String[] unparsedElements = collection.substring(2, collection.length() - 1).split(", ");
+        String[] unparsedElements;
+        boolean result = true;
+
+        try {
+            unparsedElements = collection.substring(2, collection.length() - 1).split(", ");
+        }
+        catch (NullPointerException e) {
+            result = false;
+            return elements;
+        }
+        finally {
+            Util.displayStatus("Retrieving player list", result);
+        }
 
         for (String unparsedElement : unparsedElements)
             elements.add(unparsedElement.substring(1, unparsedElement.length() - 1));

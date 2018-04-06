@@ -125,6 +125,9 @@ public class Launcher {
         String gametype = parts[3];
         String opponent = parts[5];
 
+        if (_players[1] == null)
+            _players[1] = new Player(opponent);
+
         Platform.runLater(() -> loadModule(new TTTController(_players[0], _players[1])));
     }
 
