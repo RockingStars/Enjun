@@ -92,4 +92,8 @@ public class ServerConnection extends Thread {
     public String getResponse() {
         return _handler.getMessage();
     }
+
+    public boolean isValidCommand() {
+        return _handler.isValidCommand();
+    }
 }

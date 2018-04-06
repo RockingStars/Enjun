@@ -14,6 +14,11 @@ public class Player {
 
     private char _character;
 
+    public Player(String username) {
+        _username = username;
+        _score = 0;
+    }
+
     public Player(String username, Color color) {
         _username = username;
         _score = 0;
@@ -31,13 +36,12 @@ public class Player {
         ServerConnection serverConnection = ServerConnection.getInstance();
 
         CommandExecutor.execute(new LoginCommand(serverConnection, _username));
-        String response = serverConnection.getResponse();
 
-        if (!response.equals("OK")) {
+        if (!serverConnection.isValidCommand()) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("Unable to login");
             uNameAlert.setHeaderText(null);
-            uNameAlert.setContentText(response);
+            uNameAlert.setContentText(serverConnection.getResponse());
             uNameAlert.showAndWait();
 
             return false;

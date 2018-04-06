@@ -1,21 +1,24 @@
 package com.rockingstar.engine.lobby.views;
 
+import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.command.client.SendChallengeCommand;
+import com.rockingstar.engine.game.Player;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
 import java.util.LinkedList;
 
 public class LobbyView {
 
-    private LinkedList<String> _playerList;
+    private LinkedList<Player> _playerList;
     private LinkedList<String> _gameList;
 
     private double _iconSize;
@@ -26,7 +29,7 @@ public class LobbyView {
     private Button _buttonGame1;
     private Button _buttonGame2;
 
-    public LobbyView(LinkedList<String> playerList, LinkedList<String> gameList) {
+    public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList) {
         _playerList = playerList;
         _gameList = gameList;
 
@@ -97,13 +100,13 @@ public class LobbyView {
 
         VBox vbox = new VBox();
 
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setPrefViewportWidth(200);
-        scrollPane.setPrefViewportHeight(400);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+        TextField textField = new TextField();
+        Button button0 = new Button("Invite player");
+        button0.setOnAction(e -> {
+            CommandExecutor.execute(new SendChallengeCommand(ServerConnection.getInstance(), new Player(textField.getText()), "Tic-tac-toe"));
+        });
 
-        vbox.getChildren().add(scrollPane);
+        vbox.getChildren().addAll(textField, button0);
 
         borderPane.setRight(vbox);
         borderPane.setCenter(layout);
@@ -111,7 +114,7 @@ public class LobbyView {
         return borderPane;
     }
 
-    public void setPlayerList(LinkedList<String> playerList) {
+    public void setPlayerList(LinkedList<Player> playerList) {
         _playerList = playerList;
     }
 
