@@ -117,8 +117,4 @@ public abstract class AbstractGame implements GameInterface {
     public void setCurrentPlayer(int id) {
         currentPlayer = id == 0 ? player1 : player2;
     }
-
-    public void switchPlayers() {
-        currentPlayer = currentPlayer == player1 ? player2 : player1;
-    }
 }

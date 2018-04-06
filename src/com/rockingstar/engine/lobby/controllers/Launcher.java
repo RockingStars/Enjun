@@ -4,6 +4,7 @@ import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.SendChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.GameInterface;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.ServerConnection;
 
@@ -29,9 +30,9 @@ public class Launcher {
 
     private AbstractGame _currentGame;
 
-    private Player[] _players = new Player[2];
-
     private static Launcher _instance;
+
+    private Player _localPlayer;
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -67,14 +68,14 @@ public class Launcher {
     }
 
     public void handleLogin(String username) {
-        _players[0] = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-        boolean result = _players[0].login();
+        _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
+        boolean result = _localPlayer.login();
 
         if (result) {
             _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
 
-            _lobbyView.setUsername(_players[0].getUsername());
-            _model.setPlayers(_players);
+            _lobbyView.setUsername(_localPlayer.getUsername());
+            _model.setLocalPlayer(_localPlayer);
 
             _guiController.setCenter(_lobbyView.getNode());
             _model.addGameSelectionActionHandlers(_lobbyView);
@@ -105,15 +106,11 @@ public class Launcher {
             challengeInvitationAlert.showAndWait();
 
             if (challengeInvitationAlert.getResult() == ButtonType.OK) {
-                _players[1] = new Player(challenger);
+                Player opponent = new Player(challenger);
 
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
-                boolean success = _serverConnection.isValidCommand();
                 Util.displayStatus("Accepting challenge from " + challenger);
-
-                // Failed to accept match, so no reason to keep the player in our lobby
-                if (!success)
-                    _players[1] = null;
+                _model.setOpponent(opponent);
             }
         });
     }
@@ -123,12 +120,14 @@ public class Launcher {
 
         String startingPlayer = parts[1];
         String gametype = parts[3];
-        String opponent = parts[5];
+        String opponentName = parts[5];
 
-        if (_players[1] == null)
-            _players[1] = new Player(opponent);
-
-        Platform.runLater(() -> loadModule(new TTTController(_players[0], _players[1])));
+        Player opponent = new Player(opponentName);
+        Platform.runLater(() -> {
+            AbstractGame gameModule = new TTTController(_localPlayer, opponent);
+            gameModule.setCurrentPlayer(startingPlayer);
+            loadModule(gameModule);
+        });
     }
 
     public AbstractGame getGame() {
