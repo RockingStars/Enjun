@@ -7,10 +7,12 @@ import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.BorderPane;
 
 import java.util.LinkedList;
 
 public class LobbyModel {
+    private BorderPane _borderPane;
 
     private Launcher _launcher;
     private Player[] _players = new Player[2];

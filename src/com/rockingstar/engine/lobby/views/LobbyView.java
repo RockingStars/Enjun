@@ -32,6 +32,7 @@ public class LobbyView {
     }
 
     public Node getNode() {
+
         GridPane layout = new GridPane();
         layout.setPadding(new Insets(15));
         layout.setHgap(5);
