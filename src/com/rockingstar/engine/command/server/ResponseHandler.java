@@ -71,9 +71,11 @@ public class ResponseHandler {
                         Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":
+                        System.out.println("Ontvanger heeft spel gewonnen");
                     case "LOSS":
+                        System.out.println("Ontvanger heeft spel verloren");
                     case "DRAW":
-                        Launcher.getInstance().getGame().
+                        System.out.println("Match is geeindigd in gelijk spel");
                         break;
                 }
         }
