@@ -40,7 +40,7 @@ public class Player {
         if (!serverConnection.isValidCommand()) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("Unable to login");
-            uNameAlert.setHeaderText(null);
+            uNameAlert.setHeaderText("DE TYFUS SERVER DOET HET NIET!");
             uNameAlert.setContentText(serverConnection.getResponse());
             uNameAlert.showAndWait();
 
