@@ -36,7 +36,6 @@ public class LoginView {
 
         _usernameTextField = new TextField();
 
-
         _gridPane.add(_usernameTextField,0,3);
         _continueButton = new Button("Continue");
         _gridPane.add(_continueButton,0,20);
