@@ -34,8 +34,6 @@ public abstract class AbstractGame implements GameInterface {
         currentState = State.PREGAME;
         this.player1 = player1;
         this.player2 = player2;
-
-        currentPlayer = player1;
     }
 
     @Override
@@ -102,10 +100,6 @@ public abstract class AbstractGame implements GameInterface {
     @Override
     public String getMatchResultComment() {
         return null;
-    }
-
-    public void setCurrentPlayer(String name) {
-        currentPlayer = player1.getUsername().equals(name) ? player1 : player2;
     }
 
     public void setCurrentPlayer(int id) {
