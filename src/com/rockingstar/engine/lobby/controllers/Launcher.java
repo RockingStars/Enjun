@@ -103,11 +103,8 @@ public class Launcher {
             challengeInvitationAlert.showAndWait();
 
             if (challengeInvitationAlert.getResult() == ButtonType.OK) {
-                Player opponent = new Player(challenger);
-
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
                 Util.displayStatus("Accepting challenge from " + challenger);
-                _model.setOpponent(opponent);
             }
         });
     }
@@ -122,7 +119,7 @@ public class Launcher {
         Player opponent = new Player(opponentName);
         Platform.runLater(() -> {
             AbstractGame gameModule = new TTTController(_localPlayer, opponent);
-            if(startingPlayer == opponentName){
+            if(startingPlayer.equals(opponentName)){
                 gameModule.setYourTurn(false);
             } else{
                 gameModule.setYourTurn(true);
