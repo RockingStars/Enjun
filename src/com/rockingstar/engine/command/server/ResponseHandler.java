@@ -1,6 +1,7 @@
 package com.rockingstar.engine.command.server;
 
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.application.Platform;
@@ -18,6 +19,8 @@ public class ResponseHandler {
         String responseType = response.split(" ")[0];
         _isValidCommand = false;
 
+        // test of server niet ofline is (kijken of je response krijgt)
+        // System.out.println(responseType);
         switch(responseType){
             case "OK":
                 _isValidCommand = true;
@@ -61,6 +64,9 @@ public class ResponseHandler {
                             System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
                             Launcher.getInstance().getGame().doPlayerMove(Integer.parseInt(response));
+                            if(Launcher.getInstance().getGame().getGameState() == State.GAME_FINISHED){
+                                Launcher.getInstance().getGame().gameEnded();
+                            }
                         }
                         catch (NumberFormatException e) {
                             Util.displayStatus("Received invalid position from server");
@@ -71,11 +77,10 @@ public class ResponseHandler {
                         Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":
-                        System.out.println("Ontvanger heeft spel gewonnen");
                     case "LOSS":
-                        System.out.println("Ontvanger heeft spel verloren");
                     case "DRAW":
-                        System.out.println("Match is geeindigd in gelijk spel");
+                        Launcher.getInstance().getGame().setGameState(State.GAME_FINISHED);
+                        Launcher.getInstance().getGame().gameEnded();
                         break;
                 }
         }

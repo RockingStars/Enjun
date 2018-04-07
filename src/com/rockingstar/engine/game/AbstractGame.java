@@ -109,4 +109,15 @@ public abstract class AbstractGame implements GameInterface {
     public void setYourTurn(boolean isYourMove) {
         yourTurn = isYourMove;
     }
+
+
+    public void gameEnded() {
+        if(currentState != State.GAME_FINISHED){
+            throw new IllegalStateException();
+        }
+    }
+
+
+
+
 }
