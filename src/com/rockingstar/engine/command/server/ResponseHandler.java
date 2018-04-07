@@ -1,5 +1,6 @@
 package com.rockingstar.engine.command.server;
 
+import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.application.Platform;
@@ -33,7 +34,6 @@ public class ResponseHandler {
     public void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
-        //@TODO doe wat met de responses;
         switch(responseType){
             case "HELP":
                 System.out.println("help");
@@ -50,12 +50,17 @@ public class ResponseHandler {
                         Launcher.getInstance().startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
-                        Platform.runLater(() -> Launcher.getInstance().getGame().setCurrentPlayer(0));
+                        Platform.runLater(() -> {
+                            AbstractGame game = Launcher.getInstance().getGame();
+                            game.setYourTurn(true);
+                            game.setCurrentPlayer(0);
+                        });
                         break;
                     case "MOVE":
                         try {
-                            System.out.println(response.substring(14));
-                            Launcher.getInstance().getGame().doPlayerMove(Integer.parseInt(response.substring(14)));
+                            System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
+                            response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
+                            Launcher.getInstance().getGame().doPlayerMove(Integer.parseInt(response));
                         }
                         catch (NumberFormatException e) {
                             Util.displayStatus("Received invalid position from server");

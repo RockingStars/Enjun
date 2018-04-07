@@ -28,12 +28,12 @@ public abstract class AbstractGame implements GameInterface {
      */
     protected int playerResult;
 
+    protected boolean yourTurn;
+
     public AbstractGame(Player player1, Player player2) {
         currentState = State.PREGAME;
         this.player1 = player1;
         this.player2 = player2;
-
-        currentPlayer = player1;
     }
 
     @Override
@@ -102,23 +102,11 @@ public abstract class AbstractGame implements GameInterface {
         return null;
     }
 
-    public void setPlayer1(Player player) {
-        player1 = player;
-    }
-
-    public void setPlayer2(Player player) {
-        player2 = player;
-    }
-
-    public void setCurrentPlayer(String name) {
-        currentPlayer = player1.getUsername().equals(name) ? player1 : player2;
-    }
-
     public void setCurrentPlayer(int id) {
         currentPlayer = id == 0 ? player1 : player2;
     }
 
-    public void switchPlayers() {
-        currentPlayer = currentPlayer == player1 ? player2 : player1;
+    public void setYourTurn(boolean isYourMove) {
+        yourTurn = isYourMove;
     }
 }
