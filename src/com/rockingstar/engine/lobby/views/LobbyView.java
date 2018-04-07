@@ -1,5 +1,9 @@
 package com.rockingstar.engine.lobby.views;
 
+import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.command.client.SendChallengeCommand;
+import com.rockingstar.engine.game.Player;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -7,28 +11,25 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
-<<<<<<< HEAD
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
-=======
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Font;
 
->>>>>>> a5bac9e3c1213187dcd2d4f8f6557eee7ee2ba05
+
 import java.util.LinkedList;
 
 public class LobbyView {
 
-    private LinkedList<String> _playerList;
+    private LinkedList<Player> _playerList;
     private LinkedList<String> _gameList;
 
     Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -49,7 +50,7 @@ public class LobbyView {
     private Button _buttonGame1;
     private Button _buttonGame2;
 
-    public LobbyView(LinkedList<String> playerList, LinkedList<String> gameList) {
+    public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList) {
         _playerList = playerList;
         _gameList = gameList;
 
@@ -71,7 +72,6 @@ public class LobbyView {
         //Label selectGame = new Label("Please select your game");
 
         titelLable.setId("topText");
-<<<<<<< HEAD
         //selectGame.setId("otherText");
 
         topPane.getChildren().addAll(titelLable);
@@ -95,6 +95,7 @@ public class LobbyView {
 
         gameSelectionBox.getItems().addAll("Reversi", "TicTacToe", "etc" );
         Label gameModeText = new Label("How do you want to play?");
+        Button selectGame = new Button("continue");
         gameModeText.setId("gameText");
         ComboBox gameMode = new ComboBox();
         gameMode.getItems().addAll("Player vs Player", "Player vs AI", "AI vs AI");
@@ -103,7 +104,8 @@ public class LobbyView {
         Button goButton = new Button("Continue");
 
 
-        gameSelectionBox.setOnAction(g -> {
+        selectGame.setOnAction(e -> {
+            System.out.println("test");
             if (gameSelectionBox != null){
                 menu.getChildren().clear();
 
@@ -122,7 +124,7 @@ public class LobbyView {
                 }
 
 
-                menu.getChildren().addAll(gameSelectionBox, gameName,gameModeText ,gameMode, gameImage, goButton);
+                menu.getChildren().addAll(gameSelectionBox,selectGame, gameName,gameModeText ,gameMode, gameImage, goButton);
             }
         });
 
@@ -135,71 +137,8 @@ public class LobbyView {
 //
 
 
-        menu.getChildren().addAll(gameSelectionText, gameSelectionBox);
+        menu.getChildren().addAll(gameSelectionText, gameSelectionBox, selectGame);
         leftPane.getChildren().addAll(menu);
-        _lobbyPane.setLeft(leftPane);
-
-
-
-//        Label label1 = new Label("Reversi");
-//        Label label2 = new Label("TicTacToe");
-//        Label label3 = new Label("etc");
-//        //Game 1
-//        HBox game1 = new HBox(20);
-//        _buttonGame0 = new Button();
-//        Label game1Text = new Label("Reversi is a strategy board game for two players, played on an 8×8 uncheckered board. \n" + "\n"+
-//                "There are sixty-four identical game pieces called disks (often spelled \"discs\"),which are light on one side and dark on the other.\n" +
-//                "\n" + " Players take turns placing disks on the board with their assigned color facing up. \n" + "\n"+"" +
-//                "During a play, any disks of the opponent's color that are in a straight line and bounded by the disk just placed and another disk of the current player's color are turned over to the" +
-//                " current player's color.\n" +
-//                "\n" +
-//                "The object of the game is to have the majority of disks turned to display your color when the last playable empty square is filled.");
-//        game1.getChildren().addAll(_buttonGame0, game1Text);
-//
-//        //Game 2
-//        HBox game2 = new HBox(20);
-//        _buttonGame1 = new Button("");
-//        Label game2Text = new Label("Tic-tac-toe (also known as noughts and crosses or Xs and Os) is a paper-and-pencil game for two players, X and O, who take turns marking the spaces in a 3×3 grid. The player who succeeds in placing three of their marks in a horizontal, vertical, or diagonal row wins the game.");
-//        game2.getChildren().addAll(_buttonGame1,game2Text);
-//
-//        //Game 3
-//        HBox game3 = new HBox(20);
-//        _buttonGame2 = new Button();
-//
-//        game3.getChildren().addAll(_buttonGame2,label3);
-//
-//        _buttonGame0.setId("gameButton0");
-//        _buttonGame1.setId("gameButton1");
-//        _buttonGame2.setId("gameButton2");
-//
-//        _buttonGame0.setMinWidth(_iconSize);
-//        _buttonGame0.setMinHeight(_iconSize);
-//
-//        _buttonGame1.setMinWidth(_iconSize);
-//        _buttonGame1.setMinHeight(_iconSize);
-//
-//        _buttonGame2.setMinWidth(_iconSize);
-//        _buttonGame2.setMinHeight(_iconSize);
-//
-//
-////
-////        titelLable.setMaxWidth(Double.MAX_VALUE);
-////        selectGame.setMaxWidth(Double.MAX_VALUE);
-////        label1.setMaxWidth(Double.MAX_VALUE);
-////        label2.setMaxWidth(Double.MAX_VALUE);
-////        label3.setMaxWidth(Double.MAX_VALUE);
-////
-////        titelLable.setAlignment(Pos.CENTER);
-////        selectGame.setAlignment(Pos.CENTER);
-////        label1.setAlignment(Pos.CENTER);
-////        label2.setAlignment(Pos.CENTER);
-////        label3.setAlignment(Pos.CENTER);
-//
-//        label1.setId("gameText");
-//        label2.setId("gameText");
-//        label3.setId("gameText");
-//
-//        leftPane.getChildren().addAll(label1,game1,label2,game2,label3,game3);
         _lobbyPane.setLeft(leftPane);
 
         VBox rightPane = new VBox(20);
@@ -254,9 +193,10 @@ public class LobbyView {
         });
 
         return _lobbyPane;
+
     }
 
-    public void setPlayerList(LinkedList<String> playerList) {
+    public void setPlayerList(LinkedList<Player> playerList) {
         _playerList = playerList;
     }
 

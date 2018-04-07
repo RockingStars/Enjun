@@ -15,7 +15,6 @@ public class LoginView {
     private GridPane _gridPane;
     private Button _continueButton;
     private TextField _usernameTextField;
-    private String _username;
 
     public LoginView() {
         _gridPane = new GridPane();
@@ -56,5 +55,9 @@ public class LoginView {
 
     public String getInsertedUsername() {
         return _usernameTextField.getText();
+    }
+
+    public TextField getUsernameTextField() {
+        return _usernameTextField;
     }
 }

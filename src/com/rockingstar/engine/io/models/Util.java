@@ -5,6 +5,7 @@ import com.rockingstar.main.Main;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 
 public class Util {
 
@@ -24,5 +25,30 @@ public class Util {
         displayStatus(message, false);
         displayStatus("Exiting...");
         System.exit(-1);
+    }
+
+    public static LinkedList<String> parseFakeCollection(String collection) {
+        LinkedList<String> elements = new LinkedList<>();
+
+        String[] unparsedElements;
+        boolean result = true;
+
+        try {
+            unparsedElements = collection.substring(2, collection.length() - 1).split(", ");
+        }
+        catch (NullPointerException e) {
+            result = false;
+            return elements;
+        }
+        finally {
+            Util.displayStatus("Retrieving player list", result);
+        }
+
+        for (String unparsedElement : unparsedElements)
+            elements.add(unparsedElement.substring(1, unparsedElement.length() - 1));
+
+        displayStatus("Parsing collection", elements.size() > 0);
+
+        return elements;
     }
 }

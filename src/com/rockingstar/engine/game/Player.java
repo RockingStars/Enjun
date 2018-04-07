@@ -3,6 +3,7 @@ package com.rockingstar.engine.game;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.LoginCommand;
+import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
 public class Player {
@@ -12,6 +13,11 @@ public class Player {
     private Color _color;
 
     private char _character;
+
+    public Player(String username) {
+        _username = username;
+        _score = 0;
+    }
 
     public Player(String username, Color color) {
         _username = username;
@@ -26,8 +32,22 @@ public class Player {
         _character = character;
     }
 
-    public void login() {
-        CommandExecutor.execute(new LoginCommand(ServerConnection.getInstance(), _username));
+    public boolean login() {
+        ServerConnection serverConnection = ServerConnection.getInstance();
+
+        CommandExecutor.execute(new LoginCommand(serverConnection, _username));
+
+        if (!serverConnection.isValidCommand()) {
+            Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+            uNameAlert.setTitle("Unable to login");
+            uNameAlert.setHeaderText(null);
+            uNameAlert.setContentText(serverConnection.getResponse());
+            uNameAlert.showAndWait();
+
+            return false;
+        }
+
+        return true;
     }
 
     public String getUsername() {
