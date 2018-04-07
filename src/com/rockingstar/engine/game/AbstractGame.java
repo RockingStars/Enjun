@@ -1,5 +1,6 @@
 package com.rockingstar.engine.game;
 
+import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.scene.Node;
 
 /**
@@ -117,7 +118,7 @@ public abstract class AbstractGame implements GameInterface {
         }
     }
 
-
-
-
+    protected void toLobby() {
+        Launcher.getInstance().returnToLobby();
+    }
 }

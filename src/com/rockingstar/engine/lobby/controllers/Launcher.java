@@ -59,6 +59,11 @@ public class Launcher {
         _guiController.setCenter(_loginView.getNode());
     }
 
+    public void returnToLobby() {
+        _guiController.setCenter(_lobbyView.getNode());
+        _currentGame = null;
+    }
+
     public void loadModule(AbstractGame game) {
         _currentGame = game;
         _guiController.setCenter(game.getView());
