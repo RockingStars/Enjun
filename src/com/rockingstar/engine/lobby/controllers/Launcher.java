@@ -122,7 +122,11 @@ public class Launcher {
         Player opponent = new Player(opponentName);
         Platform.runLater(() -> {
             AbstractGame gameModule = new TTTController(_localPlayer, opponent);
-            gameModule.setCurrentPlayer(startingPlayer);
+            if(startingPlayer == opponentName){
+                gameModule.setYourTurn(false);
+            } else{
+                gameModule.setYourTurn(true);
+            }
             loadModule(gameModule);
         });
     }
