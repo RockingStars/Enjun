@@ -96,7 +96,7 @@ public class Launcher {
 
         Platform.runLater(() -> {
             Alert challengeInvitationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            challengeInvitationAlert.setTitle("Unable to login");
+            challengeInvitationAlert.setTitle("Challenge received");
             challengeInvitationAlert.setHeaderText(null);
             challengeInvitationAlert.setContentText("Player " + challenger + " has invited you to a game of " + gameType + ". Do you accept?");
 

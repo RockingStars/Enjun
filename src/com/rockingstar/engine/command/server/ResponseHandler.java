@@ -1,6 +1,7 @@
 package com.rockingstar.engine.command.server;
 
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.application.Platform;
@@ -73,7 +74,7 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
-                        Launcher.getInstance().getGame().
+                        Launcher.getInstance().getGame().setGameState(State.GAME_FINISHED);
                         break;
                 }
         }
