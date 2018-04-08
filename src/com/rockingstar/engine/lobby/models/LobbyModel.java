@@ -65,8 +65,6 @@ public class LobbyModel {
 
              });
         });
-
-
     }
 
     public void setPlayers(Player[] players) {

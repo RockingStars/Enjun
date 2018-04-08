@@ -37,7 +37,7 @@ public class ResponseHandler {
     public void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
-        switch(responseType){
+        switch(responseType) {
             case "HELP":
                 System.out.println("help");
                 break;
@@ -63,9 +63,12 @@ public class ResponseHandler {
                         try {
                             System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
-                            Launcher.getInstance().getGame().doPlayerMove(Integer.parseInt(response));
-                            if(Launcher.getInstance().getGame().getGameState() == State.GAME_FINISHED){
-                                Launcher.getInstance().getGame().gameEnded();
+
+                            Launcher launcher = Launcher.getInstance();
+                            launcher.getGame().doPlayerMove(Integer.parseInt(response));
+
+                            if(launcher.getGame().getGameState() == State.GAME_FINISHED){
+                                launcher.getGame().gameEnded();
                             }
                         }
                         catch (NumberFormatException e) {
@@ -79,8 +82,9 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
-                        Launcher.getInstance().getGame().setGameState(State.GAME_FINISHED);
-                        Launcher.getInstance().getGame().gameEnded();
+                        Launcher launcher = Launcher.getInstance();
+                        launcher.getGame().setGameState(State.GAME_FINISHED);
+                        launcher.getGame().gameEnded();
                         break;
                 }
         }
