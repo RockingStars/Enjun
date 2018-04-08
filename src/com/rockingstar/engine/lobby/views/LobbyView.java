@@ -12,11 +12,10 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import java.awt.*;
-
-
 
 import java.util.LinkedList;
 import java.util.ListIterator;
@@ -94,6 +93,10 @@ public class LobbyView {
         ComboBox gameMode = new ComboBox();
         gameMode.getItems().addAll("Player vs Player", "Player vs AI", "AI vs AI");
 
+        TextField textField = new TextField();
+        Button button = new Button("Invite");
+        button.setOnAction(e -> CommandExecutor.execute(new SendChallengeCommand(ServerConnection.getInstance(), new Player(textField.getText()), "Reversi")));
+        menu.getChildren().addAll(textField, button);
 
         Button goButton = new Button("Continue");
 

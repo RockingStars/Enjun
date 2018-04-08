@@ -12,6 +12,7 @@ import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -65,7 +66,7 @@ public class Launcher {
         _currentGame = null;
     }
 
-    public void loadModule(AbstractGame game) {
+    private void loadModule(AbstractGame game) {
         _currentGame = game;
         _guiController.setCenter(game.getView());
     }
@@ -132,6 +133,7 @@ public class Launcher {
                     break;
                 case "Reversi":
                     gameModule = new ReversiController(_localPlayer, opponent);
+                    ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
                     break;
                 default:
                     Util.displayStatus("Failed to load game module " + gameType);
@@ -140,13 +142,15 @@ public class Launcher {
 
             Util.displayStatus("Loading game module " + gameType, true);
 
-            if(startingPlayer.equals(opponentName)) {
+            if (startingPlayer.equals(opponentName)) {
                 gameModule.setCurrentPlayer(1);
                 gameModule.setYourTurn(false);
-            } else{
+            }
+            else{
                 gameModule.setCurrentPlayer(0);
                 gameModule.setYourTurn(true);
             }
+
             loadModule(gameModule);
         });
     }
