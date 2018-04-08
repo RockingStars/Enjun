@@ -10,6 +10,7 @@ import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
+import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
@@ -118,13 +119,28 @@ public class Launcher {
         String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
 
         String startingPlayer = parts[1];
-        String gametype = parts[3];
+        String gameType = parts[3];
         String opponentName = parts[5];
 
         Player opponent = new Player(opponentName);
         Platform.runLater(() -> {
-            AbstractGame gameModule = new TTTController(_localPlayer, opponent);
-            if(startingPlayer.equals(opponentName)){
+            AbstractGame gameModule;
+
+            switch (gameType) {
+                case "Tic-tac-toe":
+                    gameModule = new TTTController(_localPlayer, opponent);
+                    break;
+                case "Reversi":
+                    gameModule = new ReversiController(_localPlayer, opponent);
+                    break;
+                default:
+                    Util.displayStatus("Failed to load game module " + gameType);
+                    return;
+            }
+
+            Util.displayStatus("Loading game module " + gameType, true);
+
+            if(startingPlayer.equals(opponentName)) {
                 gameModule.setCurrentPlayer(1);
                 gameModule.setYourTurn(false);
             } else{
