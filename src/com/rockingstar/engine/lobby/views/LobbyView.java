@@ -26,9 +26,9 @@ public class LobbyView {
     private LinkedList<Player> _playerList;
     private LinkedList<String> _gameList;
 
-    Dimension screensize = Toolkit.getDefaultToolkit().getScreenSize();
-    double width = screensize.getWidth();
-    double height = screensize.getHeight();
+    GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    double width = graphicsDevice.getDisplayMode().getWidth();
+    double height = graphicsDevice.getDisplayMode().getHeight();
 
     private double _iconSize;
 
@@ -235,11 +235,10 @@ public class LobbyView {
 
         });
 
-
-
         return _lobbyPane;
 
     }
+
     public void setPlayerList(LinkedList<Player> playerList) {
         _playerList = playerList;
     }
