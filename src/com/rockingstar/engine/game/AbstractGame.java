@@ -111,6 +111,9 @@ public abstract class AbstractGame implements GameInterface {
         yourTurn = isYourMove;
     }
 
+    public boolean getIsYourTurn() {
+        return yourTurn;
+    }
 
     public void gameEnded() {
         if(currentState != State.GAME_FINISHED){
