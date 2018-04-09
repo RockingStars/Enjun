@@ -24,3 +24,15 @@
 #gameImage2{
 	-fx-background-image:url("connect4Image.jpg");
 }
+
+#scrollPane {
+	-fx-background: #FBB117;
+	-fx-background-insets: 0;
+	-fx-padding:0;
+
+}
+
+#users {
+	-fx-font:15px "Serif";
+	-fx-text-fill:teal;
+}
