@@ -84,7 +84,7 @@ public class LobbyView {
         leftPane.setAlignment(Pos.CENTER);
 
         VBox menu = new VBox(20);
-        menu.setStyle("-fx-border-color: red");
+        menu.setStyle("-fx-border-color: teal");
         menu.setSpacing(30);
         menu.setMaxWidth(width/4);
         menu.setMinHeight(800);
@@ -140,7 +140,7 @@ public class LobbyView {
         scrollPane.setId("scrollPane");
 
         VBox rightPane = new VBox(20);
-        rightPane.setStyle("-fx-border-color: red");
+        rightPane.setStyle("-fx-border-color: teal");
         rightPane.setMaxHeight(800);
         rightPane.setMaxWidth(width/4);
         rightPane.setAlignment(Pos.CENTER);
