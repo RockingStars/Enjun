@@ -1,5 +1,6 @@
 package com.rockingstar.engine.game;
 
+import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.scene.Node;
 
 /**
@@ -108,5 +109,19 @@ public abstract class AbstractGame implements GameInterface {
 
     public void setYourTurn(boolean isYourMove) {
         yourTurn = isYourMove;
+    }
+
+    public boolean getIsYourTurn() {
+        return yourTurn;
+    }
+
+    public void gameEnded() {
+        if(currentState != State.GAME_FINISHED){
+            throw new IllegalStateException();
+        }
+    }
+
+    protected void toLobby() {
+        Launcher.getInstance().returnToLobby();
     }
 }

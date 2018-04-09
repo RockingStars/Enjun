@@ -1,6 +1,6 @@
 package com.rockingstar.engine.game;
 
-enum State {
+public enum State {
     PREGAME,
     GAME_STARTED,
     GAME_FINISHED,

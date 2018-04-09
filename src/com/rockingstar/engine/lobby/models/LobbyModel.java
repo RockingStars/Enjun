@@ -10,6 +10,8 @@ import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
+import javafx.application.Platform;
+
 
 import java.util.LinkedList;
 
@@ -55,8 +57,14 @@ public class LobbyModel {
     }
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
-        lobbyView.getButtonGame0().setOnAction(e ->
-            _launcher.loadModule(new TTTController(_players[0], _players[1])));
+        System.out.println("OK");
+
+        lobbyView.getGameSelectionBox().setOnAction(e -> {
+                    Platform.runLater(() -> {
+                       // _launcher.loadModule(new TTTController(_players[0], _players[1]));
+
+             });
+        });
     }
 
     public void setPlayers(Player[] players) {
