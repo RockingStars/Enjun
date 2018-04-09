@@ -7,11 +7,14 @@ import com.rockingstar.engine.game.Player;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import java.awt.*;
@@ -135,6 +138,11 @@ public class LobbyView {
         leftPane.getChildren().addAll(menu);
         _lobbyPane.setLeft(leftPane);
 
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setMaxWidth(width/5);
+        scrollPane.setMinHeight(500);
+
+
         VBox rightPane = new VBox(20);
         rightPane.setStyle("-fx-border-color: red");
         rightPane.setMaxHeight(800);
@@ -144,14 +152,15 @@ public class LobbyView {
 
         VBox players = new VBox(20);
         players.setStyle("-fx-border-color: blue");
-        players.setMaxWidth(width/5);
-        players.setMinHeight(500);
+//        players.setMaxWidth(width/5);
+//        players.setMinHeight(500);
         players.setAlignment(Pos.CENTER);
         Label onlinePLayer = new Label("List of online players");
         Button refresh = new Button("Refresh");
         onlinePLayer.setId("otherText");
         ListIterator iterator = (ListIterator) _playerList.iterator();
         ToggleGroup usergroup = new ToggleGroup();
+
         while (iterator.hasNext()){
             Player test = (Player) iterator.next();
             String test2 = test.getUsername();
@@ -160,12 +169,23 @@ public class LobbyView {
             users.setToggleGroup(usergroup);
 
             players.getChildren().addAll(users);
-
+            scrollPane.setContent(players);
         }
 
 
+        //scrollPane.setContent(players);
+        rightPane.getChildren().addAll(onlinePLayer, refresh, scrollPane);
 
-        rightPane.getChildren().addAll(onlinePLayer, refresh, players);
+
+        //rightPane.getChildren().addAll(rightPane, scrollPane);
+//        sc.valueProperty().addListener(new ChangeListener<Number>() {
+//            @Override
+//            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+//                rightPane.setLayoutX(-newValue.doubleValue());
+//            }
+//        });
+
+
         _lobbyPane.setCenter(rightPane);
 
 
@@ -178,7 +198,7 @@ public class LobbyView {
                     System.out.println("Deze wel");
                     rightPane.getChildren().clear();
                     Button challenge = new Button("Challenge");
-                    Button localy = new Button("Play offline");
+                    Button locally = new Button("Play offline");
 
                     usergroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                         @Override
@@ -187,11 +207,11 @@ public class LobbyView {
                             RadioButton chk = (RadioButton)t1.getToggleGroup().getSelectedToggle(); // Cast object to radio button
                             Label selectedUser = new Label("Selected player: "+ chk.getText());
                             selectedUser.setId("gameText");
-                            rightPane.getChildren().addAll(onlinePLayer, refresh, players,gameModeSelected,selectedUser, challenge, localy);
+                            rightPane.getChildren().addAll(onlinePLayer, refresh, players,gameModeSelected,selectedUser, challenge, locally);
 
                         }
                     });
-                    rightPane.getChildren().addAll(onlinePLayer, players,gameModeSelected, challenge, localy);
+                    rightPane.getChildren().addAll(onlinePLayer, players,gameModeSelected, challenge, locally);
                 } else if(gameMode.getValue() == "Player vs AI"){
                     rightPane.getChildren().clear();
                     Label difficulty = new Label("Select your difficulty");
