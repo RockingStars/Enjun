@@ -14,6 +14,6 @@ public class MoveCommand implements Command {
 
     @Override
     public void execute() {
-        _serverConnection.send("move " + _move);
+        _serverConnection.send(String.format("move %s", _move));
     }
 }

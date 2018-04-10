@@ -65,11 +65,17 @@ public class LobbyModel {
 
              });
         });
-
-
     }
 
     public void setPlayers(Player[] players) {
         _players = players;
+    }
+
+    public void setLocalPlayer(Player player) {
+        _players[0] = player;
+    }
+
+    public void setOpponent(Player player) {
+        _players[1] = player;
     }
 }

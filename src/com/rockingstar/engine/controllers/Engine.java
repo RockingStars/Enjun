@@ -42,8 +42,10 @@ public class Engine extends Application {
     public void start(Stage primaryStage) {
         _gui = new GUIController(primaryStage);
         primaryStage.setOnCloseRequest(e -> {
+            Util.displayStatus("Preparing to exit engine on request by user");
             CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance()));
             _serverConnection.close();
+            System.exit(0);
         });
         boot();
     }
