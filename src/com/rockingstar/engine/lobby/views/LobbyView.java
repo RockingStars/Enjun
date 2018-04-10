@@ -155,7 +155,6 @@ public class LobbyView {
         ToggleGroup usergroup = new ToggleGroup();
 
         while (iterator.hasNext()) {
-
             Player nextPlayer = (Player) iterator.next();
             String usernameString = nextPlayer.getUsername();
             if (usernameString.equals(_username)){
