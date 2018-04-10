@@ -3,14 +3,12 @@ package com.rockingstar.engine.lobby.controllers;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.game.AI;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
 import com.rockingstar.engine.lobby.views.LobbyView;
-import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
 
@@ -25,7 +23,6 @@ public class Launcher {
 
     private LobbyModel _model;
     private LobbyView _lobbyView;
-    private LoginView _loginView;
     private ServerConnection _serverConnection;
 
     private AbstractGame _currentGame;
@@ -40,9 +37,6 @@ public class Launcher {
         _serverConnection = serverConnection;
 
         _model = new LobbyModel(this);
-        _loginView = new LoginView();
-
-        _model.addLoginActionHandlers(_loginView, this);
     }
 
     public static Launcher getInstance() {
@@ -60,10 +54,6 @@ public class Launcher {
     }
 
     public void setCentralNode() {
-        _guiController.setCenter(_loginView.getNode());
-    }
-
-    public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
     }

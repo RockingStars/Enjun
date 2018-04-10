@@ -93,6 +93,8 @@ public class LobbyView {
         leftPane.setMinWidth(width/2);
         leftPane.setAlignment(Pos.CENTER);
 
+        TextField nicknameField = new TextField();
+
         VBox menu = new VBox(20);
         menu.setStyle("-fx-border-color: teal");
         menu.setSpacing(30);
