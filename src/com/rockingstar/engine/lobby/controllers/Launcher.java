@@ -3,6 +3,7 @@ package com.rockingstar.engine.lobby.controllers;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.game.AI;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
@@ -32,6 +33,7 @@ public class Launcher {
     private static Launcher _instance;
 
     private Player _localPlayer;
+    private String _gameMode = "pvp";
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -123,7 +125,19 @@ public class Launcher {
         String gameType = parts[3];
         String opponentName = parts[5];
 
-        Player opponent = new Player(opponentName);
+        Player opponent;
+
+        switch (_gameMode) {
+            case "pvp":
+                opponent = new Player(opponentName);
+                break;
+            case "pvai":
+                opponent = new AI("Computer");
+                break;
+            default:
+                return;
+        }
+
         Platform.runLater(() -> {
             AbstractGame gameModule;
 
