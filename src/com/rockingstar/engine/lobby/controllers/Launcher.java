@@ -129,14 +129,14 @@ public class Launcher {
 
         switch (_gameMode) {
             case "pvp":
-                opponent = new Player(opponentName);
-                break;
             case "pvai":
-                opponent = new AI("Computer");
+                opponent = new Player(opponentName);
                 break;
             default:
                 return;
         }
+
+        _gameMode = "";
 
         Platform.runLater(() -> {
             AbstractGame gameModule;
@@ -171,5 +171,9 @@ public class Launcher {
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void setGameMode(String gameMode) {
+        _gameMode = gameMode;
     }
 }

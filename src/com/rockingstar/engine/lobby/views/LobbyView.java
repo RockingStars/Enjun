@@ -107,7 +107,7 @@ public class LobbyView {
         Label gameModeText = new Label("How do you want to play?");
         gameModeText.setId("gameText");
         ComboBox gameMode = new ComboBox();
-        gameMode.getItems().addAll("Player vs Player", "Player vs AI", "AI vs AI");
+        gameMode.getItems().addAll("Play as human", "Play as computer");
 
         gameName = new Label("You have selected " + gameSelectionBox.getValue());
             if (gameSelectionBox.getValue() == null){
@@ -208,8 +208,10 @@ public class LobbyView {
                         Label gameModeSelected = new Label("You have selected: " + gameMode.getValue());
                         gameModeSelected.setId("gameText");
                         rightPane.getChildren().add(gameModeSelected);
-                        if (gameMode.getValue() == "Player vs Player"){
+
+                        if (gameMode.getValue() == "Play as human"){
                             rightPane.getChildren().clear();
+
                             Button challenge = new Button("Challenge");
                             Button locally = new Button("Play offline");
                             for (Toggle t : usergroup.getToggles()) {
@@ -217,6 +219,7 @@ public class LobbyView {
                                     ((RadioButton) t).setDisable(false);
                                 }
                             }
+
                             usergroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                                 @Override
                                 public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
@@ -245,19 +248,23 @@ public class LobbyView {
 
                             rightPane.getChildren().addAll(onlinePLayer, scrollPane,gameModeSelected, challenge, locally);
 
-                        } else if(gameMode.getValue() == "Player vs AI"){
+                        } else if(gameMode.getValue() == "Play as computer"){
                             rightPane.getChildren().clear();
+
                             Label difficulty = new Label("Select your difficulty");
                             difficulty.setId("gameText");
+
                             Button lech = new Button("Lech Mode");
+                            lech.setOnAction(e -> Launcher.getInstance().setGameMode("pvai"));
                             Button bas = new Button("Bas Mode");
                             rightPane.getChildren().addAll(gameModeSelected,difficulty,lech,bas);
-                        } else if(gameMode.getValue() == "AI vs AI"){
+
+                        }/* else if(gameMode.getValue() == "AI vs AI"){
                             rightPane.getChildren().clear();
                             Label test = new Label("test");
                             test.setId("gameText");
                             rightPane.getChildren().addAll(gameModeSelected, test);
-                        }
+                        }*/
 
                     } else {
                         Alert noGameModeSelected = new Alert(Alert.AlertType.INFORMATION);
