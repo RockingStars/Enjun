@@ -109,6 +109,10 @@ public abstract class AbstractGame implements GameInterface {
         currentPlayer = id == 0 ? player1 : player2;
     }
 
+    public void initialSetCurrentPlayer(int id) {
+        setCurrentPlayer(id);
+    }
+
     public void setYourTurn(boolean isYourMove) {
         yourTurn = isYourMove;
     }

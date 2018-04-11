@@ -153,11 +153,11 @@ public class Launcher {
             loadModule(gameModule);
 
             if (startingPlayer.equals(opponentName)) {
-                gameModule.setCurrentPlayer(1);
+                gameModule.initialSetCurrentPlayer(1);
                 gameModule.setYourTurn(false);
             }
             else{
-                gameModule.setCurrentPlayer(0);
+                gameModule.initialSetCurrentPlayer(0);
                 gameModule.setYourTurn(true);
             }
         });
