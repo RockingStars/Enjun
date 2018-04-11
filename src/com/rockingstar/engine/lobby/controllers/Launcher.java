@@ -160,8 +160,6 @@ public class Launcher {
                 gameModule.setCurrentPlayer(0);
                 gameModule.setYourTurn(true);
             }
-
-            _currentGame.startGame();
         });
     }
 

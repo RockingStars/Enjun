@@ -59,10 +59,10 @@ public class LobbyModel {
         System.out.println("OK");
 
         lobbyView.getGameSelectionBox().setOnAction(e -> {
-                    Platform.runLater(() -> {
-                       // _launcher.loadModule(new TTTController(_players[0], _players[1]));
+            Platform.runLater(() -> {
+                // _launcher.loadModule(new TTTController(_players[0], _players[1]));
 
-             });
+            });
         });
     }
 
