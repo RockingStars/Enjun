@@ -59,8 +59,6 @@ public class ResponseHandler {
 
                         Platform.runLater(() -> {
                             AbstractGame game = launcher.getGame();
-                            game.setYourTurn(true);
-                            game.setCurrentPlayer(0);
                             game.showPossibleMoves();
                         });
                         break;
