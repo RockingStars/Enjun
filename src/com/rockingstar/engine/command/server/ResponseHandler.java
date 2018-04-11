@@ -36,6 +36,8 @@ public class ResponseHandler {
 
     public void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
+        Launcher launcher = Launcher.getInstance();
+        AbstractGame game = launcher.getGame();
 
         switch(responseType) {
             case "HELP":
@@ -50,22 +52,24 @@ public class ResponseHandler {
             case "GAME":
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
-                        Launcher.getInstance().startMatch(response.substring(15));
+                        launcher.startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
-                        Platform.runLater(() -> {
-                            AbstractGame game = Launcher.getInstance().getGame();
-                            game.setYourTurn(true);
-                            game.setCurrentPlayer(0);
-                            game.showPossibleMoves();
-                        });
+                        while (game == null || game.getGameState() != State.GAME_STARTED);
+
+                        Platform.runLater(() -> game.showPossibleMoves());
+
+                        game.setYourTurn(true);
+                        game.setCurrentPlayer(0);
                         break;
                     case "MOVE":
                         try {
                             System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
 
-                            Launcher launcher = Launcher.getInstance();
+                            while (game == null || game.getGameState() != State.GAME_STARTED);
+
+                            // add delay
                             launcher.getGame().doPlayerMove(Integer.parseInt(response));
 
                             if(launcher.getGame().getGameState() == State.GAME_FINISHED){
@@ -83,7 +87,6 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
-                        Launcher launcher = Launcher.getInstance();
                         launcher.getGame().setGameState(State.GAME_FINISHED);
                         launcher.getGame().gameEnded();
                         break;

@@ -74,7 +74,7 @@ public class Launcher {
     }
 
     public void handleLogin(String username, boolean isAI) {
-        isAI = true;
+        //isAI = true;
         // @todo Check for difficulty
         if (isAI)
             _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
@@ -160,6 +160,8 @@ public class Launcher {
                 gameModule.setCurrentPlayer(0);
                 gameModule.setYourTurn(true);
             }
+
+            _currentGame.startGame();
         });
     }
 
