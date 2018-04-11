@@ -4,6 +4,7 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
+import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import javafx.application.Platform;
 
 public class ResponseHandler {
@@ -57,6 +58,7 @@ public class ResponseHandler {
                             AbstractGame game = Launcher.getInstance().getGame();
                             game.setYourTurn(true);
                             game.setCurrentPlayer(0);
+                            game.showPossibleMoves();
                         });
                         break;
                     case "MOVE":

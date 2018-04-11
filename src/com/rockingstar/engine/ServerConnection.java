@@ -22,7 +22,8 @@ public class ServerConnection extends Thread {
     private ServerConnection() {
         try {
             //_socket = new Socket("145.33.225.170", 7789);
-            _socket = new Socket("127.0.0.1", 7789);
+            //_socket = new Socket("127.0.0.1", 7789);
+            _socket = new Socket("77.162.40.81", 7789);
             Util.displayStatus("Established server connection");
             _handler = new ResponseHandler();
         }

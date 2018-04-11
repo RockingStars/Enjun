@@ -103,6 +103,8 @@ public abstract class AbstractGame implements GameInterface {
         return null;
     }
 
+    public abstract void showPossibleMoves();
+
     public void setCurrentPlayer(int id) {
         currentPlayer = id == 0 ? player1 : player2;
     }
