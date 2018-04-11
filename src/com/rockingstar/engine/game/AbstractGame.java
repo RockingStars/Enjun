@@ -12,7 +12,6 @@ public abstract class AbstractGame implements GameInterface {
 
     protected Player player1;
     protected Player player2;
-    protected Player currentPlayer;
 
     /**
      * State code for the current move.

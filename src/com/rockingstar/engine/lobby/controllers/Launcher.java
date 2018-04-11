@@ -74,7 +74,6 @@ public class Launcher {
     }
 
     public void handleLogin(String username, boolean isAI) {
-        isAI = true;
         // @todo Check for difficulty
         if (isAI)
             _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
@@ -136,6 +135,7 @@ public class Launcher {
 
             switch (gameType) {
                 case "Tic-tac-toe":
+                case "Tictactoe":
                     gameModule = new TTTController(_localPlayer, opponent);
                     break;
                 case "Reversi":
