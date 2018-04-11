@@ -54,8 +54,4 @@ public class LoginView {
     public String getInsertedUsername() {
         return _usernameTextField.getText();
     }
-
-    public TextField getUsernameTextField() {
-        return _usernameTextField;
-    }
 }
