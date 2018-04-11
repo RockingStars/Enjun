@@ -1,6 +1,6 @@
 package com.rockingstar.engine.game;
 
-import com.rockingstar.engine.game.models.Vector2D;
+import com.rockingstar.engine.game.models.VectorXY;
 import com.rockingstar.modules.Reversi.models.ReversiModel;
 import javafx.scene.paint.Color;
 
@@ -30,11 +30,11 @@ public class AI extends Player {
         _reversiModel = reversiModel;
     }
 
-    public Vector2D getMove() {
+    public VectorXY getMove() {
         ArrayList<Integer> possibleMoves = _reversiModel.getPossibleMoves(this);
         Random random = new Random();
         Integer integer = possibleMoves.get(random.nextInt(possibleMoves.size()));
 
-        return new Vector2D(integer % 8, integer / 8);
+        return new VectorXY(integer % 8, integer / 8);
     }
 }
