@@ -1,9 +1,22 @@
 #welcome {
-    -fx-font:32px "Serif";
+    -fx-font:45px "Serif";
     -fx-text-fill:teal;
+}
+
+#headerText{
+	-fx-font:26px "Serif";
+	-fx-text-fill:teal;
 }
 
 #uName {
     -fx-font:22px "Serif";
     -fx-text-fill:teal;
+}
+
+#centerPane {
+	-fx-background-color: rgba(0, 0, 0, 0.5);
+}
+
+#button {
+	-fx-font-size: 18px;
 }

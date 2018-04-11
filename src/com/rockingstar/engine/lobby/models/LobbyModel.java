@@ -24,21 +24,6 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
-    public LinkedList<Player> getPlayerList() {
-        LinkedList<Player> players = new LinkedList<>();
-
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
-
-        if (serverConnection.isValidCommand())
-            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
-                players.add(new Player(player));
-        else
-            Util.displayStatus("Loading player list", false);
-
-        return players;
-    }
-
     public LinkedList<String> getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
         CommandExecutor.execute(new GetGameListCommand(serverConnection));
@@ -53,8 +38,13 @@ public class LobbyModel {
   
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e ->
-            launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
+            launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode()));
     }
+
+//    public void addRefreshActionHandlers(LobbyView lobbyView) {
+//        lobbyView.getRefreshButton().setOnAction(e ->
+//                getPlayerList()
+//        );}
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
         System.out.println("OK");

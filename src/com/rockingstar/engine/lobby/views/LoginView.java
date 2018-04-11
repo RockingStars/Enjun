@@ -1,50 +1,125 @@
 package com.rockingstar.engine.lobby.views;
 
+import com.rockingstar.engine.game.Player;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+
+import java.awt.*;
+import java.util.Random;
+
+import static javafx.geometry.Pos.CENTER;
 
 public class LoginView {
 
-    private GridPane _gridPane;
+    private BorderPane _borderPane;
     private Button _continueButton;
     private TextField _usernameTextField;
+    private Label _playerMode;
+    public String _selectedGameMode;
+
+    GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    double width = graphicsDevice.getDisplayMode().getWidth();
+    double height = graphicsDevice.getDisplayMode().getHeight();
 
     public LoginView() {
-        _gridPane = new GridPane();
+        _borderPane = new BorderPane();
         setup();
     }
 
     private void setup() {
-        _gridPane.setPadding(new Insets(15));
-        _gridPane.setHgap(5);
-        _gridPane.setVgap(5);
-        _gridPane.setAlignment(Pos.CENTER);
-
+        _borderPane.setPadding(new Insets(100,15,15,15));
+        //Top
         Label welcomeMessage = new Label("Welcome to RockingStar Games");
-        Label uNameText = new Label("Please enter a username");
-        _gridPane.add(welcomeMessage,0,0,2,1);
-        _gridPane.add(uNameText, 0,1,2,1);
+        welcomeMessage.setAlignment(Pos.CENTER);
+        welcomeMessage.setMinWidth(width);
+        _borderPane.setTop(welcomeMessage);
 
         welcomeMessage.setId("welcome");
-        uNameText.setId("uName");
 
+
+        //Center
+
+        // TopCenter
+        VBox centerPane = new VBox();
+        _playerMode = new Label("How do you want to play?");
+        _playerMode.setId("headerText");
+
+        //MidCenter
+        HBox _radioButtons = new HBox(30);
+        ToggleGroup playMode = new ToggleGroup();
+
+        RadioButton player = new RadioButton("Player");
+        player.setUserData("Player");
+        RadioButton AI = new RadioButton("AI");
+        AI.setUserData("AI");
+
+        player.setId("uName");
+        AI.setId("uName");
+        _radioButtons.setAlignment(Pos.CENTER);
+
+
+        player.setToggleGroup(playMode);
+        AI.setToggleGroup(playMode);
+        _radioButtons.getChildren().addAll(player,AI);
+
+
+        //BottomCenter
+        VBox userName = new VBox(10);
+        Label enterUname = new Label("Please enter your username:");
         _usernameTextField = new TextField();
+        _usernameTextField.setVisible(false);
+        enterUname.setVisible(false);
+        _usernameTextField.setMaxWidth(300);
+        _usernameTextField.setId("uName");
+        enterUname.setId("uName");
+        userName.getChildren().addAll(enterUname, _usernameTextField);
+        userName.setAlignment(Pos.CENTER);
 
-        _gridPane.add(_usernameTextField,0,3);
+
+        //Continue
         _continueButton = new Button("Continue");
-        _gridPane.add(_continueButton,0,20);
+        _continueButton.setVisible(false);
+        _continueButton.setId("button");
 
-        GridPane.setHalignment(_continueButton, HPos.LEFT);
+        centerPane.getChildren().addAll(_playerMode, _radioButtons, userName, _continueButton);
+        _borderPane.setCenter(centerPane);
+
+
+        centerPane.setMaxHeight(height/2);
+        centerPane.setMaxWidth(width/2);
+        centerPane.setAlignment(Pos.CENTER);
+        centerPane.setId("centerPane");
+        centerPane.setSpacing(50);
+
+        playMode.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                _usernameTextField.setVisible(true);
+                _continueButton.setVisible(true);
+                enterUname.setVisible(true);
+                _selectedGameMode = playMode.getSelectedToggle().getUserData().toString();
+//                System.out.println(getGamemode());
+
+
+            }
+        });
+
     }
 
     public Node getNode() {
-        return _gridPane;
+        return _borderPane;
     }
 
     public Button getContinueButton() {
@@ -57,5 +132,9 @@ public class LoginView {
 
     public TextField getUsernameTextField() {
         return _usernameTextField;
+    }
+
+    public String getGamemode(){
+        return _selectedGameMode;
     }
 }

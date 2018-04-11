@@ -3,6 +3,7 @@ package com.rockingstar.engine.lobby.controllers;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
@@ -17,6 +18,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
+
+import java.util.LinkedList;
 
 public class Launcher {
 
@@ -71,13 +74,14 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-    public void handleLogin(String username) {
+    public void handleLogin(String username, String gameMode) {
         _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
         boolean result = _localPlayer.login();
 
         if (result) {
-            _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
+            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
 
+            _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
             _model.setLocalPlayer(_localPlayer);
 
@@ -153,6 +157,21 @@ public class Launcher {
 
             loadModule(gameModule);
         });
+    }
+
+    public LinkedList<Player> getPlayerList() {
+        LinkedList<Player> players = new LinkedList<>();
+
+        ServerConnection serverConnection = ServerConnection.getInstance();
+        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
+
+        if (serverConnection.isValidCommand())
+            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
+                players.add(new Player(player));
+        else
+            Util.displayStatus("Loading player list", false);
+
+        return players;
     }
 
     public AbstractGame getGame() {
