@@ -81,7 +81,6 @@ public class Launcher {
         else
             _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
 
-        // If login fails, Player class displays an alert. If this happens, we shouldn't attempt to login.
         if (_localPlayer.login()) {
             _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
 
@@ -151,16 +150,17 @@ public class Launcher {
             Util.displayStatus("Loading game module " + gameType, true);
 
             loadModule(gameModule);
-            getGame().startGame();
-
+            gameModule.startGame();
+/*
             if (startingPlayer.equals(opponentName)) {
                 gameModule.setCurrentPlayer(1);
-                gameModule.setYourTurn(false);
+                gameModule.doYourTurn(false);
             }
             else{
                 gameModule.setCurrentPlayer(0);
-                gameModule.setYourTurn(true);
-            }
+                gameModule.doYourTurn(true);
+            }*/
+
         });
     }
 

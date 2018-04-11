@@ -55,11 +55,12 @@ public class ResponseHandler {
                         Launcher.getInstance().startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
-                        //while(launcher.getGame() == null){}
+                        //while(launcher.getGame() == null || launcher.getGame().getGameState() != State.GAME_STARTED){}
 
                         Platform.runLater(() -> {
                             AbstractGame game = launcher.getGame();
                             game.showPossibleMoves();
+                            game.doYourTurn();
                         });
                         break;
                     case "MOVE":
