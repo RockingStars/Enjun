@@ -4,7 +4,6 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import javafx.application.Platform;
 
 public class ResponseHandler {
