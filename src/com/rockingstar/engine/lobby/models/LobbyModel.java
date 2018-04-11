@@ -52,7 +52,7 @@ public class LobbyModel {
 
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e ->
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), false));
     }
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {

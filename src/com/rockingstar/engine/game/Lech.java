@@ -26,6 +26,7 @@ public class Lech extends Player implements AI {
         isAI = true;
     }
 
+    @Override
     public void setModel(ReversiModel reversiModel) {
         _reversiModel = reversiModel;
     }
@@ -34,7 +35,10 @@ public class Lech extends Player implements AI {
     public VectorXY getMove() {
         ArrayList<Integer> possibleMoves = _reversiModel.getPossibleMoves(this);
         Random random = new Random();
-        Integer integer = possibleMoves.get(random.nextInt(possibleMoves.size()));
+
+        System.out.printf("Possible moves for Lech: %d\n", possibleMoves.size());
+
+        Integer integer = possibleMoves.get(random.nextInt(possibleMoves.size() - 1));
 
         return new VectorXY(integer % 8, integer / 8);
     }
