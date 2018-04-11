@@ -22,27 +22,22 @@
 
 package com.rockingstar.engine.game.models;
 
-public class Vector2D {
+public class VectorXY {
 
-    public double x;
-    public double y;
+    public int x;
+    public int y;
 
-    public Vector2D(double value) {
+    public VectorXY(int value) {
         x = y = value;
     }
 
-    public Vector2D(double value, int rowColSize) {
-        this.x = (int) value % rowColSize;
-        this.y = (int) value / rowColSize;
-    }
-
-    public Vector2D(double x, double y) {
+    public VectorXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
     @Override
     public String toString() {
-        return String.format("(%f, %f)", x, y);
+        return String.format("(%d, %d)", x, y);
     }
 }
