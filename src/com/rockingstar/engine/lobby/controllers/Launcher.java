@@ -9,6 +9,7 @@ import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
 import com.rockingstar.engine.lobby.views.LobbyView;
+import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
 
@@ -25,6 +26,8 @@ public class Launcher {
     private LobbyView _lobbyView;
     private ServerConnection _serverConnection;
 
+    private LoginView _loginView;
+
     private AbstractGame _currentGame;
 
     private static Launcher _instance;
@@ -37,6 +40,9 @@ public class Launcher {
         _serverConnection = serverConnection;
 
         _model = new LobbyModel(this);
+        _loginView = new LoginView();
+
+        _model.addLoginActionHandlers(_loginView, this);
     }
 
     public static Launcher getInstance() {
@@ -54,6 +60,10 @@ public class Launcher {
     }
 
     public void setCentralNode() {
+        _guiController.setCenter(_loginView.getNode());
+    }
+
+    public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
     }

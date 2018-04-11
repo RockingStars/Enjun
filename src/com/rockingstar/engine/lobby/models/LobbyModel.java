@@ -8,6 +8,7 @@ import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
+import com.rockingstar.engine.lobby.views.LoginView;
 import javafx.application.Platform;
 
 
@@ -47,6 +48,11 @@ public class LobbyModel {
             Util.displayStatus("Loading player list", false);
 
         return new LinkedList<>();
+    }
+
+    public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
+        loginView.getContinueButton().setOnAction(e ->
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
     }
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {

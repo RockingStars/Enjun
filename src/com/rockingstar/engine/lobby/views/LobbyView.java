@@ -261,7 +261,7 @@ public class LobbyView {
                             Button bas = new Button("Bas Mode");
                             rightPane.getChildren().addAll(gameModeSelected,difficulty,lech,bas);
 
-                        }/* else if(gameMode.getValue() == "AI vs AI"){
+                        }/* else if(gameMode.getValue() == "Lech vs Lech"){
                             rightPane.getChildren().clear();
                             Label test = new Label("test");
                             test.setId("gameText");
@@ -314,14 +314,14 @@ public class LobbyView {
 //
 //                    rightPane.getChildren().addAll(onlinePLayer, scrollPane,gameModeSelected, challenge, locally);
 //
-//                } else if(gameMode.getValue() == "Player vs AI"){
+//                } else if(gameMode.getValue() == "Player vs Lech"){
 //                    rightPane.getChildren().clear();
 //                    Label difficulty = new Label("Select your difficulty");
 //                    difficulty.setId("gameText");
 //                    Button lech = new Button("Lech Mode");
 //                    Button bas = new Button("Bas Mode");
 //                    rightPane.getChildren().addAll(gameModeSelected,difficulty,lech,bas);
-//                } else if(gameMode.getValue() == "AI vs AI"){
+//                } else if(gameMode.getValue() == "Lech vs Lech"){
 //                    rightPane.getChildren().clear();
 //                    Label test = new Label("test");
 //                    test.setId("gameText");

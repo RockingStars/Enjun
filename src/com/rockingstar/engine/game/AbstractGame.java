@@ -122,6 +122,6 @@ public abstract class AbstractGame implements GameInterface {
     }
 
     protected void toLobby() {
-        Launcher.getInstance().setCentralNode();
+        Launcher.getInstance().returnToLobby();
     }
 }
