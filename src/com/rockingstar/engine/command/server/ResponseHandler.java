@@ -37,6 +37,8 @@ public class ResponseHandler {
     public void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
+        Launcher launcher = Launcher.getInstance();
+
         switch(responseType) {
             case "HELP":
                 System.out.println("help");
@@ -53,8 +55,10 @@ public class ResponseHandler {
                         Launcher.getInstance().startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
+                        while(launcher.getGame() == null){}
+
                         Platform.runLater(() -> {
-                            AbstractGame game = Launcher.getInstance().getGame();
+                            AbstractGame game = launcher.getGame();
                             game.setYourTurn(true);
                             game.setCurrentPlayer(0);
                             game.showPossibleMoves();
@@ -65,7 +69,6 @@ public class ResponseHandler {
                             System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
 
-                            Launcher launcher = Launcher.getInstance();
                             launcher.getGame().doPlayerMove(Integer.parseInt(response));
 
                             if(launcher.getGame().getGameState() == State.GAME_FINISHED){
@@ -83,7 +86,6 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
-                        Launcher launcher = Launcher.getInstance();
                         launcher.getGame().setGameState(State.GAME_FINISHED);
                         launcher.getGame().gameEnded();
                         break;
