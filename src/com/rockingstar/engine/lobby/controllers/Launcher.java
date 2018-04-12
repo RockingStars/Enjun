@@ -3,7 +3,9 @@ package com.rockingstar.engine.lobby.controllers;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
@@ -17,6 +19,8 @@ import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
+
+import java.util.LinkedList;
 
 public class Launcher {
 
@@ -33,7 +37,6 @@ public class Launcher {
     private static Launcher _instance;
 
     private Player _localPlayer;
-    private String _gameMode = "pvp";
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -73,13 +76,18 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-    public void handleLogin(String username) {
-        _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-        boolean result = _localPlayer.login();
 
-        if (result) {
-            _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
+    public void handleLogin(String username, String gameMode, boolean isAI) {
+        // @todo Check for difficulty
+        if (isAI)
+            _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+        else
+            _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
 
+        if (_localPlayer.login()) {
+            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
+
+            _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
             _model.setLocalPlayer(_localPlayer);
 
@@ -125,24 +133,14 @@ public class Launcher {
         String gameType = parts[3];
         String opponentName = parts[5];
 
-        Player opponent;
-
-        switch (_gameMode) {
-            case "pvp":
-            case "pvai":
-                opponent = new Player(opponentName);
-                break;
-            default:
-                return;
-        }
-
-        _gameMode = "";
+        Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
             AbstractGame gameModule;
 
             switch (gameType) {
                 case "Tic-tac-toe":
+                case "Tictactoe":
                     gameModule = new TTTController(_localPlayer, opponent);
                     break;
                 case "Reversi":
@@ -156,24 +154,37 @@ public class Launcher {
 
             Util.displayStatus("Loading game module " + gameType, true);
 
+            loadModule(gameModule);
+            gameModule.startGame();
+/*
             if (startingPlayer.equals(opponentName)) {
                 gameModule.setCurrentPlayer(1);
-                gameModule.setYourTurn(false);
+                gameModule.doYourTurn(false);
             }
             else{
                 gameModule.setCurrentPlayer(0);
-                gameModule.setYourTurn(true);
-            }
+                gameModule.doYourTurn(true);
+            }*/
 
-            loadModule(gameModule);
         });
+    }
+
+    public LinkedList<Player> getPlayerList() {
+        LinkedList<Player> players = new LinkedList<>();
+
+        ServerConnection serverConnection = ServerConnection.getInstance();
+        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
+
+        if (serverConnection.isValidCommand())
+            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
+                players.add(new Player(player));
+        else
+            Util.displayStatus("Loading player list", false);
+
+        return players;
     }
 
     public AbstractGame getGame() {
         return _currentGame;
-    }
-
-    public void setGameMode(String gameMode) {
-        _gameMode = gameMode;
     }
 }
