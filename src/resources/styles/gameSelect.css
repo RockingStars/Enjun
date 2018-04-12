@@ -4,46 +4,49 @@
 }
 
 #otherText{
-	-fx-font:28px "Serif";
+	-fx-font:22px "Serif";
 	-fx-text-fill:teal;
+	-fx-opacity:100%;
 }
 
 #gameText{
 	-fx-font:20px "Serif";
 	-fx-text-fill:teal;
+	-fx-opacity:100%;
 }
 
-#gameButton0{
+#gameImage{
 	-fx-background-image:url("reversiImage.jpg");
 }
 
-#gameButton0:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
-}
-
-#gameButton1{
-	-fx-background-color:#FBB117;
+#gameImage1{
 	-fx-background-image:url("TTTImage2.gif");
 }
 
-#gameButton1:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
-}
-
-#gameButton2{
+#gameImage2{
 	-fx-background-image:url("connect4Image.jpg");
 }
 
+#scrollPane {
+	/*-fx-background-color: rgba(0,0,0,1);*/
+	-fx-background: none;
+	/*-fx-background-insets: 0;*/
+	-fx-padding:0.5;
+	-fx-font: 15px "Serif";
 
-#gameButton2:hover {
-	-fx-border-color: teal;
-	-fx-border-outsets: 5;
-	-fx-border-width: 5;
-    -fx-border-style: solid;
+}
+
+#users {
+	-fx-font:15px "Serif";
+	-fx-text-fill:black;
+}
+
+#leftPane {
+	-fx-background-color: rgba(0, 0, 0, 0.5);
+	/*-fx-background-color:white;
+	-fx-background-opacity:50%;*/
+}
+
+#rightPane {
+	-fx-background-color: rgba(0, 0, 0, 0.5);
 }

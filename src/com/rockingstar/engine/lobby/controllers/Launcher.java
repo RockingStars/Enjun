@@ -1,18 +1,18 @@
 package com.rockingstar.engine.lobby.controllers;
 
+import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
-import com.rockingstar.engine.command.client.SendChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Player;
-import com.rockingstar.engine.ServerConnection;
-
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
+import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -24,14 +24,16 @@ public class Launcher {
 
     private LobbyModel _model;
     private LobbyView _lobbyView;
-    private LoginView _loginView;
     private ServerConnection _serverConnection;
+
+    private LoginView _loginView;
 
     private AbstractGame _currentGame;
 
-    private Player[] _players = new Player[2];
-
     private static Launcher _instance;
+
+    private Player _localPlayer;
+    private String _gameMode = "pvp";
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -61,20 +63,25 @@ public class Launcher {
         _guiController.setCenter(_loginView.getNode());
     }
 
-    public void loadModule(AbstractGame game) {
+    public void returnToLobby() {
+        _guiController.setCenter(_lobbyView.getNode());
+        _currentGame = null;
+    }
+
+    private void loadModule(AbstractGame game) {
         _currentGame = game;
         _guiController.setCenter(game.getView());
     }
 
     public void handleLogin(String username) {
-        _players[0] = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-        boolean result = _players[0].login();
+        _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
+        boolean result = _localPlayer.login();
 
         if (result) {
             _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
 
-            _lobbyView.setUsername(_players[0].getUsername());
-            _model.setPlayers(_players);
+            _lobbyView.setUsername(_localPlayer.getUsername());
+            _model.setLocalPlayer(_localPlayer);
 
             _guiController.setCenter(_lobbyView.getNode());
             _model.addGameSelectionActionHandlers(_lobbyView);
@@ -98,22 +105,15 @@ public class Launcher {
 
         Platform.runLater(() -> {
             Alert challengeInvitationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            challengeInvitationAlert.setTitle("Unable to login");
+            challengeInvitationAlert.setTitle("Challenge received");
             challengeInvitationAlert.setHeaderText(null);
             challengeInvitationAlert.setContentText("Player " + challenger + " has invited you to a game of " + gameType + ". Do you accept?");
 
             challengeInvitationAlert.showAndWait();
 
             if (challengeInvitationAlert.getResult() == ButtonType.OK) {
-                _players[1] = new Player(challenger);
-
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
-                boolean success = _serverConnection.isValidCommand();
                 Util.displayStatus("Accepting challenge from " + challenger);
-
-                // Failed to accept match, so no reason to keep the player in our lobby
-                if (!success)
-                    _players[1] = null;
             }
         });
     }
@@ -122,16 +122,58 @@ public class Launcher {
         String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
 
         String startingPlayer = parts[1];
-        String gametype = parts[3];
-        String opponent = parts[5];
+        String gameType = parts[3];
+        String opponentName = parts[5];
 
-        if (_players[1] == null)
-            _players[1] = new Player(opponent);
+        Player opponent;
 
-        Platform.runLater(() -> loadModule(new TTTController(_players[0], _players[1])));
+        switch (_gameMode) {
+            case "pvp":
+            case "pvai":
+                opponent = new Player(opponentName);
+                break;
+            default:
+                return;
+        }
+
+        _gameMode = "";
+
+        Platform.runLater(() -> {
+            AbstractGame gameModule;
+
+            switch (gameType) {
+                case "Tic-tac-toe":
+                    gameModule = new TTTController(_localPlayer, opponent);
+                    break;
+                case "Reversi":
+                    gameModule = new ReversiController(_localPlayer, opponent);
+                    ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                    break;
+                default:
+                    Util.displayStatus("Failed to load game module " + gameType);
+                    return;
+            }
+
+            Util.displayStatus("Loading game module " + gameType, true);
+
+            if (startingPlayer.equals(opponentName)) {
+                gameModule.setCurrentPlayer(1);
+                gameModule.setYourTurn(false);
+            }
+            else{
+                gameModule.setCurrentPlayer(0);
+                gameModule.setYourTurn(true);
+            }
+
+            loadModule(gameModule);
+        });
     }
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void setGameMode(String gameMode) {
+        _gameMode = gameMode;
     }
 }
