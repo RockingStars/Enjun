@@ -12,7 +12,6 @@ public abstract class AbstractGame implements GameInterface {
 
     protected Player player1;
     protected Player player2;
-    protected Player currentPlayer;
 
     /**
      * State code for the current move.
@@ -67,7 +66,7 @@ public abstract class AbstractGame implements GameInterface {
         if (currentState != State.GAME_STARTED)
             throw new IllegalStateException();
 
-        return currentPlayer;
+        return yourTurn ? player1 : player2;
     }
 
     @Override
@@ -103,19 +102,15 @@ public abstract class AbstractGame implements GameInterface {
         return null;
     }
 
-    public void setCurrentPlayer(int id) {
-        currentPlayer = id == 0 ? player1 : player2;
-    }
+    public abstract void showPossibleMoves();
 
-    public void setYourTurn(boolean isYourMove) {
-        yourTurn = isYourMove;
-    }
+    public abstract void doYourTurn();
 
     public boolean getIsYourTurn() {
         return yourTurn;
     }
 
-    public void gameEnded() {
+    public void gameEnded(String result) {
         if(currentState != State.GAME_FINISHED){
             throw new IllegalStateException();
         }

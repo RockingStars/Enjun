@@ -22,9 +22,13 @@ public class ServerConnection extends Thread {
     private ServerConnection() {
         try {
 
+            _socket = new Socket("77.162.40.81",7789);
+
+
             //_socket = new Socket("145.33.225.170", 7789);
             //_socket = new Socket("127.0.0.1", 7789);
             _socket = new Socket("77.162.40.81", 7789);
+
             Util.displayStatus("Established server connection");
             _handler = new ResponseHandler();
         }
@@ -34,7 +38,7 @@ public class ServerConnection extends Thread {
         }
     }
 
-    public boolean connected(){
+    private boolean connected(){
         return !_socket.isClosed();
     }
 
@@ -43,14 +47,14 @@ public class ServerConnection extends Thread {
             PrintWriter output = new PrintWriter(_socket.getOutputStream(), true);
             output.println(command);
             Util.displayStatus("Client Command: " + command);
-            Thread.sleep(500);
+            Thread.sleep(200);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    public void receive() throws IOException {
+    private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
         while (connected()) {
             String response = input.readLine();
@@ -63,8 +67,7 @@ public class ServerConnection extends Thread {
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         try {
             this.receive();
         } catch (Exception e) {
