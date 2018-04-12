@@ -52,17 +52,17 @@ public class LobbyModel {
 
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e ->
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername())));
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), false));
     }
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
         System.out.println("OK");
 
         lobbyView.getGameSelectionBox().setOnAction(e -> {
-                    Platform.runLater(() -> {
-                       // _launcher.loadModule(new TTTController(_players[0], _players[1]));
+            Platform.runLater(() -> {
+                // _launcher.loadModule(new TTTController(_players[0], _players[1]));
 
-             });
+            });
         });
     }
 

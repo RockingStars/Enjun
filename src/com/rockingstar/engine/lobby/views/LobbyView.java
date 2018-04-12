@@ -257,7 +257,6 @@ public class LobbyView {
                             difficulty.setId("gameText");
 
                             Button lech = new Button("Lech Mode");
-                            lech.setOnAction(e -> Launcher.getInstance().setGameMode("pvai"));
                             Button bas = new Button("Bas Mode");
                             rightPane.getChildren().addAll(gameModeSelected,difficulty,lech,bas);
 
