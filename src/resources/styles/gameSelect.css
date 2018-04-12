@@ -29,7 +29,7 @@
 
 #scrollPane {
 	/*-fx-background-color: rgba(0,0,0,1);*/
-	-fx-background: none;
+	-fx-background: transparent;
 	/*-fx-background-insets: 0;*/
 	-fx-padding:0.5;
 	-fx-font: 15px "Serif";

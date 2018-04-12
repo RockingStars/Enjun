@@ -2,36 +2,26 @@ package com.rockingstar.engine.lobby.views;
 
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.command.client.SendChallengeCommand;
-import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.GameInterface;
 import com.rockingstar.engine.game.Player;
-import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import com.rockingstar.engine.lobby.models.LobbyModel;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.*;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.awt.*;
-
-import java.awt.TextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.ListIterator;
+import java.util.Random;
 
 public class LobbyView {
 
@@ -97,7 +87,6 @@ public class LobbyView {
         leftPane.setAlignment(Pos.CENTER);
 
         TextField nicknameField = new TextField();
-
         VBox menu = new VBox(20);
         menu.setSpacing(30);
         menu.setMaxWidth(width / 4);

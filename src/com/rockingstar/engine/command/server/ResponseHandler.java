@@ -53,6 +53,11 @@ public class ResponseHandler {
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
                         Launcher.getInstance().startMatch(response.substring(15));
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case "YOURTURN":
                         //while(launcher.getGame() == null || launcher.getGame().getGameState() != State.GAME_STARTED){}

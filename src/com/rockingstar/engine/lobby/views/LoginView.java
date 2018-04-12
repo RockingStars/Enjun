@@ -1,25 +1,19 @@
 package com.rockingstar.engine.lobby.views;
 
-import com.rockingstar.engine.game.Player;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
-import java.util.Random;
-
-import static javafx.geometry.Pos.CENTER;
 
 public class LoginView {
 
@@ -80,6 +74,7 @@ public class LoginView {
         Label enterUname = new Label("Please enter your username:");
         _usernameTextField = new TextField();
         _usernameTextField.setVisible(false);
+        _usernameTextField.setPromptText("Username");
         enterUname.setVisible(false);
         _usernameTextField.setMaxWidth(300);
         _usernameTextField.setId("uName");
@@ -138,4 +133,3 @@ public class LoginView {
         return _selectedGameMode;
     }
 }
-

@@ -3,14 +3,12 @@ package com.rockingstar.engine.lobby.models;
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.GetGameListCommand;
-import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import javafx.application.Platform;
-
 
 import java.util.LinkedList;
 
