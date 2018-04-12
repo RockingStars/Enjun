@@ -69,10 +69,6 @@ public class ResponseHandler {
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
 
                             launcher.getGame().doPlayerMove(Integer.parseInt(response));
-
-                            if(launcher.getGame().getGameState() == State.GAME_FINISHED){
-                                launcher.getGame().gameEnded();
-                            }
                         }
                         catch (NumberFormatException e) {
                             Util.displayStatus("Received invalid position from server");
@@ -85,8 +81,7 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
-                        launcher.getGame().setGameState(State.GAME_FINISHED);
-                        launcher.getGame().gameEnded();
+                        launcher.getGame().gameEnded(response.substring(4).split(" ")[1]);
                         break;
                 }
         }

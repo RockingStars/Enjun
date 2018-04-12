@@ -39,7 +39,7 @@ public class Lech extends Player implements AI {
 
         System.out.printf("Possible moves for Lech: %d\n", possibleMoves.size());
 
-        Integer integer = possibleMoves.get(random.nextInt(possibleMoves.size() - 1));
+        Integer integer = possibleMoves.get(random.nextInt(possibleMoves.size()));
 
         return new VectorXY(integer % 8, integer / 8);
     }

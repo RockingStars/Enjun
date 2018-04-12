@@ -122,7 +122,7 @@ public abstract class AbstractGame implements GameInterface {
         return yourTurn;
     }
 
-    public void gameEnded() {
+    public void gameEnded(String result) {
         if(currentState != State.GAME_FINISHED){
             throw new IllegalStateException();
         }
