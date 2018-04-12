@@ -23,6 +23,8 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
+
+
     public LinkedList<String> getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
         CommandExecutor.execute(new GetGameListCommand(serverConnection));
@@ -35,10 +37,10 @@ public class LobbyModel {
         return new LinkedList<>();
     }
 
-    public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
+    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e ->
 
-            launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode()));
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false));
 
     }
 
@@ -51,10 +53,10 @@ public class LobbyModel {
         System.out.println("OK");
 
         lobbyView.getGameSelectionBox().setOnAction(e -> {
-                    Platform.runLater(() -> {
-                       // _launcher.loadModule(new TTTController(_players[0], _players[1]));
+            Platform.runLater(() -> {
+                // _launcher.loadModule(new TTTController(_players[0], _players[1]));
 
-             });
+            });
         });
     }
 

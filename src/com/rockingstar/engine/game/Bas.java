@@ -7,21 +7,21 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Lech extends Player implements AI {
+public class Bas extends Player implements AI {
 
     private ReversiModel _reversiModel;
 
-    public Lech(String username) {
+    public Bas(String username) {
         super(username);
         isAI = true;
     }
 
-    public Lech(String username, Color color) {
+    public Bas(String username, Color color) {
         super(username, color);
         isAI = true;
     }
 
-    public Lech(String username, Color color, char character) {
+    public Bas(String username, Color color, char character) {
         super(username, color, character);
         isAI = true;
     }
