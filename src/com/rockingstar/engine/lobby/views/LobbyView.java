@@ -96,6 +96,8 @@ public class LobbyView {
         leftPane.setMinWidth(width / 2);
         leftPane.setAlignment(Pos.CENTER);
 
+        TextField nicknameField = new TextField();
+
         VBox menu = new VBox(20);
         menu.setSpacing(30);
         menu.setMaxWidth(width / 4);
@@ -108,13 +110,13 @@ public class LobbyView {
 
         Label gameModeText = new Label("You have selected:");
         gameModeText.setId("gameText");
+
         if (_gameMode.equals("Player")) {
             gameModus = new Label("Player vs Player");
         } else {
             gameModus = new Label("AI vs Player");
         }
         gameModus.setId("gameText");
-
         gameName = new Label("You have selected " + gameSelectionBox.getValue());
         if (gameSelectionBox.getValue() == null) {
             Label gameSelectionText = new Label("Please select a game");
@@ -198,6 +200,7 @@ public class LobbyView {
         _lobbyPane.setCenter(rightPane);
 
 
+
         Label gameModeSelected = new Label("You have selected: " + _gameMode);
         gameModeSelected.setId("gameText");
         rightPane.getChildren().add(gameModeSelected);
@@ -231,10 +234,12 @@ public class LobbyView {
                         });
                     }
 
+
                     rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane, gameModeSelected, selectedUser, challenge, locally);
 
                 }
             });
+
 
             rightPane.getChildren().addAll(onlinePLayer, _refreshButton,scrollPane, gameModeSelected, challenge, locally);
 

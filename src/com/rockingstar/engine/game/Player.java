@@ -8,34 +8,36 @@ import javafx.scene.paint.Color;
 
 public class Player {
 
-    private String _username;
-    private int _score;
-    private Color _color;
+    protected String username;
+    protected int score;
+    protected Color color;
 
-    private char _character;
+    protected boolean isAI = false;
+
+    protected char _character;
 
     public Player(String username) {
-        _username = username;
-        _score = 0;
+        this.username = username;
+        score = 0;
     }
 
     public Player(String username, Color color) {
-        _username = username;
-        _score = 0;
-        _color = color;
+        this.username = username;
+        score = 0;
+        this.color = color;
     }
 
     public Player(String username, Color color, char character) {
-        _username = username;
-        _score = 0;
-        _color = color;
+        this.username = username;
+        score = 0;
+        this.color = color;
         _character = character;
     }
 
     public boolean login() {
         ServerConnection serverConnection = ServerConnection.getInstance();
 
-        CommandExecutor.execute(new LoginCommand(serverConnection, _username));
+        CommandExecutor.execute(new LoginCommand(serverConnection, username));
 
         if (!serverConnection.isValidCommand()) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -51,34 +53,42 @@ public class Player {
     }
 
     public String getUsername() {
-        return _username;
+        return username;
     }
 
     public Color getColor() {
-        return _color;
+        return color;
     }
 
     public int getScore() {
-        return _score;
+        return score;
     }
 
     public char getCharacter() {
         return _character;
     }
 
+    public boolean isAI() {
+        return isAI;
+    }
+
     public void setUsername(String username) {
-        _username = username;
+        this.username = username;
     }
 
     public void setScore(int score) {
-        _score = score;
+        this.score = score;
     }
 
     public void setColor(Color color) {
-        _color = color;
+        this.color = color;
     }
 
     public void setCharacter(char character) {
         _character = character;
+    }
+
+    public void setIsAI(boolean isAI) {
+        this.isAI = isAI;
     }
 }

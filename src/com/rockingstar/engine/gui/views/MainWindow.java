@@ -20,6 +20,7 @@ public class MainWindow {
 
     private void setup() {
         _mainStage.setMaximized(false);
+
         _scene.getStylesheets().add("styles/base.css");
 
         _scene.getStylesheets().add("styles/login.css");

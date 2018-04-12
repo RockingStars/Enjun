@@ -9,7 +9,6 @@ import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
-import com.rockingstar.modules.TicTacToe.controllers.TTTController;
 import javafx.application.Platform;
 
 
@@ -35,10 +34,12 @@ public class LobbyModel {
 
         return new LinkedList<>();
     }
-  
+
     public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
         loginView.getContinueButton().setOnAction(e ->
+
             launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode()));
+
     }
 
 //    public void addRefreshActionHandlers(LobbyView lobbyView) {

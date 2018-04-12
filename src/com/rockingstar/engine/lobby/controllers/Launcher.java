@@ -27,14 +27,16 @@ public class Launcher {
 
     private LobbyModel _model;
     private LobbyView _lobbyView;
-    private LoginView _loginView;
     private ServerConnection _serverConnection;
+
+    private LoginView _loginView;
 
     private AbstractGame _currentGame;
 
     private static Launcher _instance;
 
     private Player _localPlayer;
+    private String _gameMode = "pvp";
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -127,7 +129,19 @@ public class Launcher {
         String gameType = parts[3];
         String opponentName = parts[5];
 
-        Player opponent = new Player(opponentName);
+        Player opponent;
+
+        switch (_gameMode) {
+            case "pvp":
+            case "pvai":
+                opponent = new Player(opponentName);
+                break;
+            default:
+                return;
+        }
+
+        _gameMode = "";
+
         Platform.runLater(() -> {
             AbstractGame gameModule;
 
@@ -176,5 +190,9 @@ public class Launcher {
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void setGameMode(String gameMode) {
+        _gameMode = gameMode;
     }
 }
