@@ -78,7 +78,6 @@ public class Launcher {
 
 
     public void handleLogin(String username, String gameMode, boolean isAI) {
-        isAI = true;
         // @todo Check for difficulty
         if (isAI)
             _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));

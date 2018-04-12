@@ -38,9 +38,16 @@ public class LobbyModel {
     }
 
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
-        loginView.getContinueButton().setOnAction(e ->
+        loginView.getContinueButton().setOnAction(e -> {
+            System.out.println("Hierzo: " + loginView.getGamemode());
+            if (loginView.getGamemode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false);
+            } else {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), true);
+            }
+        });
 
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false));
+
 
     }
 
