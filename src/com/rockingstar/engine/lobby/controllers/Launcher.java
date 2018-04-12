@@ -4,6 +4,7 @@ import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
@@ -33,7 +34,6 @@ public class Launcher {
     private static Launcher _instance;
 
     private Player _localPlayer;
-    private String _gameMode = "pvp";
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -73,11 +73,15 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-    public void handleLogin(String username) {
-        _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-        boolean result = _localPlayer.login();
+    public void handleLogin(String username, boolean isAI) {
+        isAI = true;
+        // @todo Check for difficulty
+        if (isAI)
+            _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+        else
+            _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
 
-        if (result) {
+        if (_localPlayer.login()) {
             _lobbyView = new LobbyView(_model.getPlayerList(), _model.getGameList());
 
             _lobbyView.setUsername(_localPlayer.getUsername());
@@ -125,24 +129,14 @@ public class Launcher {
         String gameType = parts[3];
         String opponentName = parts[5];
 
-        Player opponent;
-
-        switch (_gameMode) {
-            case "pvp":
-            case "pvai":
-                opponent = new Player(opponentName);
-                break;
-            default:
-                return;
-        }
-
-        _gameMode = "";
+        Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
             AbstractGame gameModule;
 
             switch (gameType) {
                 case "Tic-tac-toe":
+                case "Tictactoe":
                     gameModule = new TTTController(_localPlayer, opponent);
                     break;
                 case "Reversi":
@@ -156,24 +150,22 @@ public class Launcher {
 
             Util.displayStatus("Loading game module " + gameType, true);
 
+            loadModule(gameModule);
+            gameModule.startGame();
+/*
             if (startingPlayer.equals(opponentName)) {
                 gameModule.setCurrentPlayer(1);
-                gameModule.setYourTurn(false);
+                gameModule.doYourTurn(false);
             }
             else{
                 gameModule.setCurrentPlayer(0);
-                gameModule.setYourTurn(true);
-            }
+                gameModule.doYourTurn(true);
+            }*/
 
-            loadModule(gameModule);
         });
     }
 
     public AbstractGame getGame() {
         return _currentGame;
-    }
-
-    public void setGameMode(String gameMode) {
-        _gameMode = gameMode;
     }
 }
