@@ -81,6 +81,7 @@ public class ResponseHandler {
                     case "WIN":
                     case "LOSS":
                     case "DRAW":
+                        launcher.getGame().setGameState(State.GAME_FINISHED);
                         launcher.getGame().gameEnded(response.substring(4).split(" ")[1]);
                         break;
                 }

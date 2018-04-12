@@ -104,18 +104,6 @@ public abstract class AbstractGame implements GameInterface {
 
     public abstract void showPossibleMoves();
 
-/*
-    public void setCurrentPlayer(int id) {
-        currentPlayer = id == 0 ? player1 : player2;
-    }
-*/
-
-/*
-    public void initialSetCurrentPlayer(int id) {
-        setCurrentPlayer(id);
-    }
-*/
-
     public abstract void doYourTurn();
 
     public boolean getIsYourTurn() {
