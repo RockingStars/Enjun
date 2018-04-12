@@ -23,20 +23,7 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
-    public LinkedList<Player> getPlayerList() {
-        LinkedList<Player> players = new LinkedList<>();
 
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
-
-        if (serverConnection.isValidCommand())
-            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
-                players.add(new Player(player));
-        else
-            Util.displayStatus("Loading player list", false);
-
-        return players;
-    }
 
     public LinkedList<String> getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
@@ -50,10 +37,24 @@ public class LobbyModel {
         return new LinkedList<>();
     }
 
-    public void addLoginActionHandlers(LoginView loginView, Launcher launcher) {
-        loginView.getContinueButton().setOnAction(e ->
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), false));
+    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+        loginView.getContinueButton().setOnAction(e -> {
+            System.out.println("Hierzo: " + loginView.getGamemode());
+            if (loginView.getGamemode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false);
+            } else {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), true);
+            }
+        });
+
+
+
     }
+
+//    public void addRefreshActionHandlers(LobbyView lobbyView) {
+//        lobbyView.getRefreshButton().setOnAction(e ->
+//                getPlayerList()
+//        );}
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
         System.out.println("OK");
