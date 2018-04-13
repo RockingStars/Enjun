@@ -1,0 +1,15 @@
+.root {
+	-fx-background-image: url("../wallpaper.jpeg");
+	-fx-background-size: cover;
+}
+
+#leftPane, #rightPane, #lobby_description {
+    -fx-text-fill: #fff;
+    -fx-font: 125% Arial;
+    /*-fx-background-color:white;
+    -fx-background-opacity:50%;*/
+}
+
+#leftPane, #rightPane {
+    -fx-background-color: #2b3a3599;
+}

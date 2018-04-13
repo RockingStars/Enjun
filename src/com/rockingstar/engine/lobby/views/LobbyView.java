@@ -98,18 +98,18 @@ public class LobbyView {
         gameSelectionBox.getItems().addAll("Reversi", "TicTacToe", "etc");
 
         Label gameModeText = new Label("You have selected:");
-        gameModeText.setId("gameText");
+        gameModeText.setId("lobby_description");
 
         if (_gameMode.equals("Player")) {
             gameModus = new Label("Player vs Player");
         } else {
             gameModus = new Label("AI vs Player");
         }
-        gameModus.setId("gameText");
+        gameModus.setId("lobby_description");
         gameName = new Label("You have selected " + gameSelectionBox.getValue());
         if (gameSelectionBox.getValue() == null) {
             Label gameSelectionText = new Label("Please select a game");
-            gameSelectionText.setId("otherText");
+            gameSelectionText.setId("lobby_description");
             menu.getChildren().addAll(gameSelectionText, gameSelectionBox, gameModeText, gameModus);
         }
 
@@ -120,9 +120,9 @@ public class LobbyView {
                 menu.getChildren().clear();
                 gameName = new Label("you have selected " + gameSelectionBox.getValue());
                 gameSwitch = new Label("Do you want to switch to another game?");
-                gameSwitch.setId("gameText");
+                gameSwitch.setId("lobby_description");
                 gameName = new Label("You have selected " + gameSelectionBox.getValue());
-                gameName.setId("gameText");
+                gameName.setId("lobby_description");
                 Button gameImage = new Button("");
                 gameImage.setMaxWidth(200);
                 gameImage.setMinHeight(200);
@@ -155,11 +155,11 @@ public class LobbyView {
         rightPane.setId("rightPane");
 
 
-        players = new VBox(20);
+        players = new VBox(1);
         players.setAlignment(Pos.CENTER);
         Label onlinePLayer = new Label("List of online players");
         _refreshButton = new Button("Refresh");
-        onlinePLayer.setId("otherText");
+        onlinePLayer.setId("lobby_description");
         ListIterator iterator = (ListIterator) _playerList.iterator();
         usergroup = new ToggleGroup();
 
@@ -191,7 +191,7 @@ public class LobbyView {
 
 
         Label gameModeSelected = new Label("You have selected: " + _gameMode);
-        gameModeSelected.setId("gameText");
+        gameModeSelected.setId("lobby_description");
         rightPane.getChildren().add(gameModeSelected);
         if (_gameMode == "Player" || _gameMode == "AI") {
             rightPane.getChildren().clear();
@@ -208,7 +208,7 @@ public class LobbyView {
                     rightPane.getChildren().clear();
                     RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle();
                     Label selectedUser = new Label("Selected player: " + chk.getText());
-                    selectedUser.setId("gameText");
+                    selectedUser.setId("lobby_description");
                     if (chk.getText().equals(_username + " (me)")) {
                         challenge.setOnAction(event -> {
                             Alert challengeMe = new Alert(Alert.AlertType.INFORMATION);

@@ -1,17 +1,8 @@
-#topText {
-    -fx-font: 40px "Serif";
-    -fx-text-fill:teal;
-}
-
 #otherText{
-	-fx-font:22px "Serif";
-	-fx-text-fill:teal;
 	-fx-opacity:100%;
 }
 
 #gameText{
-	-fx-font:20px "Serif";
-	-fx-text-fill:teal;
 	-fx-opacity:100%;
 }
 
@@ -39,14 +30,4 @@
 #users {
 	-fx-font:15px "Serif";
 	-fx-text-fill:white;
-}
-
-#leftPane {
-	-fx-background-color: rgba(0, 0, 0, 0.5);
-	/*-fx-background-color:white;
-	-fx-background-opacity:50%;*/
-}
-
-#rightPane {
-	-fx-background-color: rgba(0, 0, 0, 0.5);
 }

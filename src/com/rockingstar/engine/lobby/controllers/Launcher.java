@@ -93,6 +93,7 @@ public class Launcher {
             _model.setLocalPlayer(_localPlayer);
 
             _guiController.setCenter(_lobbyView.getNode());
+            _guiController.addStylesheet("lobby");
             _model.addGameSelectionActionHandlers(_lobbyView);
         }
     }
