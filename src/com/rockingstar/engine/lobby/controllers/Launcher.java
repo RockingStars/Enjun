@@ -78,10 +78,7 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-
-
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
-        
         if (isAI){
               if (difficulty.equals("Lech")){
                   System.out.println(difficulty + " Lech is AI");
@@ -148,6 +145,7 @@ public class Launcher {
 
         Platform.runLater(() -> {
             synchronized (LOCK) {
+                System.out.println("Entered lock-protected area in launcher");
                 AbstractGame gameModule;
                 switch (gameType) {
                     case "Tic-tac-toe":
@@ -168,6 +166,7 @@ public class Launcher {
                 loadModule(gameModule);
                 gameModule.startGame();
             }
+            System.out.println("Left lock-protected area in Launcher");
         });
     }
 
