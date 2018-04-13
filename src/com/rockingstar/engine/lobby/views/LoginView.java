@@ -35,20 +35,19 @@ public class LoginView {
     private void setup() {
         _borderPane.setPadding(new Insets(100,15,15,15));
         //Top
-        Label welcomeMessage = new Label("Welcome to RockingStar Games");
+        Label welcomeMessage = new Label("Login");
         welcomeMessage.setAlignment(Pos.CENTER);
         welcomeMessage.setMinWidth(width);
         _borderPane.setTop(welcomeMessage);
 
         welcomeMessage.setId("welcome");
 
-
         //Center
 
         // TopCenter
         VBox centerPane = new VBox();
         _playerMode = new Label("How do you want to play?");
-        _playerMode.setId("headerText");
+        _playerMode.setId("login_label");
 
         //MidCenter
         HBox _radioButtons = new HBox(30);
@@ -59,8 +58,8 @@ public class LoginView {
         RadioButton AI = new RadioButton("AI");
         AI.setUserData("AI");
 
-        player.setId("uName");
-        AI.setId("uName");
+        player.setId("player_type");
+        AI.setId("player_type");
         _radioButtons.setAlignment(Pos.CENTER);
 
 
@@ -77,8 +76,8 @@ public class LoginView {
         _usernameTextField.setPromptText("Username");
         enterUname.setVisible(false);
         _usernameTextField.setMaxWidth(300);
-        _usernameTextField.setId("uName");
-        enterUname.setId("uName");
+        _usernameTextField.setId("username_input");
+        enterUname.setId("login_label");
         userName.getChildren().addAll(enterUname, _usernameTextField);
         userName.setAlignment(Pos.CENTER);
 
