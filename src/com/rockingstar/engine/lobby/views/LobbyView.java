@@ -65,34 +65,24 @@ public class LobbyView {
     public Node getNode() {
         _lobbyPane = new BorderPane();
 
-
-        //top
-        VBox topPane = new VBox(20);
-        topPane.setPadding(new Insets(15));
-        topPane.setMinHeight(150);
-        topPane.setMinWidth(width);
-        topPane.setAlignment(Pos.CENTER);
-
-        Label titelLable = new Label("Welcome " + _username);
-
-
-        titelLable.setId("topText");
-
-        topPane.getChildren().addAll(titelLable);
-        _lobbyPane.setTop(topPane);
-
         //Left
-        VBox leftPane = new VBox(20);
-        leftPane.setMinWidth(width / 2);
-        leftPane.setAlignment(Pos.CENTER);
-
         TextField nicknameField = new TextField();
-        VBox menu = new VBox(20);
-        menu.setSpacing(30);
-        menu.setMaxWidth(width / 4);
-        menu.setMinHeight(800);
-        menu.setAlignment(Pos.CENTER);
-        menu.setId("leftPane");
+        BorderPane gameSelection = new BorderPane();
+        VBox menu = new VBox();
+
+        Label gameConfigLabel = new Label("GAME CONFIGURATION");
+        gameConfigLabel.setId("top_label");
+
+        gameSelection.setPadding(new Insets(50));
+        gameSelection.setPrefWidth(width / 4);
+        gameConfigLabel.setPrefWidth(width / 4);
+
+        menu.setSpacing(20);
+        gameSelection.setTop(gameConfigLabel);
+        gameSelection.setCenter(menu);
+
+        gameSelection.setId("game_selection_panel");
+        menu.setId("game_selection_menu");
 
         gameSelectionBox = new ComboBox();
         gameSelectionBox.getItems().addAll("Reversi", "TicTacToe", "etc");
@@ -136,9 +126,6 @@ public class LobbyView {
                 menu.getChildren().addAll(gameName, gameSwitch, gameSelectionBox, gameModeText, gameModus, gameImage);
             }
         });
-
-        leftPane.getChildren().addAll(menu);
-        _lobbyPane.setLeft(leftPane);
 
         //Right
         ScrollPane scrollPane = new ScrollPane();
@@ -186,14 +173,10 @@ public class LobbyView {
 
         rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane);
 
-        _lobbyPane.setCenter(rightPane);
-
-
-
         Label gameModeSelected = new Label("You have selected: " + _gameMode);
         gameModeSelected.setId("lobby_description");
         rightPane.getChildren().add(gameModeSelected);
-        if (_gameMode == "Player" || _gameMode == "AI") {
+        if (_gameMode.equals("Player") || _gameMode.equals("AI")) {
             rightPane.getChildren().clear();
             Button challenge = new Button("Challenge");
             Button locally = new Button("Play offline");
@@ -243,6 +226,9 @@ public class LobbyView {
 
         });
         }
+
+        _lobbyPane.setLeft(gameSelection);
+        _lobbyPane.setRight(rightPane);
 
         return _lobbyPane;
 
