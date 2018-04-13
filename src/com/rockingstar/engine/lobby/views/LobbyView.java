@@ -208,10 +208,8 @@ public class LobbyView {
 
 
                     rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane, gameModeSelected, selectedUser, challenge, locally);
-
                 }
             });
-
 
             rightPane.getChildren().addAll(onlinePLayer, _refreshButton,scrollPane, gameModeSelected, challenge, locally);
 

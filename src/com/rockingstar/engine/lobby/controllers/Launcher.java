@@ -144,8 +144,8 @@ public class Launcher {
         Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
-            synchronized (LOCK) {
-                System.out.println("Entered lock-protected area in launcher");
+            System.out.println("Entered lock-protected area in launcher");
+            synchronized (Launcher.LOCK) {
                 AbstractGame gameModule;
                 switch (gameType) {
                     case "Tic-tac-toe":
@@ -166,6 +166,7 @@ public class Launcher {
                 loadModule(gameModule);
                 gameModule.startGame();
             }
+
             System.out.println("Left lock-protected area in Launcher");
         });
     }
