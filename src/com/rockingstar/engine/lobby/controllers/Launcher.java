@@ -14,7 +14,6 @@ import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -156,16 +155,6 @@ public class Launcher {
 
             loadModule(gameModule);
             gameModule.startGame();
-/*
-            if (startingPlayer.equals(opponentName)) {
-                gameModule.setCurrentPlayer(1);
-                gameModule.doYourTurn(false);
-            }
-            else{
-                gameModule.setCurrentPlayer(0);
-                gameModule.doYourTurn(true);
-            }*/
-
         });
     }
 

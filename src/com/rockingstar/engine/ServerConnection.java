@@ -21,8 +21,8 @@ public class ServerConnection extends Thread {
 
     private ServerConnection() {
         try {
-
             _socket = new Socket("127.0.0.1",7789);
+            //_socket = new Socket("77.162.40.81",7789);
 
 
             //_socket = new Socket("145.33.225.170", 7789);
@@ -47,7 +47,7 @@ public class ServerConnection extends Thread {
             PrintWriter output = new PrintWriter(_socket.getOutputStream(), true);
             output.println(command);
             Util.displayStatus("Client Command: " + command);
-            Thread.sleep(200);
+            Thread.sleep(500);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
