@@ -32,10 +32,9 @@ public class Lech extends Player implements AI {
     }
 
     @Override
-    public VectorXY getMove(Player player) {
+    public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
         Integer move;
         System.out.println("poss moves in get move" +_reversiModel.getPossibleMoves(player));
-        ArrayList<Integer> possibleMoves = _reversiModel.getPossibleMoves(player);
         Random random = new Random();
 
         System.out.printf("Possible moves for Lech: %d\n", possibleMoves.size());
