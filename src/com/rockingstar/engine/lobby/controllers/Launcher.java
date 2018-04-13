@@ -5,7 +5,7 @@ import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.Lech;
+import com.rockingstar.engine.game.OverPoweredAI;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
@@ -36,6 +36,8 @@ public class Launcher {
     private static Launcher _instance;
 
     private Player _localPlayer;
+
+    public static final Object LOCK = new Object();
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -75,11 +77,11 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-
     public void handleLogin(String username, String gameMode, boolean isAI) {
+        isAI = true;
         // @todo Check for difficulty
         if (isAI)
-            _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+            _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
         else
             _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
 
@@ -135,26 +137,27 @@ public class Launcher {
         Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
-            AbstractGame gameModule;
+            synchronized (LOCK) {
+                AbstractGame gameModule;
+                switch (gameType) {
+                    case "Tic-tac-toe":
+                    case "Tictactoe":
+                        gameModule = new TTTController(_localPlayer, opponent);
+                        break;
+                    case "Reversi":
+                        gameModule = new ReversiController(_localPlayer, opponent);
+                        ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                        break;
+                    default:
+                        Util.displayStatus("Failed to load game module " + gameType);
+                        return;
+                }
 
-            switch (gameType) {
-                case "Tic-tac-toe":
-                case "Tictactoe":
-                    gameModule = new TTTController(_localPlayer, opponent);
-                    break;
-                case "Reversi":
-                    gameModule = new ReversiController(_localPlayer, opponent);
-                    ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
-                    break;
-                default:
-                    Util.displayStatus("Failed to load game module " + gameType);
-                    return;
+                Util.displayStatus("Loading game module " + gameType, true);
+
+                loadModule(gameModule);
+                gameModule.startGame();
             }
-
-            Util.displayStatus("Loading game module " + gameType, true);
-
-            loadModule(gameModule);
-            gameModule.startGame();
         });
     }
 
