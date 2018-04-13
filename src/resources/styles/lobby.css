@@ -1,0 +1,34 @@
+.root {
+	-fx-background-image: url("../wallpaper.jpeg");
+	-fx-background-size: cover;
+}
+
+#leftPane, #rightPane, #lobby_description {
+    -fx-text-fill: #fff;
+    -fx-font: 125% Arial;
+    /*-fx-background-color:white;
+    -fx-background-opacity:50%;*/
+}
+
+#game_selection_panel {
+    -fx-margin: 20px;
+}
+
+#rightPane {
+    -fx-background-color: #2b3a3555;
+}
+
+#top_label {
+    -fx-background-color: #77996955;
+    -fx-font: 200% Arial;
+    -fx-width: inherit;
+}
+
+#game_selection_menu {
+    -fx-background-color: #5a7c4caa;
+}
+
+#top_label, #game_selection_menu {
+    -fx-padding: 25px;
+    -fx-text-fill: #fff;
+}

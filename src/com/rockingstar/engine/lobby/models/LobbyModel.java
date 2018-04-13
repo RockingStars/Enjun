@@ -43,9 +43,6 @@ public class LobbyModel {
                 launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), true, loginView.getDifficulty());
             }
         });
-
-
-
     }
 
 //    public void addRefreshActionHandlers(LobbyView lobbyView) {

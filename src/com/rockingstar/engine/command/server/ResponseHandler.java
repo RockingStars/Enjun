@@ -55,12 +55,20 @@ public class ResponseHandler {
                         Launcher.getInstance().startMatch(response.substring(15));
                         break;
                     case "YOURTURN":
+/*                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }*/
                         synchronized (Launcher.LOCK) {
+                            System.out.println("Entering yourturn thingie");
                             Platform.runLater(() -> {
                                 AbstractGame game = launcher.getGame();
-                                game.showPossibleMoves();
+                                //game.showPossibleMoves();
                                 game.doYourTurn();
                             });
+
+                            System.out.println("Yourturn done");
                         }
                         break;
                     case "MOVE":

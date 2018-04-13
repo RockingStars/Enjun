@@ -78,10 +78,7 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-
-
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
-        
         if (isAI){
               if (difficulty.equals("Lech")){
                   System.out.println(difficulty + " Lech is AI");
@@ -102,6 +99,7 @@ public class Launcher {
             _model.setLocalPlayer(_localPlayer);
 
             _guiController.setCenter(_lobbyView.getNode());
+            _guiController.addStylesheet("lobby");
             _model.addGameSelectionActionHandlers(_lobbyView);
         }
     }
@@ -146,7 +144,8 @@ public class Launcher {
         Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
-            synchronized (LOCK) {
+            System.out.println("Entered lock-protected area in launcher");
+            synchronized (Launcher.LOCK) {
                 AbstractGame gameModule;
                 switch (gameType) {
                     case "Tic-tac-toe":
@@ -167,6 +166,8 @@ public class Launcher {
                 loadModule(gameModule);
                 gameModule.startGame();
             }
+
+            System.out.println("Left lock-protected area in Launcher");
         });
     }
 
