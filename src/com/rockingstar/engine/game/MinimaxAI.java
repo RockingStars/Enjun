@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-public class OverPoweredAI extends Player implements AI {
+public class MinimaxAI extends Player implements AI {
 
     private static final int[] powerSpots1 = {0,7,56,63}; // corners
     private static final int[] powerSpots2 = {2,5,16,23,40,47,58,61}; // corner avoiders
@@ -16,9 +16,11 @@ public class OverPoweredAI extends Player implements AI {
 
     private static final int[] avoidSpots = {1, 8, 9, 6, 14, 15, 48, 49, 57, 62, 54, 55};
 
+    private Player[][] _boardCopy;
+
     private ReversiModel _reversiModel;
 
-    public OverPoweredAI(String username, Color color) {
+    public MinimaxAI(String username, Color color) {
         super(username, color);
         isAI = true;
     }
@@ -30,15 +32,39 @@ public class OverPoweredAI extends Player implements AI {
 
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
-        VectorXY move = getPowerSpotMove(player, possibleMoves);
+        /*//VectorXY move = getPowerSpotMove(player, possibleMoves);
+        _boardCopy = _reversiModel.getBoard().clone();
 
-        if(move == null) {
-            move = mostTilesFlippedStrategy(player, possibleMoves);
+        VectorXY bestMoveCoordinates = new VectorXY(-1, -1);
+        int mostPoints = -1;
+
+        for (int possibleMove : possibleMoves) {
+            int tiles = resultOfMove(possibleMoves, 5, player, true);
+
+            if (tiles > mostPoints)
+                bestMoveCoordinates = new VectorXY(possibleMove % 8, possibleMove / 8);
         }
 
-        return move;
+        return bestMoveCoordinates;*/
+        return null;
     }
 
+    public int resultOfMove(ArrayList<Integer> possibleMoves, int depth, Player localPlayer, Player opponent, boolean isLocalPlayer) {
+        /*int bestValue;
+        ArrayList<Integer> results = new ArrayList<>();
+
+        if (isLocalPlayer) {
+            bestValue = Integer.MIN_VALUE;
+
+            for (int possibleMove : possibleMoves) {
+                results.add(resultOfMove(possibleMove));
+            }
+        }
+        else {
+            bestValue = Integer.MAX_VALUE;
+        }*/
+        return 0;
+    }
 
     public VectorXY mostTilesFlippedStrategy(Player player, ArrayList<Integer> possibleMoves){
         System.out.println(possibleMoves);
@@ -53,18 +79,20 @@ public class OverPoweredAI extends Player implements AI {
         }
 
         VectorXY bestMoveCoordinates = null;
-        int bestMoveNumberOfTiles = 0;
+        int bestMoveNumberOfTiles = Integer.MAX_VALUE;
 
         if (goodMoves.size() > 0) {
             for (int i = 0; i < goodMoves.size(); i++) {
                 System.out.println("loop wel");
+
                 int pmove = goodMoves.get(i);
                 System.out.println("getter wel");
                 LinkedList<Integer> tilesFlipped = _reversiModel.getFlippableTiles(pmove % 8, pmove / 8, player);
+
                 int amountTilesFlipped = tilesFlipped.size();
                 System.out.println(tilesFlipped);
 
-                if (amountTilesFlipped > bestMoveNumberOfTiles) {
+                if (amountTilesFlipped < bestMoveNumberOfTiles) {
                     System.out.println("hoi");
                     bestMoveNumberOfTiles = amountTilesFlipped;
                     bestMoveCoordinates = new VectorXY(pmove % 8, pmove / 8);
