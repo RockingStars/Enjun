@@ -22,6 +22,7 @@ public class LoginView {
     private TextField _usernameTextField;
     private Label _playerMode;
     public String _selectedGameMode;
+    public String _selectedDifficulty;
 
     GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
     double width = graphicsDevice.getDisplayMode().getWidth();
@@ -82,12 +83,36 @@ public class LoginView {
         userName.setAlignment(Pos.CENTER);
 
 
+        //AI difficulty
+        Label difficulty = new Label("Please select the AI difficulty");
+        difficulty.setId("login_label");
+        difficulty.setVisible(false);
+        HBox AIMode = new HBox(30);
+        ToggleGroup AIGroup= new ToggleGroup();
+
+        RadioButton lech = new RadioButton("Lech");
+        lech.setUserData("Lech");
+        RadioButton bas = new RadioButton("Bas");
+        bas.setUserData("Bas");
+
+        lech.setId("player_type");
+        bas.setId("player_type");
+        AIMode.setAlignment(Pos.CENTER);
+
+
+        lech.setToggleGroup(AIGroup);
+        bas.setToggleGroup(AIGroup);
+        AIMode.setVisible(false);
+        AIMode.getChildren().addAll(lech, bas);
+
+
+
         //Continue
         _continueButton = new Button("Continue");
         _continueButton.setVisible(false);
         _continueButton.setId("button");
 
-        centerPane.getChildren().addAll(_playerMode, _radioButtons, userName, _continueButton);
+        centerPane.getChildren().addAll(_playerMode, _radioButtons, difficulty, AIMode, userName, _continueButton);
         _borderPane.setCenter(centerPane);
 
 
@@ -102,11 +127,36 @@ public class LoginView {
             public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
                 _usernameTextField.setVisible(true);
                 _continueButton.setVisible(true);
-                enterUname.setVisible(true);
+                enterUname.setVisible(false);
+                if (playMode.getSelectedToggle().getUserData().toString() == "AI"){
+                    difficulty.setVisible(true);
+                    AIMode.setVisible(true);
+                    _continueButton.setVisible(false);
+                    _usernameTextField.setVisible(false);
+                    enterUname.setVisible(false);
+                } else{
+                    difficulty.setVisible(false);
+                    AIMode.setVisible(false);
+                    enterUname.setVisible(true);
+                }
                 _selectedGameMode = playMode.getSelectedToggle().getUserData().toString();
-//                System.out.println(getGamemode());
+            }
+        });
+
+        AIGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                _selectedDifficulty = AIGroup.getSelectedToggle().getUserData().toString();
+                if (AIGroup.getSelectedToggle() != null){
+                    enterUname.setVisible(true);
+                    _usernameTextField.setVisible(true);
+                    _continueButton.setVisible(true);
+                } //else {
+//
+//                }
 
 
+                System.out.println(_selectedDifficulty);
             }
         });
 
@@ -130,5 +180,9 @@ public class LoginView {
 
     public String getGamemode(){
         return _selectedGameMode;
+    }
+
+    public String getDifficulty(){
+        return _selectedDifficulty;
     }
 }
