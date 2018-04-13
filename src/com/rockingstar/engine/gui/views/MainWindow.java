@@ -20,6 +20,7 @@ public class MainWindow {
 
     private void setup() {
         _mainStage.setMaximized(false);
+        //_mainStage.setResizable(false);
 
         _scene.getStylesheets().add("styles/base.css");
 

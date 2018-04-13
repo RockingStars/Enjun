@@ -1,25 +1,19 @@
 package com.rockingstar.engine.lobby.views;
 
-import com.rockingstar.engine.game.Player;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.awt.*;
-import java.util.Random;
-
-import static javafx.geometry.Pos.CENTER;
 
 public class LoginView {
 
@@ -41,20 +35,19 @@ public class LoginView {
     private void setup() {
         _borderPane.setPadding(new Insets(100,15,15,15));
         //Top
-        Label welcomeMessage = new Label("Welcome to RockingStar Games");
+        Label welcomeMessage = new Label("Login");
         welcomeMessage.setAlignment(Pos.CENTER);
         welcomeMessage.setMinWidth(width);
         _borderPane.setTop(welcomeMessage);
 
         welcomeMessage.setId("welcome");
 
-
         //Center
 
         // TopCenter
         VBox centerPane = new VBox();
         _playerMode = new Label("How do you want to play?");
-        _playerMode.setId("headerText");
+        _playerMode.setId("login_label");
 
         //MidCenter
         HBox _radioButtons = new HBox(30);
@@ -65,8 +58,8 @@ public class LoginView {
         RadioButton AI = new RadioButton("AI");
         AI.setUserData("AI");
 
-        player.setId("uName");
-        AI.setId("uName");
+        player.setId("player_type");
+        AI.setId("player_type");
         _radioButtons.setAlignment(Pos.CENTER);
 
 
@@ -80,10 +73,11 @@ public class LoginView {
         Label enterUname = new Label("Please enter your username:");
         _usernameTextField = new TextField();
         _usernameTextField.setVisible(false);
+        _usernameTextField.setPromptText("Username");
         enterUname.setVisible(false);
         _usernameTextField.setMaxWidth(300);
-        _usernameTextField.setId("uName");
-        enterUname.setId("uName");
+        _usernameTextField.setId("username_input");
+        enterUname.setId("login_label");
         userName.getChildren().addAll(enterUname, _usernameTextField);
         userName.setAlignment(Pos.CENTER);
 
@@ -138,4 +132,3 @@ public class LoginView {
         return _selectedGameMode;
     }
 }
-

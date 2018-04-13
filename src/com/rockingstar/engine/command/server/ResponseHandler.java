@@ -53,6 +53,11 @@ public class ResponseHandler {
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
                         Launcher.getInstance().startMatch(response.substring(15));
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case "YOURTURN":
                         //while(launcher.getGame() == null || launcher.getGame().getGameState() != State.GAME_STARTED){}
@@ -68,11 +73,14 @@ public class ResponseHandler {
                             System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                             response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
 
+                            Thread.sleep(200);
                             launcher.getGame().doPlayerMove(Integer.parseInt(response));
                         }
                         catch (NumberFormatException e) {
                             Util.displayStatus("Received invalid position from server");
                             return;
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
                         }
                         break;
                     case "CHALLENGE":
