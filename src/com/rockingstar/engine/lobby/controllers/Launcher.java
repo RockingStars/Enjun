@@ -5,6 +5,7 @@ import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.GetPlayerListCommand;
 import com.rockingstar.engine.game.AbstractGame;
+import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.OverPoweredAI;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
@@ -77,14 +78,22 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-    public void handleLogin(String username, String gameMode, boolean isAI) {
-        isAI = true;
-        // @todo Check for difficulty
-        if (isAI)
-            _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
-        else
-            _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
 
+
+    public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
+        
+        if (isAI){
+              if (difficulty.equals("Lech")){
+                  System.out.println(difficulty + " Lech is AI");
+                  _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+              } else {
+                  System.out.println(difficulty + " Bas is AI");
+                  _localPlayer = new OverPoweredAI(username, new Color(0.5,0.5,0.5,0));
+              }
+        } else {
+              _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
+        }
+      
         if (_localPlayer.login()) {
             _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
 
