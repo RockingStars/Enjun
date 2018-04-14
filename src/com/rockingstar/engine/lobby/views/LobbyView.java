@@ -56,9 +56,10 @@ public class LobbyView {
     private BorderPane _rightPane;
 
 
-    public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList) {
+    public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList, Launcher launcher) {
         _playerList = playerList;
         _gameList = gameList;
+        _launcher = launcher;
 
         _iconSize = 200;
 
@@ -99,7 +100,7 @@ public class LobbyView {
 
         // Game selection
         Label selectGame = new Label("Select game");
-        Label subscribed = new Label("Subscribe to game");
+        Label subscribed = new Label("Subscriptions");
 
         selectGame.setId("lobby_head");
         subscribed.setId("lobby_head");
@@ -127,29 +128,20 @@ public class LobbyView {
             menu.getChildren().add(label);
         }
 
-        Label subscribeTrue = new Label("Yes");
-        Label subscribeFalse = new Label("No");
+        Label subscribedToGame = new Label("Subscribe to this game");
+        subscribedToGame.getStyleClass().add("option");
 
-        subscribeTrue.getStyleClass().add("option");
-        subscribeFalse.getStyleClass().addAll("option", "option_selected");
-
-        menu.getChildren().addAll(new Label(), subscribed, subscribeTrue, subscribeFalse);
+        menu.getChildren().addAll(new Label(), subscribed, subscribedToGame);
 
         // A hack to get the widths of each node to 100% of the vbox
         selectGame.setPrefWidth(Integer.MAX_VALUE);
         subscribed.setPrefWidth(Integer.MAX_VALUE);
-        subscribeTrue.setPrefWidth(Integer.MAX_VALUE);
-        subscribeFalse.setPrefWidth(Integer.MAX_VALUE);
+        subscribedToGame.setPrefWidth(Integer.MAX_VALUE);
 
         // Event handlers
-        subscribeFalse.setOnMousePressed(e -> {
-            subscribeTrue.getStyleClass().remove("option_selected");
-            subscribeFalse.getStyleClass().add("option_selected");
-        });
-
-        subscribeTrue.setOnMousePressed(e -> {
-            subscribeTrue.getStyleClass().add("option_selected");
-            subscribeFalse.getStyleClass().remove("option_selected");
+        subscribedToGame.setOnMousePressed(e -> {
+            if (_selectedGame != null)
+                _launcher.subscribeToGame(_selectedGame);
         });
 
         // Right pane

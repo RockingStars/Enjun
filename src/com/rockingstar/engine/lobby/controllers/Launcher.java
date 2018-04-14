@@ -93,7 +93,7 @@ public class Launcher {
         }
       
         if (_localPlayer.login()) {
-            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
+            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList(), this);
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
@@ -191,7 +191,7 @@ public class Launcher {
         return _currentGame;
     }
 
-    public void toggleSubscription(String game) {
+    public void subscribeToGame(String game) {
         CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
     }
 }
