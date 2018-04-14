@@ -82,10 +82,11 @@ public class LobbyView {
         _leftPane.setPrefWidth(width / 4);
         _rightPane.setPadding(new Insets(50));
         _leftPane.setPrefWidth(width / 4);
+
+        createLeftPane();
     }
 
-    public Node getNode() {
-        //Left pane
+    private void createLeftPane() {
         VBox menu = new VBox();
         Label gameConfigLabel = new Label("CONFIGURATION");
         gameConfigLabel.setId("top_label");
@@ -102,11 +103,28 @@ public class LobbyView {
         Label selectGame = new Label("Select game");
         Label subscribed = new Label("Subscriptions");
 
-        selectGame.setId("lobby_head");
-        subscribed.setId("lobby_head");
+        selectGame.getStyleClass().add("lobby_head");
+        subscribed.getStyleClass().add("lobby_head");
 
         menu.getChildren().add(selectGame);
+        addGames(menu, subscribed);
 
+        Label subscribedToGame = new Label("Subscribe to this game");
+        subscribedToGame.getStyleClass().add("option");
+
+        menu.getChildren().addAll(new Label(), subscribed, subscribedToGame);
+
+        // A hack to get the widths of each node to 100% of the vbox
+        for (Node node : menu.getChildren())
+            ((Label) node).setPrefWidth(Integer.MAX_VALUE);
+
+        subscribedToGame.setOnMousePressed(e -> {
+            if (_selectedGame != null)
+                _launcher.subscribeToGame(_selectedGame);
+        });
+    }
+
+    private void addGames(VBox menu, Label subscribed) {
         for (String game : _gameList) {
             Label label = new Label(game);
             label.getStyleClass().add("option");
@@ -127,23 +145,9 @@ public class LobbyView {
             label.setPrefWidth(Integer.MAX_VALUE);
             menu.getChildren().add(label);
         }
+    }
 
-        Label subscribedToGame = new Label("Subscribe to this game");
-        subscribedToGame.getStyleClass().add("option");
-
-        menu.getChildren().addAll(new Label(), subscribed, subscribedToGame);
-
-        // A hack to get the widths of each node to 100% of the vbox
-        selectGame.setPrefWidth(Integer.MAX_VALUE);
-        subscribed.setPrefWidth(Integer.MAX_VALUE);
-        subscribedToGame.setPrefWidth(Integer.MAX_VALUE);
-
-        // Event handlers
-        subscribedToGame.setOnMousePressed(e -> {
-            if (_selectedGame != null)
-                _launcher.subscribeToGame(_selectedGame);
-        });
-
+    public Node getNode() {
         // Right pane
         players = new VBox(1);
         players.setAlignment(Pos.CENTER);

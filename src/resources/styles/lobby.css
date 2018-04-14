@@ -27,7 +27,7 @@
     -fx-text-fill: #fff;
 }
 
-#lobby_head {
+.lobby_head {
     -fx-padding: 10px;
     -fx-font: 125% Arial;
     -fx-text-fill: #fff;
