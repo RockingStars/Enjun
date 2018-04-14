@@ -3,34 +3,34 @@
 	-fx-background-size: cover;
 }
 
-#lobby_pane {
+.lobby_pane {
     -fx-margin: 20px;
 }
 
-#lobby_pane, #lobby_description {
+.lobby_pane, .lobby_description {
     -fx-text-fill: #fff;
-    -fx-font: 125% Arial;
+    -fx-font: 125% "Noto Sans", Arial;
 }
 
-#top_label {
+.top_label {
     -fx-background-color: #77996955;
-    -fx-font: 175% Arial;
+    -fx-font: 175% "Noto Sans", Arial;
     -fx-width: inherit;
 }
 
-#lobby_pane_content {
+.lobby_pane_content {
     -fx-background-color: #52604cbb;
 }
 
-#top_label, #lobby_pane_content {
+.top_label, .lobby_pane_content {
     -fx-padding: 25px;
-    -fx-text-fill: #fff;
+    -fx-text-fill: #e0efda;
 }
 
 .lobby_head {
     -fx-padding: 10px;
-    -fx-font: 125% Arial;
-    -fx-text-fill: #fff;
+    -fx-font: 125% "Noto Sans", Arial;
+    -fx-text-fill: #e0efda;
     -fx-background-color: #717f6c;
 
  /*   -fx-border-width: 1px;
@@ -38,11 +38,22 @@
     -fx-border-color: #c9ddc1;*/
 }
 
+#online_users {
+    -fx-text-fill: #e0efda;
+    -fx-padding: 1px 0 0 0;
+}
+
+.online_user {
+    -fx-padding: 3px;
+    -fx-font: 85% "Noto Sans", Arial;
+    -fx-text-fill: #e0efda;
+}
+
 .option {
     -fx-background-color: #2d352a;
     -fx-padding: 5px;
-    -fx-font: 85% Arial;
-    -fx-text-fill: #fff;
+    -fx-font: 85% "Noto Sans", Arial;
+    -fx-text-fill: #cbd6c7;
 }
 
 .option_selected {
