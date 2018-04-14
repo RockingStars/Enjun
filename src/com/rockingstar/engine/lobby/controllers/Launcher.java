@@ -80,14 +80,15 @@ public class Launcher {
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         // @todo Check for difficulty
 
-        if (isAI)
-            if (difficulty.equals("Lech")){
+        if (isAI) {
+            if (difficulty.equals("Lech")) {
                 System.out.println(difficulty + " Lech is AI");
                 _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
             } else {
                 System.out.println(difficulty + " Bas is AI");
-                _localPlayer = new Bas(username, new Color(0.5,0.5,0.5,0));
+                _localPlayer = new Bas(username, new Color(0.5, 0.5, 0.5, 0));
             }
+        }
 
         else
             _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
