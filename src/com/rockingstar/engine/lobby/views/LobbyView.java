@@ -1,8 +1,5 @@
 package com.rockingstar.engine.lobby.views;
 
-import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.SendChallengeCommand;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.beans.value.ChangeListener;
@@ -42,8 +39,9 @@ public class LobbyView {
 
     private Launcher _launcher;
 
-    private ComboBox gameSelectionBox;
     private Label gameModus;
+
+    private String _selectedGame;
 
     private String _username;
     private String _gameMode;
@@ -54,99 +52,121 @@ public class LobbyView {
 
     private RadioButton users;
 
+    private BorderPane _leftPane;
+    private BorderPane _rightPane;
+
 
     public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList) {
         _playerList = playerList;
         _gameList = gameList;
 
         _iconSize = 200;
+
+        setup();
+    }
+
+    public void setup() {
+        _lobbyPane = new BorderPane();
+
+        _leftPane = new BorderPane();
+        _rightPane = new BorderPane();
+
+        _leftPane.setId("lobby_pane");
+        _rightPane.setId("lobby_pane");
+
+        _lobbyPane.setLeft(_leftPane);
+        _lobbyPane.setRight(_rightPane);
+
+        _leftPane.setPadding(new Insets(50));
+        _leftPane.setPrefWidth(width / 4);
+        _rightPane.setPadding(new Insets(50));
+        _leftPane.setPrefWidth(width / 4);
     }
 
     public Node getNode() {
-        _lobbyPane = new BorderPane();
-
-        //Left
-        TextField nicknameField = new TextField();
-        BorderPane gameSelection = new BorderPane();
+        //Left pane
         VBox menu = new VBox();
-
-        Label gameConfigLabel = new Label("GAME CONFIGURATION");
+        Label gameConfigLabel = new Label("CONFIGURATION");
         gameConfigLabel.setId("top_label");
-
-        gameSelection.setPadding(new Insets(50));
-        gameSelection.setPrefWidth(width / 4);
         gameConfigLabel.setPrefWidth(width / 4);
 
-        menu.setSpacing(20);
-        gameSelection.setTop(gameConfigLabel);
-        gameSelection.setCenter(menu);
+        menu.setSpacing(5);
+        menu.setId("lobby_pane_content");
 
-        gameSelection.setId("game_selection_panel");
-        menu.setId("game_selection_menu");
+        // Add the previously created items to the left pane
+        _leftPane.setTop(gameConfigLabel);
+        _leftPane.setCenter(menu);
 
-        gameSelectionBox = new ComboBox();
-        gameSelectionBox.getItems().addAll("Reversi", "TicTacToe", "etc");
+        // Game selection
+        Label selectGame = new Label("Select game");
+        Label subscribed = new Label("Subscribe to game");
 
-        Label gameModeText = new Label("You have selected:");
-        gameModeText.setId("lobby_description");
+        selectGame.setId("lobby_head");
+        subscribed.setId("lobby_head");
 
-        if (_gameMode.equals("Player")) {
-            gameModus = new Label("Player vs Player");
-        } else {
-            gameModus = new Label("AI vs Player");
-        }
-        gameModus.setId("lobby_description");
-        gameName = new Label("You have selected " + gameSelectionBox.getValue());
-        if (gameSelectionBox.getValue() == null) {
-            Label gameSelectionText = new Label("Please select a game");
-            gameSelectionText.setId("lobby_description");
-            menu.getChildren().addAll(gameSelectionText, gameSelectionBox, gameModeText, gameModus);
-        }
+        menu.getChildren().add(selectGame);
 
-        gameSelectionBox.valueProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(newValue);
-                menu.getChildren().clear();
-                gameName = new Label("you have selected " + gameSelectionBox.getValue());
-                gameSwitch = new Label("Do you want to switch to another game?");
-                gameSwitch.setId("lobby_description");
-                gameName = new Label("You have selected " + gameSelectionBox.getValue());
-                gameName.setId("lobby_description");
-                Button gameImage = new Button("");
-                gameImage.setMaxWidth(200);
-                gameImage.setMinHeight(200);
-                if (gameSelectionBox.getValue() == "Reversi") {
-                    gameImage.setId("gameImage");
-                } else if (gameSelectionBox.getValue() == "TicTacToe") {
-                    gameImage.setId("gameImage1");
-                } else {
-                    gameImage.setId("gameImage2");
+        for (String game : _gameList) {
+            Label label = new Label(game);
+            label.getStyleClass().add("option");
+
+            label.setOnMousePressed(e -> {
+                _selectedGame = game;
+
+                for (Node node : menu.getChildren()) {
+                    if (node == subscribed)
+                        break;
+
+                    node.getStyleClass().remove("option_selected");
                 }
-                menu.getChildren().addAll(gameName, gameSwitch, gameSelectionBox, gameModeText, gameModus, gameImage);
-            }
+
+                label.getStyleClass().add("option_selected");
+            });
+
+            label.setPrefWidth(Integer.MAX_VALUE);
+            menu.getChildren().add(label);
+        }
+
+        Label subscribeTrue = new Label("Yes");
+        Label subscribeFalse = new Label("No");
+
+        subscribeTrue.getStyleClass().add("option");
+        subscribeFalse.getStyleClass().addAll("option", "option_selected");
+
+        menu.getChildren().addAll(new Label(), subscribed, subscribeTrue, subscribeFalse);
+
+        // A hack to get the widths of each node to 100% of the vbox
+        selectGame.setPrefWidth(Integer.MAX_VALUE);
+        subscribed.setPrefWidth(Integer.MAX_VALUE);
+        subscribeTrue.setPrefWidth(Integer.MAX_VALUE);
+        subscribeFalse.setPrefWidth(Integer.MAX_VALUE);
+
+        // Event handlers
+        subscribeFalse.setOnMousePressed(e -> {
+            subscribeTrue.getStyleClass().remove("option_selected");
+            subscribeFalse.getStyleClass().add("option_selected");
         });
 
-        //Right
-        ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setMaxWidth(width / 5);
-        scrollPane.setMaxHeight(500);
-        scrollPane.setId("scrollPane");
+        subscribeTrue.setOnMousePressed(e -> {
+            subscribeTrue.getStyleClass().add("option_selected");
+            subscribeFalse.getStyleClass().remove("option_selected");
+        });
 
-        scrollPane.setPadding(new Insets(0, 0, 10, 0));
-        VBox rightPane = new VBox(20);
-
-        rightPane.setMaxHeight(800);
-        rightPane.setMaxWidth(width / 4);
-        rightPane.setAlignment(Pos.CENTER);
-        rightPane.setId("rightPane");
-
-
+        // Right pane
         players = new VBox(1);
         players.setAlignment(Pos.CENTER);
-        Label onlinePLayer = new Label("List of online players");
+
+        Label onlinePlayersLabel = new Label("ONLINE PLAYERS");
+        onlinePlayersLabel.setId("top_label");
+
+        VBox onlinePlayers = new VBox();
+        onlinePlayers.setId("lobby_pane_content");
+
+        onlinePlayers.setSpacing(20);
+        _rightPane.setTop(onlinePlayersLabel);
+        _rightPane.setCenter(onlinePlayers);
+/*
         _refreshButton = new Button("Refresh");
-        onlinePLayer.setId("lobby_description");
         ListIterator iterator = (ListIterator) _playerList.iterator();
         usergroup = new ToggleGroup();
 
@@ -170,16 +190,15 @@ public class LobbyView {
             players.getChildren().addAll(users);
             scrollPane.setContent(players);
         }
-
-        rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane);
+/*
+        _rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane);
 
         Label gameModeSelected = new Label("You have selected: " + _gameMode);
         gameModeSelected.setId("lobby_description");
-        rightPane.getChildren().add(gameModeSelected);
+        _rightPane.getChildren().add(gameModeSelected);
         if (_gameMode.equals("Player") || _gameMode.equals("AI")) {
-            rightPane.getChildren().clear();
+            _rightPane.getChildren().clear();
             Button challenge = new Button("Challenge");
-            Button locally = new Button("Play offline");
             for (Toggle t : usergroup.getToggles()) {
                 if (t instanceof RadioButton) {
                     ((RadioButton) t).setDisable(false);
@@ -188,7 +207,7 @@ public class LobbyView {
             usergroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
                 @Override
                 public void changed(ObservableValue<? extends Toggle> ov, Toggle t, Toggle t1) {
-                    rightPane.getChildren().clear();
+                    _rightPane.getChildren().clear();
                     RadioButton chk = (RadioButton) t1.getToggleGroup().getSelectedToggle();
                     Label selectedUser = new Label("Selected player: " + chk.getText());
                     selectedUser.setId("lobby_description");
@@ -207,26 +226,22 @@ public class LobbyView {
                     }
 
 
-                    rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane, gameModeSelected, selectedUser, challenge, locally);
+                    _rightPane.getChildren().addAll(onlinePLayer, _refreshButton, scrollPane, gameModeSelected, selectedUser, challenge);
                 }
             });
 
-            rightPane.getChildren().addAll(onlinePLayer, _refreshButton,scrollPane, gameModeSelected, challenge, locally);
+            _rightPane.getChildren().addAll(onlinePLayer, _refreshButton,scrollPane, gameModeSelected, challenge);
 
 
 //        };
 
-        _refreshButton.setOnAction(event -> {
-            Launcher _launcher = Launcher.getInstance();
-            _playerList = _launcher.getPlayerList();
-            ListIterator iterator2 = (ListIterator) _playerList.iterator();
-            getOnlineUser(iterator2);
-
-        });
-        }
-
-        _lobbyPane.setLeft(gameSelection);
-        _lobbyPane.setRight(rightPane);
+            _refreshButton.setOnAction(event -> {
+                Launcher _launcher = Launcher.getInstance();
+                _playerList = _launcher.getPlayerList();
+                ListIterator iterator2 = (ListIterator) _playerList.iterator();
+                getOnlineUser(iterator2);
+            });
+        }*/
 
         return _lobbyPane;
 
@@ -272,10 +287,6 @@ public class LobbyView {
 
     public void setUsername(String username) {
         _username = username;
-    }
-
-    public ComboBox getGameSelectionBox() {
-        return gameSelectionBox;
     }
 
     public Button getRefreshButton() {

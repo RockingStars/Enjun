@@ -4,6 +4,7 @@ import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.GetPlayerListCommand;
+import com.rockingstar.engine.command.client.SubscribeCommand;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.OverPoweredAI;
@@ -188,5 +189,9 @@ public class Launcher {
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void toggleSubscription(String game) {
+        CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
     }
 }
