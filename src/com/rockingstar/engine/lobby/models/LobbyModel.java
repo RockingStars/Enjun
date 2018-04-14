@@ -21,8 +21,6 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
-
-
     public LinkedList<String> getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
         CommandExecutor.execute(new GetGameListCommand(serverConnection));
@@ -52,13 +50,6 @@ public class LobbyModel {
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
         System.out.println("OK");
-
-        lobbyView.getGameSelectionBox().setOnAction(e -> {
-            Platform.runLater(() -> {
-                // _launcher.loadModule(new TTTController(_players[0], _players[1]));
-
-            });
-        });
     }
 
     public void setPlayers(Player[] players) {
