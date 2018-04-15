@@ -198,35 +198,40 @@ public class LobbyView {
         _rightPane.getChildren().clear();
 
         _usergroup.selectedToggleProperty().addListener(e -> {
-            if (_selectedGame == null)
-                return;
+            if (_selectedGame == null){
+                Alert selectGameFirst = new Alert(Alert.AlertType.INFORMATION);
+                selectGameFirst.setTitle("select game");
+                selectGameFirst.setHeaderText(null);
+                selectGameFirst.setContentText("Please select a game first");
+                selectGameFirst.showAndWait();
+                _usergroup.selectToggle(null);
+            } else {
 
-            RadioButton chk = (RadioButton) _usergroup.getSelectedToggle();
-            String playerToChallenge = chk.getText();
+                RadioButton chk = (RadioButton) _usergroup.getSelectedToggle();
+                String playerToChallenge = chk.getText();
 
-            if (playerToChallenge.equals(_username + " (me)")) {
-                Alert challengeMe = new Alert(Alert.AlertType.INFORMATION);
+                if (playerToChallenge.equals(_username + " (me)")) {
+                    Alert challengeMe = new Alert(Alert.AlertType.INFORMATION);
 
-                challengeMe.setTitle("You cannot challenge yourself");
-                challengeMe.setHeaderText(null);
-                challengeMe.setContentText("You can not challenge yourself!, please challenge another user");
+                    challengeMe.setTitle("You cannot challenge yourself");
+                    challengeMe.setHeaderText(null);
+                    challengeMe.setContentText("You can not challenge yourself!, please challenge another user");
 
-                challengeMe.showAndWait();
-            }
-            else {
-                Alert challengeInvitationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                challengeInvitationAlert.setTitle("Challenge received");
-                challengeInvitationAlert.setHeaderText(null);
-                challengeInvitationAlert.setContentText("Send an invitation for a game of " + _selectedGame + " to " + playerToChallenge + "?");
+                    challengeMe.showAndWait();
+                } else {
+                    Alert challengeInvitationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+                    challengeInvitationAlert.setTitle("Challenge received");
+                    challengeInvitationAlert.setHeaderText(null);
+                    challengeInvitationAlert.setContentText("Send an invitation for a game of " + _selectedGame + " to " + playerToChallenge + "?");
 
-                challengeInvitationAlert.showAndWait();
+                    challengeInvitationAlert.showAndWait();
 
-                if (challengeInvitationAlert.getResult() == ButtonType.OK) {
-                    CommandExecutor.execute(new SendChallengeCommand(ServerConnection.getInstance(), new Player(chk.getText()), _selectedGame));
-                    Util.displayStatus("Sent invitation to " + playerToChallenge);
+                    if (challengeInvitationAlert.getResult() == ButtonType.OK) {
+                        CommandExecutor.execute(new SendChallengeCommand(ServerConnection.getInstance(), new Player(chk.getText()), _selectedGame));
+                        Util.displayStatus("Sent invitation to " + playerToChallenge);
+                    }
                 }
-            }
-        });
+            }        });
     }
 
     public void setPlayerList(LinkedList<Player> playerList) {
