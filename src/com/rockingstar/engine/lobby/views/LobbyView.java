@@ -283,8 +283,16 @@ public class LobbyView {
         _rightPane.getChildren().clear();
 
         button.setOnAction(e -> {
-            if (_selectedGame == null)
+            if (_selectedGame == null) {
+                Alert noGameSelected = new Alert(Alert.AlertType.INFORMATION);
+
+                noGameSelected.setTitle("No game selected");
+                noGameSelected.setHeaderText(null);
+                noGameSelected.setContentText("You have not selected a game.");
+                noGameSelected.showAndWait();
+
                 return;
+            }
 
             RadioButton chk = (RadioButton) _usergroup.getSelectedToggle();
             String playerToChallenge = chk.getText();
