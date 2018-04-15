@@ -19,10 +19,10 @@ public class Player {
     protected char _character;
 
     private static final Color[] COLORS = {
-        Color.valueOf("2766adbb"),
-        Color.valueOf("adad27bb"),
-        Color.valueOf("ad2727bb"),
-        Color.valueOf("27ad44bb")
+        Color.valueOf("2766ad"),
+        Color.valueOf("adad27"),
+        Color.valueOf("ad2727"),
+        Color.valueOf("27ad44")
     };
 
     public Player(String username) {
