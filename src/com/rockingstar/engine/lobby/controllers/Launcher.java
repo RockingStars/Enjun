@@ -4,9 +4,10 @@ import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.GetPlayerListCommand;
+import com.rockingstar.engine.command.client.SubscribeCommand;
 import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.Bas;
 import com.rockingstar.engine.game.Lech;
+import com.rockingstar.engine.game.OverPoweredAI;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
@@ -37,6 +38,8 @@ public class Launcher {
     private static Launcher _instance;
 
     private Player _localPlayer;
+
+    public static final Object LOCK = new Object();
 
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
@@ -76,31 +79,30 @@ public class Launcher {
         _guiController.setCenter(game.getView());
     }
 
-
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         // @todo Check for difficulty
 
-        if (isAI) {
-            if (difficulty.equals("Lech")) {
-                System.out.println(difficulty + " Lech is AI");
-                _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
-            } else {
-                System.out.println(difficulty + " Bas is AI");
-                _localPlayer = new Bas(username, new Color(0.5, 0.5, 0.5, 0));
-            }
+        if (isAI){
+              if (difficulty.equals("Lech")){
+                  System.out.println(difficulty + " Lech is AI");
+                  _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+              } else {
+                  System.out.println(difficulty + " Bas is AI");
+                  _localPlayer = new OverPoweredAI(username, new Color(0.5,0.5,0.5,0));
+              }
+        } else {
+              _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
         }
 
-        else
-            _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
-
         if (_localPlayer.login()) {
-            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
+            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList(), this);
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
             _model.setLocalPlayer(_localPlayer);
 
             _guiController.setCenter(_lobbyView.getNode());
+            _guiController.addStylesheet("lobby");
             _model.addGameSelectionActionHandlers(_lobbyView);
         }
     }
@@ -145,26 +147,30 @@ public class Launcher {
         Player opponent = new Player(opponentName);
 
         Platform.runLater(() -> {
-            AbstractGame gameModule;
+            System.out.println("Entered lock-protected area in launcher");
+            synchronized (Launcher.LOCK) {
+                AbstractGame gameModule;
+                switch (gameType) {
+                    case "Tic-tac-toe":
+                    case "Tictactoe":
+                        gameModule = new TTTController(_localPlayer, opponent);
+                        break;
+                    case "Reversi":
+                        gameModule = new ReversiController(_localPlayer, opponent);
+                        ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                        break;
+                    default:
+                        Util.displayStatus("Failed to load game module " + gameType);
+                        return;
+                }
 
-            switch (gameType) {
-                case "Tic-tac-toe":
-                case "Tictactoe":
-                    gameModule = new TTTController(_localPlayer, opponent);
-                    break;
-                case "Reversi":
-                    gameModule = new ReversiController(_localPlayer, opponent);
-                    ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
-                    break;
-                default:
-                    Util.displayStatus("Failed to load game module " + gameType);
-                    return;
+                Util.displayStatus("Loading game module " + gameType, true);
+
+                loadModule(gameModule);
+                gameModule.startGame();
             }
 
-            Util.displayStatus("Loading game module " + gameType, true);
-
-            loadModule(gameModule);
-            gameModule.startGame();
+            System.out.println("Left lock-protected area in Launcher");
         });
     }
 
@@ -185,5 +191,9 @@ public class Launcher {
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void subscribeToGame(String game) {
+        CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
     }
 }

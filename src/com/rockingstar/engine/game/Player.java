@@ -6,6 +6,8 @@ import com.rockingstar.engine.command.client.LoginCommand;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
+import java.util.Random;
+
 public class Player {
 
     protected String username;
@@ -16,9 +18,18 @@ public class Player {
 
     protected char _character;
 
+    private static final Color[] COLORS = {
+        Color.valueOf("2766adbb"),
+        Color.valueOf("adad27bb"),
+        Color.valueOf("ad2727bb"),
+        Color.valueOf("27ad44bb")
+    };
+
     public Player(String username) {
         this.username = username;
         score = 0;
+
+        color = COLORS[new Random().nextInt(COLORS.length)];
     }
 
     public Player(String username, Color color) {
@@ -42,7 +53,7 @@ public class Player {
         if (!serverConnection.isValidCommand()) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("Unable to login");
-            uNameAlert.setHeaderText("DE TYFUS SERVER DOET HET NIET!");
+            uNameAlert.setHeaderText("Unable to login");
             uNameAlert.setContentText(serverConnection.getResponse());
             uNameAlert.showAndWait();
 

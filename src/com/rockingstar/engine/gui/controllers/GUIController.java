@@ -25,4 +25,8 @@ public class GUIController {
 
         Util.displayStatus("Loading GUI");
     }
+
+    public void addStylesheet(String stylesheet) {
+        _view.addStylesheet(stylesheet);
+    }
 }
