@@ -56,17 +56,15 @@ public class LobbyView {
     private BorderPane _rightPane;
 
 
-    public LobbyView(LinkedList<Player> playerList, LinkedList<String> gameList, Launcher launcher) {
-        _playerList = playerList;
-        _gameList = gameList;
+    public LobbyView(Launcher launcher) {
+        _playerList = new LinkedList<>();
+        _gameList = new LinkedList<>();
         _launcher = launcher;
 
         _iconSize = 200;
-
-        setup();
     }
 
-    private void setup() {
+    public void setup() {
         _lobbyPane = new BorderPane();
 
         _leftPane = new BorderPane();
