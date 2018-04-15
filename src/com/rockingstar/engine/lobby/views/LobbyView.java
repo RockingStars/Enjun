@@ -50,6 +50,7 @@ public class LobbyView {
     private VBox _leftPaneMenu;
 
     private Label _onlinePlayersLabel;
+    private Label _subscribedToGame;
 
     private static final int NUMBER_OF_PLAYERS_WITHOUT_SCROLL = 15;
 
@@ -104,18 +105,20 @@ public class LobbyView {
         _leftPaneMenu.getChildren().add(selectGame);
         addGames();
 
-        Label subscribedToGame = new Label("Subscribe to this game");
-        subscribedToGame.getStyleClass().add("option");
+        _subscribedToGame = new Label("Subscribe to this game");
+        _subscribedToGame.getStyleClass().add("option");
 
-        _leftPaneMenu.getChildren().addAll(new Label(), _subscribed, subscribedToGame);
+        _leftPaneMenu.getChildren().addAll(new Label(), _subscribed, _subscribedToGame);
 
         // A hack to get the widths of each node to 100% of the vbox
         for (Node node : _leftPaneMenu.getChildren())
             ((Label) node).setPrefWidth(Integer.MAX_VALUE);
 
-        subscribedToGame.setOnMousePressed(e -> {
-            if (_selectedGame != null)
+        _subscribedToGame.setOnMousePressed(e -> {
+            if (_selectedGame != null) {
                 _launcher.subscribeToGame(_selectedGame);
+                _subscribedToGame.setText("You are subscribed to this game");
+            }
         });
     }
 
@@ -179,6 +182,8 @@ public class LobbyView {
                             player.setDisable(false);
                     }
                 }
+
+                _subscribedToGame.setText("Subscribe to this game");
             });
 
             label.setPrefWidth(Integer.MAX_VALUE);
