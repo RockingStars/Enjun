@@ -1,14 +1,13 @@
 package com.rockingstar.engine.lobby.views;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.AcceptChallengeCommand;
 import com.rockingstar.engine.command.client.CommandExecutor;
 import com.rockingstar.engine.command.client.SendChallengeCommand;
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
+import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -17,15 +16,14 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.*;
 
 import java.awt.*;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.ListIterator;
-import java.util.Random;
 
 public class LobbyView {
 
     private LinkedList<Player> _playerList;
     private LinkedList<String> _gameList;
-    private ScrollPane scrollPane;
     private VBox _players;
     private ToggleGroup _usergroup;
 
@@ -33,9 +31,6 @@ public class LobbyView {
     double width = graphicsDevice.getDisplayMode().getWidth();
     double height = graphicsDevice.getDisplayMode().getHeight();
 
-    private double _iconSize;
-
-    public LoginView _loginView;
     private BorderPane _lobbyPane;
 
     private Launcher _launcher;
@@ -43,25 +38,26 @@ public class LobbyView {
     private Label gameModus;
 
     private String _selectedGame;
-    private String _selectedPlayer;
 
     private String _username;
     private String _gameMode;
-    private Label gameName;
-    private Label gameSwitch;
-    private Button gameImage;
-    private Button _refreshButton;
 
     private BorderPane _leftPane;
     private BorderPane _rightPane;
+    private VBox _rightPaneContentBox;
 
+    private Label _subscribed;
+    private VBox _leftPaneMenu;
+
+    private Label _onlinePlayersLabel;
+    private Label _subscribedToGame;
+
+    private static final int NUMBER_OF_PLAYERS_WITHOUT_SCROLL = 15;
 
     public LobbyView(Launcher launcher) {
         _playerList = new LinkedList<>();
         _gameList = new LinkedList<>();
         _launcher = launcher;
-
-        _iconSize = 200;
     }
 
     public void setup() {
@@ -86,62 +82,81 @@ public class LobbyView {
     }
 
     private void createLeftPane() {
-        VBox menu = new VBox();
+        _leftPaneMenu = new VBox();
         Label gameConfigLabel = new Label("CONFIGURATION");
         gameConfigLabel.getStyleClass().add("top_label");
         gameConfigLabel.setPrefWidth(width / 4);
 
-        menu.setSpacing(5);
-        menu.getStyleClass().add("lobby_pane_content");
-
-        // Game selection
-        Label selectGame = new Label("Select game");
-        Label subscribed = new Label("Subscriptions");
-
-        selectGame.getStyleClass().add("lobby_head");
-        subscribed.getStyleClass().add("lobby_head");
-
-        menu.getChildren().add(selectGame);
-        addGames(menu, subscribed);
-
-        Label subscribedToGame = new Label("Subscribe to this game");
-        subscribedToGame.getStyleClass().add("option");
-
-        menu.getChildren().addAll(new Label(), subscribed, subscribedToGame);
-
-        // A hack to get the widths of each node to 100% of the vbox
-        for (Node node : menu.getChildren())
-            ((Label) node).setPrefWidth(Integer.MAX_VALUE);
-
-        subscribedToGame.setOnMousePressed(e -> {
-            if (_selectedGame != null)
-                _launcher.subscribeToGame(_selectedGame);
-        });
+        _leftPaneMenu.setSpacing(5);
+        _leftPaneMenu.getStyleClass().add("lobby_pane_content");
 
         // Add the previously created items to the left pane
         _leftPane.setTop(gameConfigLabel);
-        _leftPane.setCenter(menu);
+        _leftPane.setCenter(_leftPaneMenu);
+    }
+
+    private void populateLeftPane() {
+        Label selectGame = new Label("Select game");
+        _subscribed = new Label("Subscriptions");
+
+        selectGame.getStyleClass().add("lobby_head");
+        _subscribed.getStyleClass().add("lobby_head");
+
+        _leftPaneMenu.getChildren().add(selectGame);
+        addGames();
+
+        _subscribedToGame = new Label("Subscribe to this game");
+        _subscribedToGame.getStyleClass().add("option");
+
+        _leftPaneMenu.getChildren().addAll(new Label(), _subscribed, _subscribedToGame);
+
+        // A hack to get the widths of each node to 100% of the vbox
+        for (Node node : _leftPaneMenu.getChildren())
+            ((Label) node).setPrefWidth(Integer.MAX_VALUE);
+
+        _subscribedToGame.setOnMousePressed(e -> {
+            if (_selectedGame != null) {
+                _launcher.subscribeToGame(_selectedGame);
+                _subscribedToGame.setText("You are subscribed to this game");
+            }
+        });
     }
 
     private void createRightPane() {
         _players = new VBox(1);
-        _players.setId("online_users");
 
-        Label onlinePlayersLabel = new Label("CHALLENGE PLAYER");
-        onlinePlayersLabel.setPrefWidth(width / 4);
-        onlinePlayersLabel.getStyleClass().add("top_label");
+        _rightPaneContentBox = new VBox(1);
+        _rightPaneContentBox.getStyleClass().addAll("lobby_pane_content", "no_padding");
+
+        Button challengePlayerButton = new Button("Challenge");
+        challengePlayerButton.getStyleClass().add("option");
+        challengePlayerButton.setPrefWidth(Integer.MAX_VALUE);
+
+        _onlinePlayersLabel = new Label("ONLINE PLAYERS");
+        _onlinePlayersLabel.setPrefWidth(width / 4);
+        _onlinePlayersLabel.getStyleClass().add("top_label");
 
         //onlinePlayers.setSpacing(20);
         _usergroup = new ToggleGroup();
-        getOnlineUsers((ListIterator) _playerList.iterator());
-        addUserSelectionHandlers();
+        getOnlineUsers();
+        addUserSelectionHandlers(challengePlayerButton);
+
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setId("online_users");
+        scrollPane.setContent(_players);
+
+        scrollPane.setMinHeight(NUMBER_OF_PLAYERS_WITHOUT_SCROLL * 25);
+        scrollPane.setMaxHeight(NUMBER_OF_PLAYERS_WITHOUT_SCROLL * 25);
+        scrollPane.setFitToWidth(true);
 
         // Add everything to the pane
-        _rightPane.setTop(onlinePlayersLabel);
-        _rightPane.setCenter(_players);
+        _rightPaneContentBox.getChildren().addAll(scrollPane, challengePlayerButton);
+
+        _rightPane.setTop(_onlinePlayersLabel);
+        _rightPane.setCenter(_rightPaneContentBox);
     }
 
-    private void addGames(VBox menu, Label subscribed) {
+    private void addGames() {
         for (String game : _gameList) {
             Label label = new Label(game);
             label.getStyleClass().add("option");
@@ -149,18 +164,30 @@ public class LobbyView {
             label.setOnMousePressed(e -> {
                 _selectedGame = game;
 
-                for (Node node : menu.getChildren()) {
-                    if (node == subscribed)
+                for (Node node : _leftPaneMenu.getChildren()) {
+                    if (node == _subscribed)
                         break;
 
                     node.getStyleClass().remove("option_selected");
                 }
 
                 label.getStyleClass().add("option_selected");
+
+                synchronized (_players) {
+                    for (Node player : _players.getChildren()) {
+                        if (!(player instanceof RadioButton))
+                            continue;
+
+                        if (!((RadioButton) player).getText().equals(_username + " (me)"))
+                            player.setDisable(false);
+                    }
+                }
+
+                _subscribedToGame.setText("Subscribe to this game");
             });
 
             label.setPrefWidth(Integer.MAX_VALUE);
-            menu.getChildren().add(label);
+            _leftPaneMenu.getChildren().add(label);
         }
     }
 
@@ -168,38 +195,106 @@ public class LobbyView {
         return _lobbyPane;
     }
 
-    private void getOnlineUsers(ListIterator iterator) {
-        _players.getChildren().clear();
-        RadioButton user;
+    private void getOnlineUsers() {
+        Platform.runLater(() -> {
+            RadioButton user;
 
-        while (iterator.hasNext()) {
-            Player nextPlayer = (Player) iterator.next();
-            String usernameString = nextPlayer.getUsername();
+            synchronized(_playerList) {
+                ListIterator iterator = (ListIterator) _playerList.iterator();
+                while (iterator.hasNext()) {
+                    Player nextPlayer = (Player) iterator.next();
+                    String usernameString = nextPlayer.getUsername();
 
-            if (usernameString.equals(_username)) {
-                user = new RadioButton(usernameString + " (me)");
-                user.setDisable(true);
+                    boolean alreadyInList = false;
+
+                    synchronized (_players) {
+                        for (Node node : _players.getChildren())
+                            if (node instanceof RadioButton && (
+                                    ((RadioButton) node).getText().equals(usernameString) ||
+                                            ((RadioButton) node).getText().equals(usernameString + " (me)")))
+                                alreadyInList = true;
+                    }
+
+                    if (alreadyInList)
+                        continue;
+
+                    user = new RadioButton(usernameString + (usernameString.equals(_username) ? " (me)" : ""));
+
+                    if (_selectedGame == null || usernameString.equals(_username))
+                        user.setDisable(true);
+
+                    user.setBackground(new Background(new BackgroundFill(nextPlayer.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
+
+                    user.setPrefWidth(Integer.MAX_VALUE);
+                    user.setToggleGroup(_usergroup);
+                    user.getStyleClass().add("online_user");
+
+                    synchronized (_players) {
+                        _players.getChildren().add(user);
+                    }
+                }
             }
-            else {
-                user = new RadioButton(usernameString);
+
+            int numberOfPlayers = 0;
+            synchronized (_players) {
+                Iterator playerIterator = _players.getChildren().iterator();
+
+                while (playerIterator.hasNext()) {
+                    Node node = (Node) playerIterator.next();
+
+                    boolean isStillOnline = false;
+
+                    synchronized (_playerList) {
+                        for (Player player : _playerList) {
+                            if (node instanceof RadioButton && (
+                                    ((RadioButton) node).getText().equals(player.getUsername()) ||
+                                    ((RadioButton) node).getText().equals(player.getUsername() + " (me)")))
+                                isStillOnline = true;
+                        }
+                    }
+
+                    if (!isStillOnline) {
+                        playerIterator.remove();
+                        continue;
+                    }
+
+                    if (!(node instanceof Label))
+                        numberOfPlayers++;
+                    else
+                        playerIterator.remove();
+                }
             }
 
-            user.setBackground(new Background(new BackgroundFill(nextPlayer.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
+            _onlinePlayersLabel.setText("ONLINE PLAYERS (" + numberOfPlayers + ")");
 
-            user.setPrefWidth(Integer.MAX_VALUE);
-            user.setToggleGroup(_usergroup);
-            user.getStyleClass().add("online_user");
+            if (numberOfPlayers < NUMBER_OF_PLAYERS_WITHOUT_SCROLL) {
+                for (int i = 0; i < NUMBER_OF_PLAYERS_WITHOUT_SCROLL - numberOfPlayers; i++) {
+                    Label label = new Label("Searching for player...");
+                    label.getStyleClass().add("empty_online_player");
+                    label.setPrefWidth(Integer.MAX_VALUE);
 
-            _players.getChildren().add(user);
-        }
+                    synchronized (_players) {
+                        _players.getChildren().add(label);
+                    }
+                }
+            }
+        });
     }
 
-    private void addUserSelectionHandlers() {
+    private void addUserSelectionHandlers(Button button) {
         _rightPane.getChildren().clear();
 
-        _usergroup.selectedToggleProperty().addListener(e -> {
-            if (_selectedGame == null)
+        button.setOnAction(e -> {
+            if (_selectedGame == null) {
+                Alert noGameSelected = new Alert(Alert.AlertType.INFORMATION);
+
+                noGameSelected.setTitle("No game selected");
+                noGameSelected.setHeaderText(null);
+                noGameSelected.setContentText("You have not selected a game.");
+                noGameSelected.showAndWait();
+
                 return;
+            }
 
             RadioButton chk = (RadioButton) _usergroup.getSelectedToggle();
             String playerToChallenge = chk.getText();
@@ -209,7 +304,7 @@ public class LobbyView {
 
                 challengeMe.setTitle("You cannot challenge yourself");
                 challengeMe.setHeaderText(null);
-                challengeMe.setContentText("You can not challenge yourself!, please challenge another user");
+                challengeMe.setContentText("You can not challenge yourself! Please challenge another user");
 
                 challengeMe.showAndWait();
             }
@@ -230,11 +325,16 @@ public class LobbyView {
     }
 
     public void setPlayerList(LinkedList<Player> playerList) {
-        _playerList = playerList;
+        synchronized (_playerList) {
+            _playerList = playerList;
+        }
+
+        getOnlineUsers();
     }
 
     public void setGameList(LinkedList<String> gameList) {
         _gameList = gameList;
+        Platform.runLater(() -> populateLeftPane());
     }
 
     public void setGameMode(String gameMode) {
@@ -243,9 +343,5 @@ public class LobbyView {
 
     public void setUsername(String username) {
         _username = username;
-    }
-
-    public Button getRefreshButton() {
-        return _refreshButton;
     }
 }
