@@ -57,11 +57,6 @@ public class ResponseHandler {
                         }
                         break;
                     case "YOURTURN":
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         synchronized (Launcher.LOCK) {
                             System.out.println("Entering yourturn thingie");
                             Platform.runLater(() -> {

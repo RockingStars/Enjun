@@ -73,7 +73,7 @@ public class Launcher {
 
     private void loadModule(AbstractGame game) {
         _currentGame = game;
-        _guiController.setCenter(game.getView());
+        Platform.runLater(() -> _guiController.setCenter(game.getView()));
     }
 
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
@@ -88,7 +88,7 @@ public class Launcher {
         } else {
               _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
         }
-      
+
         if (_localPlayer.login()) {
             _lobbyView = new LobbyView(this);
 
@@ -146,33 +146,29 @@ public class Launcher {
 
         Player opponent = new Player(opponentName);
 
-        Platform.runLater(() -> {
-            System.out.println("Entered lock-protected area in launcher");
-            synchronized (Launcher.LOCK) {
-                AbstractGame gameModule;
-                switch (gameType) {
-                    case "Tic-tac-toe":
-                    case "Tictactoe":
-                        gameModule = new TTTController(_localPlayer, opponent);
-                        break;
-                    case "Reversi":
-                        gameModule = new ReversiController(_localPlayer, opponent);
-                        ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
-                        break;
-                    default:
-                        Util.displayStatus("Failed to load game module " + gameType);
-                        return;
-                }
+        System.out.println("Entered lock-protected area in launcher");
+        AbstractGame gameModule;
+        switch (gameType) {
+            case "Tic-tac-toe":
+            case "Tictactoe":
+                gameModule = new TTTController(_localPlayer, opponent);
+                break;
+            case "Reversi":
+                gameModule = new ReversiController(_localPlayer, opponent);
+                ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                break;
+            default:
+                Util.displayStatus("Failed to load game module " + gameType);
+                return;
+        }
 
-                Util.displayStatus("Loading game module " + gameType, true);
+        Util.displayStatus("Loading game module " + gameType, true);
 
-                loadModule(gameModule);
-                gameModule.startGame();
-            }
-
-            System.out.println("Left lock-protected area in Launcher");
-        });
+        loadModule(gameModule);
+        gameModule.startGame();
+        System.out.println("Left lock-protected area in Launcher");
     }
+
 
     private void getPlayerList() {
         CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
