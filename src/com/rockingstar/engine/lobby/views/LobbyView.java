@@ -198,38 +198,40 @@ public class LobbyView {
     private void getOnlineUsers() {
         Platform.runLater(() -> {
             RadioButton user;
-            ListIterator iterator = (ListIterator) _playerList.iterator();
 
-            while (iterator.hasNext()) {
-                Player nextPlayer = (Player) iterator.next();
-                String usernameString = nextPlayer.getUsername();
+            synchronized(_playerList) {
+                ListIterator iterator = (ListIterator) _playerList.iterator();
+                while (iterator.hasNext()) {
+                    Player nextPlayer = (Player) iterator.next();
+                    String usernameString = nextPlayer.getUsername();
 
-                boolean alreadyInList = false;
+                    boolean alreadyInList = false;
 
-                synchronized (_players) {
-                    for (Node node : _players.getChildren())
-                        if (node instanceof RadioButton && (
-                                ((RadioButton) node).getText().equals(usernameString) ||
-                                ((RadioButton) node).getText().equals(usernameString + " (me)")))
-                            alreadyInList = true;
-                }
+                    synchronized (_players) {
+                        for (Node node : _players.getChildren())
+                            if (node instanceof RadioButton && (
+                                    ((RadioButton) node).getText().equals(usernameString) ||
+                                            ((RadioButton) node).getText().equals(usernameString + " (me)")))
+                                alreadyInList = true;
+                    }
 
-                if (alreadyInList)
-                    continue;
+                    if (alreadyInList)
+                        continue;
 
-                user = new RadioButton(usernameString + (usernameString.equals(_username) ? " (me)" : ""));
+                    user = new RadioButton(usernameString + (usernameString.equals(_username) ? " (me)" : ""));
 
-                if (_selectedGame == null || usernameString.equals(_username))
-                    user.setDisable(true);
+                    if (_selectedGame == null || usernameString.equals(_username))
+                        user.setDisable(true);
 
-                user.setBackground(new Background(new BackgroundFill(nextPlayer.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
+                    user.setBackground(new Background(new BackgroundFill(nextPlayer.getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
 
-                user.setPrefWidth(Integer.MAX_VALUE);
-                user.setToggleGroup(_usergroup);
-                user.getStyleClass().add("online_user");
+                    user.setPrefWidth(Integer.MAX_VALUE);
+                    user.setToggleGroup(_usergroup);
+                    user.getStyleClass().add("online_user");
 
-                synchronized (_players) {
-                    _players.getChildren().add(user);
+                    synchronized (_players) {
+                        _players.getChildren().add(user);
+                    }
                 }
             }
 
