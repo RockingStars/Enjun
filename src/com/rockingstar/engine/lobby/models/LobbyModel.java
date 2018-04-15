@@ -21,18 +21,6 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
-    public LinkedList<String> getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
-
-        if (serverConnection.isValidCommand())
-            return Util.parseFakeCollection(serverConnection.getResponse());
-        else
-            Util.displayStatus("Loading player list", false);
-
-        return new LinkedList<>();
-    }
-
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
             if (loginView.getGamemode().equals("Player")) {

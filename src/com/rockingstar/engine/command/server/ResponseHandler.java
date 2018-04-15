@@ -44,22 +44,24 @@ public class ResponseHandler {
                 System.out.println("help");
                 break;
             case "PLAYERLIST":
-                _message = response.substring(14);
+                launcher.updatePlayerList(response.substring(14));
                 break;
             case "GAMELIST":
-                _message = response.substring(12);
+                launcher.updateGameList(response.substring(12));
                 break;
             case "GAME":
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
-                        Launcher.getInstance().startMatch(response.substring(15));
+                        synchronized (Launcher.LOCK) {
+                            Launcher.getInstance().startMatch(response.substring(15));
+                        }
                         break;
                     case "YOURTURN":
-/*                        try {
+                        try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
-                        }*/
+                        }
                         synchronized (Launcher.LOCK) {
                             System.out.println("Entering yourturn thingie");
                             Platform.runLater(() -> {

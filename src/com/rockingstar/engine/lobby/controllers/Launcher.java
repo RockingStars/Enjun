@@ -1,10 +1,7 @@
 package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.AcceptChallengeCommand;
-import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.GetPlayerListCommand;
-import com.rockingstar.engine.command.client.SubscribeCommand;
+import com.rockingstar.engine.command.client.*;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.OverPoweredAI;
@@ -93,11 +90,16 @@ public class Launcher {
         }
       
         if (_localPlayer.login()) {
-            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList(), this);
+            _lobbyView = new LobbyView(this);
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
             _model.setLocalPlayer(_localPlayer);
+
+            getPlayerList();
+            getGameList();
+
+            _lobbyView.setup();
 
             _guiController.setCenter(_lobbyView.getNode());
             _guiController.addStylesheet("lobby");
@@ -172,19 +174,28 @@ public class Launcher {
         });
     }
 
-    public LinkedList<Player> getPlayerList() {
+    private void getPlayerList() {
+        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
+    }
+
+    public void getGameList() {
+        ServerConnection serverConnection = ServerConnection.getInstance();
+        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+    }
+
+    public void updatePlayerList(String response) {
         LinkedList<Player> players = new LinkedList<>();
 
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
+        for (String player : Util.parseFakeCollection(response))
+            players.add(new Player(player));
 
-        if (serverConnection.isValidCommand())
-            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
-                players.add(new Player(player));
-        else
-            Util.displayStatus("Loading player list", false);
+        _lobbyView.setPlayerList(players);
+    }
 
-        return players;
+    public void updateGameList(String response) {
+        LinkedList<String> games = new LinkedList<>();
+        games.addAll(Util.parseFakeCollection(response));
+        _lobbyView.setGameList(games);
     }
 
     public AbstractGame getGame() {
