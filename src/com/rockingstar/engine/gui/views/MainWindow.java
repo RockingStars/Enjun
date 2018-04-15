@@ -24,6 +24,7 @@ public class MainWindow {
         _scene.getStylesheets().add("styles/login.css");
         _scene.getStylesheets().add("styles/gameSelect.css");
         _scene.getStylesheets().add("styles/TTT.css");
+        _scene.getStylesheets().add("styles/reversi.css");
 
         _mainStage.setScene(_scene);
     }

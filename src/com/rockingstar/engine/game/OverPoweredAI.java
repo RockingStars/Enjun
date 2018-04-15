@@ -30,12 +30,12 @@ public class OverPoweredAI extends Player implements AI {
 
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
-        VectorXY move = getPowerSpotMove(player, possibleMoves);
+        VectorXY move = getPowerSpotMove(possibleMoves);
 
         if(move == null) {
             move = mostTilesFlippedStrategy(player, possibleMoves);
         }
-
+        System.out.println("move in getmove method" + move);
         return move;
     }
 
@@ -83,7 +83,7 @@ public class OverPoweredAI extends Player implements AI {
     private static final int[] powerSpots2 = {2,5,16,23,40,47,58,61}; // corner avoiders
     private static final int[] powerSpots3 = {18,21,42,45}; // corner avoiders avoiders
     */
-    public VectorXY getPowerSpotMove(Player player, ArrayList<Integer> possibleMoves){
+    public VectorXY getPowerSpotMove(ArrayList<Integer> possibleMoves){
         for(Integer i : powerSpots1) {
             if (possibleMoves.contains(i)) {
                 return new VectorXY(i % 8, i / 8);
