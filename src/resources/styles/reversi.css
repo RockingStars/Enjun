@@ -24,6 +24,7 @@
 
 /*Player1*/
 #p1info{
+    -fx-margin: 20px;
 	-fx-background-color: rgba(41,56,79,0.5);
 	/*-fx-font: 45px "Serif";*/
 	/*-fx-text-fill:teal;*/
@@ -36,6 +37,7 @@
 
 /*Player2*/
 #p2info {
+    -fx-margin: 20px;
 	-fx-background-color: rgba(41,56,79,0.5);
 	-fx-font: 45px "Serif";
 	/*-fx-text-fill:tea;*/
