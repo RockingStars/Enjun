@@ -49,6 +49,8 @@ public class LobbyView {
     private Label _subscribed;
     private VBox _leftPaneMenu;
 
+    private Label _onlinePlayersLabel;
+
     private static final int NUMBER_OF_PLAYERS_WITHOUT_SCROLL = 15;
 
     public LobbyView(Launcher launcher) {
@@ -127,9 +129,9 @@ public class LobbyView {
         challengePlayerButton.getStyleClass().add("option");
         challengePlayerButton.setPrefWidth(Integer.MAX_VALUE);
 
-        Label onlinePlayersLabel = new Label("ONLINE PLAYERS");
-        onlinePlayersLabel.setPrefWidth(width / 4);
-        onlinePlayersLabel.getStyleClass().add("top_label");
+        _onlinePlayersLabel = new Label("ONLINE PLAYERS");
+        _onlinePlayersLabel.setPrefWidth(width / 4);
+        _onlinePlayersLabel.getStyleClass().add("top_label");
 
         //onlinePlayers.setSpacing(20);
         _usergroup = new ToggleGroup();
@@ -147,7 +149,7 @@ public class LobbyView {
         // Add everything to the pane
         _rightPaneContentBox.getChildren().addAll(scrollPane, challengePlayerButton);
 
-        _rightPane.setTop(onlinePlayersLabel);
+        _rightPane.setTop(_onlinePlayersLabel);
         _rightPane.setCenter(_rightPaneContentBox);
     }
 
@@ -255,6 +257,8 @@ public class LobbyView {
                         playerIterator.remove();
                 }
             }
+
+            _onlinePlayersLabel.setText("ONLINE PLAYERS (" + numberOfPlayers + ")");
 
             if (numberOfPlayers < NUMBER_OF_PLAYERS_WITHOUT_SCROLL) {
                 for (int i = 0; i < NUMBER_OF_PLAYERS_WITHOUT_SCROLL - numberOfPlayers; i++) {
