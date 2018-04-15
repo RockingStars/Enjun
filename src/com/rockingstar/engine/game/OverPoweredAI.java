@@ -39,7 +39,6 @@ public class OverPoweredAI extends Player implements AI {
         return move;
     }
 
-
     public VectorXY mostTilesFlippedStrategy(Player player, ArrayList<Integer> possibleMoves){
         System.out.println(possibleMoves);
 
@@ -57,15 +56,15 @@ public class OverPoweredAI extends Player implements AI {
 
         if (goodMoves.size() > 0) {
             for (int i = 0; i < goodMoves.size(); i++) {
-                System.out.println("loop wel");
+                //System.out.println("loop wel");
                 int pmove = goodMoves.get(i);
-                System.out.println("getter wel");
+                //System.out.println("getter wel");
                 LinkedList<Integer> tilesFlipped = _reversiModel.getFlippableTiles(pmove % 8, pmove / 8, player);
                 int amountTilesFlipped = tilesFlipped.size();
-                System.out.println(tilesFlipped);
+                //System.out.println(tilesFlipped);
 
                 if (amountTilesFlipped > bestMoveNumberOfTiles) {
-                    System.out.println("hoi");
+                    //System.out.println("hoi");
                     bestMoveNumberOfTiles = amountTilesFlipped;
                     bestMoveCoordinates = new VectorXY(pmove % 8, pmove / 8);
                 }
