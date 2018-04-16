@@ -76,7 +76,7 @@ public class Launcher {
         _model = new LobbyModel();
         _loginView = new LoginView();
 
-        _model.addLoginActionHandlers(_loginView, this);
+        addLoginActionHandlers(_loginView, this);
         _onlinePlayers = new LinkedList<>();
 
         setupOnlinePlayerList();
@@ -129,12 +129,12 @@ public class Launcher {
         // @todo Check for difficulty
 
         if (isAI){
-            if (difficulty.equals("Lech")) {
-                Util.displayStatus(difficulty + " Lech is AI");
-                _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+            if (difficulty.equals("Easy")) {
+                Util.displayStatus(difficulty + " Easy AI selected");
+                _localPlayer = new EasyAI(username, new Color(0.5, 0.5, 0.5, 0));
             } else {
-                Util.displayStatus(difficulty + " Bas is AI");
-                _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
+                Util.displayStatus(difficulty + " Hard AI selected");
+                _localPlayer = new HardAI(username, new Color(0.5, 0.5, 0.5, 0));
             }
 
         } else {
@@ -149,8 +149,8 @@ public class Launcher {
 
             _lobbyView.setPlayerList(_onlinePlayers);
 
-            getPlayerList();
-            getGameList();
+            _model.getPlayerList();
+            _model.getGameList();
 
             _lobbyView.setup();
 
@@ -230,14 +230,6 @@ public class Launcher {
         gameModule.startGame();
     }
 
-    private void getPlayerList() {
-        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
-    }
-
-    private void getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
-    }
 
     public void updatePlayerList(String response) {
         HashMap<String, Player> playerNames = new HashMap<>();
@@ -279,7 +271,7 @@ public class Launcher {
     private void setupOnlinePlayerList() {
         _updatePlayerList = new Thread(() -> {
             while (_currentGame == null) {
-                getPlayerList();
+                _model.getPlayerList();
 
                 try {
                     Thread.sleep(5000);
@@ -296,7 +288,7 @@ public class Launcher {
             return true;
 
         // Theres a better way to do this. But it's late and I'm not in the mood for writing a regex
-        String[] parts = hostname.split(":");
+        String[] parts = hostname.trim().split(":");
 
         if (parts.length != 2) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -326,4 +318,21 @@ public class Launcher {
 
         return true;
     }
+
+    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+        loginView.getContinueButton().setOnAction(e -> {
+            boolean connected = launcher.connectToServer(loginView.getHostname());
+
+            if (!connected)
+                return;
+
+            if (loginView.getGameMode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
+            } else {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), true, loginView.getDifficulty());
+            }
+        });
+    }
+
+
 }

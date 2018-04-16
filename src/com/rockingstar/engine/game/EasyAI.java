@@ -7,37 +7,17 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Lech extends Player implements AI {
+public class EasyAI extends Player implements AI {
 
     private ReversiModel _reversiModel;
 
     /**
-     * Method to instantiate a Lech AI
-     * @param username
-     */
-    public Lech(String username) {
-        super(username);
-        isAI = true;
-    }
-
-    /**
-     * Method to instantiate a Lech AI
+     * Method to instantiate the EasyAI
      * @param username
      * @param color
      */
-    public Lech(String username, Color color) {
+    public EasyAI(String username, Color color) {
         super(username, color);
-        isAI = true;
-    }
-
-    /**
-     * Method to instantiate a Lech AI
-     * @param username
-     * @param color
-     * @param character
-     */
-    public Lech(String username, Color color, char character) {
-        super(username, color, character);
         isAI = true;
     }
 
@@ -61,7 +41,7 @@ public class Lech extends Player implements AI {
         System.out.println("poss moves in get move" +_reversiModel.getPossibleMoves(player));
         Random random = new Random();
 
-        System.out.printf("Possible moves for Lech: %d\n", possibleMoves.size());
+        System.out.printf("Possible moves for EasyAI: %d\n", possibleMoves.size());
 
         if(possibleMoves.contains(0)) {
             move = 0;
