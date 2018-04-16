@@ -38,6 +38,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -64,9 +65,8 @@ public class Launcher {
 
     private LinkedList<Player> _onlinePlayers;
 
-    private Launcher(GUIController guiController, ServerConnection serverConnection) {
+    private Launcher(GUIController guiController) {
         _guiController = guiController;
-        _serverConnection = serverConnection;
 
         _model = new LobbyModel();
         _loginView = new LoginView();
@@ -84,9 +84,9 @@ public class Launcher {
         return _instance;
     }
 
-    public static Launcher getInstance(GUIController guiController, ServerConnection serverConnection) {
+    public static Launcher getInstance(GUIController guiController) {
         if (_instance == null)
-            _instance = new Launcher(guiController, serverConnection);
+            _instance = new Launcher(guiController);
 
         return _instance;
     }
@@ -275,5 +275,41 @@ public class Launcher {
                 }
             }
         });
+    }
+
+    public boolean connectToServer(String hostname) {
+        if (_serverConnection != null)
+            return true;
+
+        // Theres a better way to do this. But it's late and I'm not in the mood for writing a regex
+        String[] parts = hostname.split(":");
+
+        if (parts.length != 2) {
+            Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+            uNameAlert.setTitle("ACHTUNG!");
+            uNameAlert.setHeaderText("ACHTUNG!");
+            uNameAlert.setContentText("Invalid host address. Required format: ip:port.");
+
+            uNameAlert.showAndWait();
+            return false;
+        }
+
+        try {
+            int port = Integer.parseInt(parts[1]);
+
+            _serverConnection = ServerConnection.getInstance(parts[0], port);
+            _serverConnection.start();
+        }
+        catch (IOException | ArrayIndexOutOfBoundsException e) {
+            Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+            uNameAlert.setTitle("ACHTUNG!");
+            uNameAlert.setHeaderText("ACHTUNG!");
+            uNameAlert.setContentText("Der verdammte Server funktioniert nicht.");
+
+            uNameAlert.showAndWait();
+            return false;
+        }
+
+        return true;
     }
 }
