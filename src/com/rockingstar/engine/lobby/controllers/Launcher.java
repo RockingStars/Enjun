@@ -102,7 +102,7 @@ public class Launcher {
 
         setupOnlinePlayerList();
         _updatePlayerList.start();
-
+        setupBackgroundMusic();
         _backgroundMusic.play();
     }
 
@@ -150,7 +150,7 @@ public class Launcher {
     }
 
     public void challengeReceived(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String challenger = parts[1];
         int challengeNumber;
@@ -171,8 +171,9 @@ public class Launcher {
             challengeInvitationAlert.setContentText("Player " + challenger + " has invited you to a game of " + gameType + ". Do you accept?");
 
             challengeInvitationAlert.showAndWait();
-
-            if (challengeInvitationAlert.getResult() == ButtonType.OK) {
+            if(challengeInvitationAlert.getResult() == ButtonType.CANCEL){
+                return;
+            } else if (challengeInvitationAlert.getResult() == ButtonType.OK) {
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
                 Util.displayStatus("Accepting challenge from " + challenger);
             }
@@ -180,7 +181,7 @@ public class Launcher {
     }
 
     public void startMatch(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String startingPlayer = parts[1];
         String gameType = parts[3];
@@ -258,7 +259,6 @@ public class Launcher {
 
     private void setupBackgroundMusic() {
         _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
-        _backgroundMusic.play();
     }
 
     private void setupOnlinePlayerList() {
