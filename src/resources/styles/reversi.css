@@ -9,7 +9,7 @@
 /*Top*/
 #titleText {
 	-fx-font:25px "Noto Sans", Arial;
-	-fx-text-fill: rgba(242,209,166);
+	-fx-text-fill:teal;
 }
 
 #errorStatus {
@@ -19,7 +19,7 @@
 
 #timer {
 	-fx-font:20px "Noto Sans", Arial;
-	-fx-text-fill: rgba(242,209,166);;
+	-fx-text-fill:teal;
 }
 
 /*Player1*/
@@ -41,6 +41,30 @@
 /*Common*/
 .players {
 	-fx-font: 30px "Noto Sans", Arial;
+/*
+    -fx-margin: 20px;
+	-fx-background-color: rgba(41,56,79,0.5);
+	/*-fx-font: 45px "Serif";
+	/*-fx-text-fill:teal;
+}
+
+.titles{
+	-fx-font:45px "Serif";
+	-fx-text-fill:rgba(242,209,166);
+}
+
+/*Player2
+#p2info {
+    -fx-margin: 20px;
+	-fx-background-color: rgba(41,56,79,0.5);
+	-fx-font: 45px "Serif";
+	/*-fx-text-fill:tea;*/
+}
+
+/*Common
+.players {
+	-fx-font: 30px "Serif";
+*/
 	-fx-text-fill:rgba(242,209,166);
 }
 
@@ -79,3 +103,4 @@
     -fx-text-fill: rgba(242,209,166);
     -fx-font-size: 18px;
 }
+

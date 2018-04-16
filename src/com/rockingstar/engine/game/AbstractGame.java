@@ -102,8 +102,6 @@ public abstract class AbstractGame implements GameInterface {
         return null;
     }
 
-    public abstract void showPossibleMoves();
-
     public abstract void doYourTurn();
 
     public boolean getIsYourTurn() {

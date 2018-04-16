@@ -1,6 +1,6 @@
 .root {
-	-fx-background-image: url("../wallpaper.jpeg");
-	-fx-background-size: cover;
+ 	-fx-background-image: url("../wallpaper.jpeg");
+ 	-fx-background-size: cover;
 }
 
 .lobby_pane {
@@ -27,6 +27,10 @@
     -fx-text-fill: #e0efda;
 }
 
+.no_padding {
+    -fx-padding: 0;
+}
+
 .lobby_head {
     -fx-padding: 10px;
     -fx-font: 125% "Noto Sans", Arial;
@@ -41,12 +45,19 @@
 #online_users {
     -fx-text-fill: #e0efda;
     -fx-padding: 1px 0 0 0;
+/*    -fx-min-height: 250px;
+    -fx-pref-height: 250px;
+    -fx-max-height: 250px;*/
 }
 
-.online_user {
+.online_user, .empty_online_player {
     -fx-padding: 3px;
     -fx-font: 85% "Noto Sans", Arial;
     -fx-text-fill: #e0efda;
+}
+
+.empty_online_player {
+    -fx-background-color: #363d32bb;
 }
 
 .option {

@@ -4,7 +4,6 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import javafx.application.Platform;
 
 public class ResponseHandler {
 
@@ -57,19 +56,11 @@ public class ResponseHandler {
                         }
                         break;
                     case "YOURTURN":
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
                         synchronized (Launcher.LOCK) {
                             System.out.println("Entering yourturn thingie");
-                            Platform.runLater(() -> {
-                                AbstractGame game = launcher.getGame();
-                                //game.showPossibleMoves();
-                                game.doYourTurn();
-                            });
-
+                            AbstractGame game = launcher.getGame();
+                            //game.showPossibleMoves();
+                            game.doYourTurn();
                             System.out.println("Yourturn done");
                         }
                         break;
@@ -90,6 +81,14 @@ public class ResponseHandler {
                         }
                         break;
                     case "CHALLENGE":
+                       /* switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
+                            case "CANCELLED":
+                                System.out.println("cancelled");
+                                break;
+                            case "CHALLENGER":
+                                Launcher.getInstance().challengeReceived(response.substring(19));
+                                break;
+                        }*/
                         Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":
