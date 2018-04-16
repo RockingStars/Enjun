@@ -33,7 +33,7 @@ public class ResponseHandler {
         }
     }
 
-    public void handleSVR(String response){
+    private void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
         Launcher launcher = Launcher.getInstance();
@@ -57,17 +57,17 @@ public class ResponseHandler {
                         break;
                     case "YOURTURN":
                         synchronized (Launcher.LOCK) {
-                            System.out.println("Entering yourturn thingie");
+                            Util.displayStatus("Entering yourturn thingie");
                             AbstractGame game = launcher.getGame();
                             //game.showPossibleMoves();
                             game.doYourTurn();
-                            System.out.println("Yourturn done");
+                            Util.displayStatus("Yourturn done");
                         }
                         break;
                     case "MOVE":
                         synchronized (Launcher.LOCK) {
                             try {
-                                System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
+                                Util.displayStatus("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                                 // Remove all characters other than alphanumeric ones and spaces / dashes
                                 response = response.replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[6];
 
