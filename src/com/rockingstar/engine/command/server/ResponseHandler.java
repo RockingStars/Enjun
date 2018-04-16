@@ -4,7 +4,6 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import javafx.application.Platform;
 
 public class ResponseHandler {
 
@@ -44,39 +43,54 @@ public class ResponseHandler {
                 System.out.println("help");
                 break;
             case "PLAYERLIST":
-                _message = response.substring(14);
+                launcher.updatePlayerList(response.substring(14));
                 break;
             case "GAMELIST":
-                _message = response.substring(12);
+                launcher.updateGameList(response.substring(12));
                 break;
             case "GAME":
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
-                        Launcher.getInstance().startMatch(response.substring(15));
+                        synchronized (Launcher.LOCK) {
+                            Launcher.getInstance().startMatch(response.substring(15));
+                        }
                         break;
                     case "YOURTURN":
-                        //while(launcher.getGame() == null || launcher.getGame().getGameState() != State.GAME_STARTED){}
-
-                        Platform.runLater(() -> {
+                        synchronized (Launcher.LOCK) {
+                            System.out.println("Entering yourturn thingie");
                             AbstractGame game = launcher.getGame();
-                            game.showPossibleMoves();
+                            //game.showPossibleMoves();
                             game.doYourTurn();
-                        });
+                            System.out.println("Yourturn done");
+                        }
                         break;
                     case "MOVE":
-                        try {
-                            System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
-                            response = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ")[6];
+                        synchronized (Launcher.LOCK) {
+                            try {
+                                System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
+                                // Remove all characters other than alphanumeric ones and spaces / dashes
+                                response = response.replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[6];
 
-                            launcher.getGame().doPlayerMove(Integer.parseInt(response));
-                        }
-                        catch (NumberFormatException e) {
-                            Util.displayStatus("Received invalid position from server");
-                            return;
+                                Thread.sleep(200);
+                                launcher.getGame().doPlayerMove(Integer.parseInt(response));
+                            } catch (NumberFormatException e) {
+                                Util.displayStatus("Received invalid position from server");
+                                return;
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                         }
                         break;
                     case "CHALLENGE":
-                        Launcher.getInstance().challengeReceived(response.substring(19));
+                        switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
+                            case "CANCELLED":
+                                System.out.println("cancelled");
+                                return;
+                            case "CHALLENGER":
+                                Launcher.getInstance().challengeReceived(response.substring(19));
+                                break;
+                        }
+                        //Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":
                     case "LOSS":

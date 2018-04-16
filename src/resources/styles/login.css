@@ -1,16 +1,36 @@
+.root {
+ 	-fx-background-image: url("../wallpaper.jpeg");
+ 	-fx-background-size: cover;
+}
+
 #welcome {
-    -fx-font:45px "Serif";
-    -fx-text-fill:teal;
+    -fx-font: 40px "Arial";
+    -fx-text-fill: #fff;
 }
 
 #headerText{
-	-fx-font:26px "Serif";
-	-fx-text-fill:teal;
+	-fx-font: 26px "Arial";
+	-fx-text-fill: #fff;
 }
 
-#uName {
-    -fx-font:22px "Serif";
-    -fx-text-fill:teal;
+#username_input {
+    -fx-padding: 10px;
+    -fx-border-width: 1px;
+    -fx-border-style: solid;
+    -fx-border-color: #b7b7b7;
+    -fx-text-fill: #4f4f4f;
+    -fx-font: 25px Arial;
+    -fx-font-weight: normal;
+}
+
+#player_type {
+    -fx-text-fill: #fff;
+    -fx-font: 22px Arial;
+}
+
+#login_label {
+    -fx-text-fill: #a0a0a0;
+    -fx-font: 22px Arial;
 }
 
 #centerPane {

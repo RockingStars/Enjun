@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Created by Bert de Boer on 3/27/2018.
@@ -21,13 +22,9 @@ public class ServerConnection extends Thread {
 
     private ServerConnection() {
         try {
-
-            //Andere
-            _socket = new Socket("77.162.40.81",7789);
-
-
             //_socket = new Socket("145.33.225.170", 7789);
-//            _socket = new Socket("127.0.0.1", 7789);
+            //_socket = new Socket("127.0.0.1", 7789);
+            _socket = new Socket("77.162.40.81", 7789);
 
             Util.displayStatus("Established server connection");
             _handler = new ResponseHandler();
@@ -47,7 +44,7 @@ public class ServerConnection extends Thread {
             PrintWriter output = new PrintWriter(_socket.getOutputStream(), true);
             output.println(command);
             Util.displayStatus("Client Command: " + command);
-            Thread.sleep(500);
+            Thread.sleep(100);
 
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
@@ -56,9 +53,13 @@ public class ServerConnection extends Thread {
 
     private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
+        String response;
         while (connected()) {
-            String response = input.readLine();
-
+            try {
+                response = input.readLine();
+            } catch (SocketException e){
+                return;
+            }
             if (response != null) {
                 Util.displayStatus("Server Response: " + response);
                 _handler.handle(response);

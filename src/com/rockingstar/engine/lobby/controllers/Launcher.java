@@ -1,12 +1,34 @@
+/*
+ * Enjun
+ *
+ * @version     1.0 Beta 1
+ * @author      Rocking Stars
+ * @copyright   2018, Enjun
+ *
+ * Copyright 2018 RockingStars
+
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.AcceptChallengeCommand;
-import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.GetPlayerListCommand;
+import com.rockingstar.engine.command.client.*;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Lech;
+import com.rockingstar.engine.game.OverPoweredAI;
 import com.rockingstar.engine.game.Player;
+import com.rockingstar.engine.gui.controllers.AudioPlayer;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
@@ -20,6 +42,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Launcher {
@@ -38,14 +61,24 @@ public class Launcher {
 
     private Player _localPlayer;
 
+    public static final Object LOCK = new Object();
+
+    private Thread _updatePlayerList;
+    private AudioPlayer _backgroundMusic;
+
+    private LinkedList<Player> _onlinePlayers;
+
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
         _serverConnection = serverConnection;
 
-        _model = new LobbyModel(this);
+        _model = new LobbyModel();
         _loginView = new LoginView();
 
         _model.addLoginActionHandlers(_loginView, this);
+        _onlinePlayers = new LinkedList<>();
+
+        setupOnlinePlayerList();
     }
 
     public static Launcher getInstance() {
@@ -69,35 +102,57 @@ public class Launcher {
     public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
+
+        setupOnlinePlayerList();
+        _updatePlayerList.start();
+        setupBackgroundMusic();
+        _backgroundMusic.play();
     }
 
     private void loadModule(AbstractGame game) {
         _currentGame = game;
-        _guiController.setCenter(game.getView());
+        Platform.runLater(() -> _guiController.setCenter(game.getView()));
+        _backgroundMusic.end();
     }
 
-
-    public void handleLogin(String username, String gameMode, boolean isAI) {
+    public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         // @todo Check for difficulty
-        if (isAI)
-            _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
-        else
-            _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
+
+        if (isAI){
+              if (difficulty.equals("Lech")){
+                  Util.displayStatus(difficulty + " Lech is AI");
+                  _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+              } else {
+                  Util.displayStatus(difficulty + " Bas is AI");
+                  _localPlayer = new OverPoweredAI(username, new Color(0.5,0.5,0.5,0));
+              }
+        } else {
+              _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
+        }
 
         if (_localPlayer.login()) {
-            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
+            _lobbyView = new LobbyView(this);
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
-            _model.setLocalPlayer(_localPlayer);
+
+            _lobbyView.setPlayerList(_onlinePlayers);
+
+            getPlayerList();
+            getGameList();
+
+            _lobbyView.setup();
 
             _guiController.setCenter(_lobbyView.getNode());
-            _model.addGameSelectionActionHandlers(_lobbyView);
+            _guiController.addStylesheet("lobby");
+
+            _updatePlayerList.start();
+            setupBackgroundMusic();
         }
     }
 
     public void challengeReceived(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String challenger = parts[1];
         int challengeNumber;
@@ -118,8 +173,9 @@ public class Launcher {
             challengeInvitationAlert.setContentText("Player " + challenger + " has invited you to a game of " + gameType + ". Do you accept?");
 
             challengeInvitationAlert.showAndWait();
-
-            if (challengeInvitationAlert.getResult() == ButtonType.OK) {
+            if(challengeInvitationAlert.getResult() == ButtonType.CANCEL){
+                return;
+            } else if (challengeInvitationAlert.getResult() == ButtonType.OK) {
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
                 Util.displayStatus("Accepting challenge from " + challenger);
             }
@@ -127,7 +183,7 @@ public class Launcher {
     }
 
     public void startMatch(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String startingPlayer = parts[1];
         String gameType = parts[3];
@@ -135,56 +191,85 @@ public class Launcher {
 
         Player opponent = new Player(opponentName);
 
-        Platform.runLater(() -> {
-            AbstractGame gameModule;
+        AbstractGame gameModule;
+        switch (gameType) {
+            case "Tic-tac-toe":
+            case "Tictactoe":
+                gameModule = new TTTController(_localPlayer, opponent);
+                break;
+            case "Reversi":
+                gameModule = new ReversiController(_localPlayer, opponent);
+                ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                break;
+            default:
+                Util.displayStatus("Unsupported game module " + gameType);
+                return;
+        }
 
-            switch (gameType) {
-                case "Tic-tac-toe":
-                case "Tictactoe":
-                    gameModule = new TTTController(_localPlayer, opponent);
-                    break;
-                case "Reversi":
-                    gameModule = new ReversiController(_localPlayer, opponent);
-                    ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
-                    break;
-                default:
-                    Util.displayStatus("Failed to load game module " + gameType);
-                    return;
-            }
+        Util.displayStatus("Loading game module " + gameType, true);
 
-            Util.displayStatus("Loading game module " + gameType, true);
-
-            loadModule(gameModule);
-            gameModule.startGame();
-/*
-            if (startingPlayer.equals(opponentName)) {
-                gameModule.setCurrentPlayer(1);
-                gameModule.doYourTurn(false);
-            }
-            else{
-                gameModule.setCurrentPlayer(0);
-                gameModule.doYourTurn(true);
-            }*/
-
-        });
+        loadModule(gameModule);
+        gameModule.startGame();
     }
 
-    public LinkedList<Player> getPlayerList() {
-        LinkedList<Player> players = new LinkedList<>();
+    private void getPlayerList() {
+        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
+    }
 
+    private void getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
+        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+    }
 
-        if (serverConnection.isValidCommand())
-            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
-                players.add(new Player(player));
-        else
-            Util.displayStatus("Loading player list", false);
+    public void updatePlayerList(String response) {
+        HashMap<String, Player> playerNames = new HashMap<>();
+        HashMap<String, Player> loggedInPlayers = new HashMap<>();
 
-        return players;
+        for (Player player : _onlinePlayers)
+            playerNames.put(player.getUsername(), player);
+
+        for (String player : Util.parseFakeCollection(response)) {
+            if (!playerNames.keySet().contains(player))
+                loggedInPlayers.put(player, new Player(player));
+            else
+                loggedInPlayers.put(player, playerNames.get(player));
+        }
+
+        _onlinePlayers.clear();
+        _onlinePlayers.addAll(loggedInPlayers.values());
+        _lobbyView.setPlayerList(_onlinePlayers);
+    }
+
+    public void updateGameList(String response) {
+        LinkedList<String> games = new LinkedList<>();
+        games.addAll(Util.parseFakeCollection(response));
+        _lobbyView.setGameList(games);
     }
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void subscribeToGame(String game) {
+        CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
+    }
+
+    private void setupBackgroundMusic() {
+        _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
+    }
+
+    private void setupOnlinePlayerList() {
+        _updatePlayerList = new Thread(() -> {
+            while (_currentGame == null) {
+                getPlayerList();
+
+                try {
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }
