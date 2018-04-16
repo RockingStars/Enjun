@@ -105,7 +105,7 @@ public class Launcher {
 
         setupOnlinePlayerList();
         _updatePlayerList.start();
-
+        setupBackgroundMusic();
         _backgroundMusic.play();
     }
 
@@ -173,8 +173,9 @@ public class Launcher {
             challengeInvitationAlert.setContentText("Player " + challenger + " has invited you to a game of " + gameType + ". Do you accept?");
 
             challengeInvitationAlert.showAndWait();
-
-            if (challengeInvitationAlert.getResult() == ButtonType.OK) {
+            if(challengeInvitationAlert.getResult() == ButtonType.CANCEL){
+                return;
+            } else if (challengeInvitationAlert.getResult() == ButtonType.OK) {
                 CommandExecutor.execute(new AcceptChallengeCommand(_serverConnection, challengeNumber));
                 Util.displayStatus("Accepting challenge from " + challenger);
             }
@@ -255,7 +256,6 @@ public class Launcher {
 
     private void setupBackgroundMusic() {
         _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
-        _backgroundMusic.play();
     }
 
     private void setupOnlinePlayerList() {
