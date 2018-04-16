@@ -14,12 +14,12 @@ public class MainWindow {
     public MainWindow(Stage mainStage) {
         _mainStage = mainStage;
         _layout = new BorderPane();
-        _scene = new Scene(_layout);
+        _scene = new Scene(_layout, 1200, 800);
         setup();
     }
 
     private void setup() {
-        _mainStage.setMaximized(false);
+        _mainStage.setMaximized(true);
         //_mainStage.setResizable(false);
         _scene.getStylesheets().add("styles/login.css");
         _scene.getStylesheets().add("styles/gameSelect.css");
