@@ -4,7 +4,6 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import javafx.application.Platform;
 
 public class ResponseHandler {
 
@@ -44,23 +43,25 @@ public class ResponseHandler {
                 System.out.println("help");
                 break;
             case "PLAYERLIST":
-                _message = response.substring(14);
+                launcher.updatePlayerList(response.substring(14));
                 break;
             case "GAMELIST":
-                _message = response.substring(12);
+                launcher.updateGameList(response.substring(12));
                 break;
             case "GAME":
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
-                        Launcher.getInstance().startMatch(response.substring(15));
+                        synchronized (Launcher.LOCK) {
+                            Launcher.getInstance().startMatch(response.substring(15));
+                        }
                         break;
                     case "YOURTURN":
                         synchronized (Launcher.LOCK) {
-                            Platform.runLater(() -> {
-                                AbstractGame game = launcher.getGame();
-                                game.showPossibleMoves();
-                                game.doYourTurn();
-                            });
+                            System.out.println("Entering yourturn thingie");
+                            AbstractGame game = launcher.getGame();
+                            //game.showPossibleMoves();
+                            game.doYourTurn();
+                            System.out.println("Yourturn done");
                         }
                         break;
                     case "MOVE":
@@ -80,6 +81,14 @@ public class ResponseHandler {
                         }
                         break;
                     case "CHALLENGE":
+                       /* switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
+                            case "CANCELLED":
+                                System.out.println("cancelled");
+                                break;
+                            case "CHALLENGER":
+                                Launcher.getInstance().challengeReceived(response.substring(19));
+                                break;
+                        }*/
                         Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":

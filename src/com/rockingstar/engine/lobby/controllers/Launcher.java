@@ -1,9 +1,7 @@
 package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.AcceptChallengeCommand;
-import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.GetPlayerListCommand;
+import com.rockingstar.engine.command.client.*;
 import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.OverPoweredAI;
@@ -20,6 +18,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class Launcher {
@@ -40,6 +39,10 @@ public class Launcher {
 
     public static final Object LOCK = new Object();
 
+    private Thread _updatePlayerList;
+
+    private LinkedList<Player> _onlinePlayers;
+
     private Launcher(GUIController guiController, ServerConnection serverConnection) {
         _guiController = guiController;
         _serverConnection = serverConnection;
@@ -48,6 +51,20 @@ public class Launcher {
         _loginView = new LoginView();
 
         _model.addLoginActionHandlers(_loginView, this);
+        _onlinePlayers = new LinkedList<>();
+
+        _updatePlayerList = new Thread(() -> {
+            while (_currentGame == null) {
+                getPlayerList();
+
+                try {
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public static Launcher getInstance() {
@@ -71,38 +88,46 @@ public class Launcher {
     public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
+        _updatePlayerList.start();
     }
 
     private void loadModule(AbstractGame game) {
         _currentGame = game;
-        _guiController.setCenter(game.getView());
+        Platform.runLater(() -> _guiController.setCenter(game.getView()));
     }
 
-
-
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
-        
         if (isAI){
               if (difficulty.equals("Lech")){
-                  System.out.println(difficulty + " Lech is AI");
+                  Util.displayStatus(difficulty + " Lech is AI");
                   _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
               } else {
-                  System.out.println(difficulty + " Bas is AI");
+                  Util.displayStatus(difficulty + " Bas is AI");
                   _localPlayer = new OverPoweredAI(username, new Color(0.5,0.5,0.5,0));
               }
         } else {
               _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
         }
-      
+
         if (_localPlayer.login()) {
-            _lobbyView = new LobbyView(getPlayerList(), _model.getGameList());
+            _lobbyView = new LobbyView(this);
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
             _model.setLocalPlayer(_localPlayer);
 
+            _lobbyView.setPlayerList(_onlinePlayers);
+
+            getPlayerList();
+            getGameList();
+
+            _lobbyView.setup();
+
             _guiController.setCenter(_lobbyView.getNode());
+            _guiController.addStylesheet("lobby");
             _model.addGameSelectionActionHandlers(_lobbyView);
+
+            _updatePlayerList.start();
         }
     }
 
@@ -145,47 +170,68 @@ public class Launcher {
 
         Player opponent = new Player(opponentName);
 
-        Platform.runLater(() -> {
-            synchronized (LOCK) {
-                AbstractGame gameModule;
-                switch (gameType) {
-                    case "Tic-tac-toe":
-                    case "Tictactoe":
-                        gameModule = new TTTController(_localPlayer, opponent);
-                        break;
-                    case "Reversi":
-                        gameModule = new ReversiController(_localPlayer, opponent);
-                        ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
-                        break;
-                    default:
-                        Util.displayStatus("Failed to load game module " + gameType);
-                        return;
-                }
+        System.out.println("Entered lock-protected area in launcher");
+        AbstractGame gameModule;
+        switch (gameType) {
+            case "Tic-tac-toe":
+            case "Tictactoe":
+                gameModule = new TTTController(_localPlayer, opponent);
+                break;
+            case "Reversi":
+                gameModule = new ReversiController(_localPlayer, opponent);
+                ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
+                break;
+            default:
+                Util.displayStatus("Failed to load game module " + gameType);
+                return;
+        }
 
-                Util.displayStatus("Loading game module " + gameType, true);
+        Util.displayStatus("Loading game module " + gameType, true);
 
-                loadModule(gameModule);
-                gameModule.startGame();
-            }
-        });
+        loadModule(gameModule);
+        gameModule.startGame();
+        System.out.println("Left lock-protected area in Launcher");
     }
 
-    public LinkedList<Player> getPlayerList() {
-        LinkedList<Player> players = new LinkedList<>();
+    private void getPlayerList() {
+        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
+    }
 
+    private void getGameList() {
         ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetPlayerListCommand(serverConnection));
+        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+    }
 
-        if (serverConnection.isValidCommand())
-            for (String player : Util.parseFakeCollection(serverConnection.getResponse()))
-                players.add(new Player(player));
-        else
-            Util.displayStatus("Loading player list", false);
+    public void updatePlayerList(String response) {
+        HashMap<String, Player> playerNames = new HashMap<>();
+        HashMap<String, Player> loggedInPlayers = new HashMap<>();
 
-        return players;
+        for (Player player : _onlinePlayers)
+            playerNames.put(player.getUsername(), player);
+
+        for (String player : Util.parseFakeCollection(response)) {
+            if (!playerNames.keySet().contains(player))
+                loggedInPlayers.put(player, new Player(player));
+            else
+                loggedInPlayers.put(player, playerNames.get(player));
+        }
+
+        _onlinePlayers.clear();
+        _onlinePlayers.addAll(loggedInPlayers.values());
+        _lobbyView.setPlayerList(_onlinePlayers);
+    }
+
+    public void updateGameList(String response) {
+        LinkedList<String> games = new LinkedList<>();
+        games.addAll(Util.parseFakeCollection(response));
+        _lobbyView.setGameList(games);
     }
 
     public AbstractGame getGame() {
         return _currentGame;
+    }
+
+    public void subscribeToGame(String game) {
+        CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
     }
 }

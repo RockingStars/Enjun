@@ -30,15 +30,14 @@ public class OverPoweredAI extends Player implements AI {
 
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
-        VectorXY move = getPowerSpotMove(player, possibleMoves);
+        VectorXY move = getPowerSpotMove(possibleMoves);
 
         if(move == null) {
             move = mostTilesFlippedStrategy(player, possibleMoves);
         }
-
+        System.out.println("move in getmove method" + move);
         return move;
     }
-
 
     public VectorXY mostTilesFlippedStrategy(Player player, ArrayList<Integer> possibleMoves){
         System.out.println(possibleMoves);
@@ -57,15 +56,15 @@ public class OverPoweredAI extends Player implements AI {
 
         if (goodMoves.size() > 0) {
             for (int i = 0; i < goodMoves.size(); i++) {
-                System.out.println("loop wel");
+                //System.out.println("loop wel");
                 int pmove = goodMoves.get(i);
-                System.out.println("getter wel");
+                //System.out.println("getter wel");
                 LinkedList<Integer> tilesFlipped = _reversiModel.getFlippableTiles(pmove % 8, pmove / 8, player);
                 int amountTilesFlipped = tilesFlipped.size();
-                System.out.println(tilesFlipped);
+                //System.out.println(tilesFlipped);
 
                 if (amountTilesFlipped > bestMoveNumberOfTiles) {
-                    System.out.println("hoi");
+                    //System.out.println("hoi");
                     bestMoveNumberOfTiles = amountTilesFlipped;
                     bestMoveCoordinates = new VectorXY(pmove % 8, pmove / 8);
                 }
@@ -84,7 +83,7 @@ public class OverPoweredAI extends Player implements AI {
     private static final int[] powerSpots2 = {2,5,16,23,40,47,58,61}; // corner avoiders
     private static final int[] powerSpots3 = {18,21,42,45}; // corner avoiders avoiders
     */
-    public VectorXY getPowerSpotMove(Player player, ArrayList<Integer> possibleMoves){
+    public VectorXY getPowerSpotMove(ArrayList<Integer> possibleMoves){
         for(Integer i : powerSpots1) {
             if (possibleMoves.contains(i)) {
                 return new VectorXY(i % 8, i / 8);

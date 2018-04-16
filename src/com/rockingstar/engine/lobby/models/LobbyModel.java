@@ -1,16 +1,9 @@
 package com.rockingstar.engine.lobby.models;
 
-import com.rockingstar.engine.ServerConnection;
-import com.rockingstar.engine.command.client.CommandExecutor;
-import com.rockingstar.engine.command.client.GetGameListCommand;
 import com.rockingstar.engine.game.Player;
-import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
-import javafx.application.Platform;
-
-import java.util.LinkedList;
 
 public class LobbyModel {
 
@@ -21,31 +14,14 @@ public class LobbyModel {
         _launcher = launcher;
     }
 
-
-
-    public LinkedList<String> getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
-
-        if (serverConnection.isValidCommand())
-            return Util.parseFakeCollection(serverConnection.getResponse());
-        else
-            Util.displayStatus("Loading player list", false);
-
-        return new LinkedList<>();
-    }
-
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
-            if (loginView.getGamemode().equals("Player")) {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false, null);
+            if (loginView.getGameMode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
             } else {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), true, loginView.getDifficulty());
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), true, loginView.getDifficulty());
             }
         });
-
-
-
     }
 
 //    public void addRefreshActionHandlers(LobbyView lobbyView) {
@@ -55,13 +31,6 @@ public class LobbyModel {
 
     public void addGameSelectionActionHandlers(LobbyView lobbyView) {
         System.out.println("OK");
-
-        lobbyView.getGameSelectionBox().setOnAction(e -> {
-            Platform.runLater(() -> {
-                // _launcher.loadModule(new TTTController(_players[0], _players[1]));
-
-            });
-        });
     }
 
     public void setPlayers(Player[] players) {

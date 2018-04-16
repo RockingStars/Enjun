@@ -6,6 +6,8 @@ import com.rockingstar.engine.command.client.LoginCommand;
 import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
+import java.util.Random;
+
 public class Player {
 
     protected String username;
@@ -16,9 +18,18 @@ public class Player {
 
     protected char _character;
 
+    private static final Color[] COLORS = {
+        Color.valueOf("2766ad"),
+        Color.valueOf("adad27"),
+        Color.valueOf("ad2727"),
+        Color.valueOf("27ad44")
+    };
+
     public Player(String username) {
         this.username = username;
         score = 0;
+
+        color = COLORS[new Random().nextInt(COLORS.length)];
     }
 
     public Player(String username, Color color) {

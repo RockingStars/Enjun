@@ -6,19 +6,10 @@
 	/*-fx-background-color:purple;*/
 }
 
-#rightGame {
-	-fx-background-color:red;
-	/*-fx-setAlignment(Pos.CENTER_RIGHT)*/
-}
-
-#leftGame {
-	/*-fx-background-color:green;*/
-}
-
+/*Top*/
 #titleText {
 	-fx-font:25px "Serif";
-	-fx-text-fill:yellow;
-	/*-fx-text-fill:teal;*/
+	-fx-text-fill:teal;
 }
 
 #errorStatus {
@@ -27,22 +18,50 @@
 }
 
 #timer {
-	-fx-font:30px "Serif";
-	-fx-text-fill:green;
+	-fx-font:20px "Serif";
+	-fx-text-fill:teal;
+}
+
+/*Player1*/
+#p1info{
+	-fx-background-color: rgba(41,56,79,0.5);
+	/*-fx-font: 45px "Serif";*/
 	/*-fx-text-fill:teal;*/
 }
 
+.titles{
+	-fx-font:45px "Serif";
+	-fx-text-fill:rgba(242,209,166);
+}
 
-#players {
+/*Player2*/
+#p2info {
+	-fx-background-color: rgba(41,56,79,0.5);
 	-fx-font: 45px "Serif";
-	-fx-text-fill:teal;
+	/*-fx-text-fill:tea;*/
+}
+
+/*Common*/
+.players {
+	-fx-font: 30px "Serif";
+	-fx-text-fill:rgba(242,209,166);
 }
 
 #playerScore {
-	-fx-font: 45px "Serif";
-	-fx-text-fill:teal;
+	-fx-font: 30px "Serif";
+	-fx-text-fill:rgba(242,209,166);
 }
 
+
+#white{
+	-fx-background-image:url("white1.png");
+}
+
+#black{
+	-fx-background-image:url("black1.png");
+}
+
+/*Bottom*/
 #rageQuit{
 	-fx-background-image:url("maximumRage.jpg");
 }
@@ -51,3 +70,4 @@
 	-fx-background-image:url("hanzeMeme.jpg");	
 	-fx-opacity:0.2;
 }
+
