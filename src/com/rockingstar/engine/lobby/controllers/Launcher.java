@@ -33,7 +33,6 @@ import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
-
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -146,6 +145,7 @@ public class Launcher {
 
             _updatePlayerList.start();
             setupBackgroundMusic();
+            _backgroundMusic.start();
         }
     }
 
@@ -201,6 +201,7 @@ public class Launcher {
                 }
                 break;
             case "Reversi":
+                System.out.println(_localPlayer.getClass());
                 gameModule = new ReversiController(_localPlayer, opponent);
                 ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
                 break;
@@ -258,7 +259,7 @@ public class Launcher {
     }
 
     private void setupBackgroundMusic() {
-        _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
+        _backgroundMusic = new AudioPlayer("cod2soundtrack.mp3", true);
     }
 
     private void setupOnlinePlayerList() {
