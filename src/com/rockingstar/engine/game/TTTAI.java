@@ -11,20 +11,39 @@ import java.util.Random;
 public class TTTAI extends Player implements AI {
     private TTTModel _TTTModel;
 
+    /**
+     * Method to instantiate a TTT AI
+     * @param username
+     */
     public TTTAI(String username) {
         super(username);
         isAI = true;
     }
 
+    /**
+     * Method to instantiate a TTT AI
+     * @param username
+     * @param color
+     */
     public TTTAI(String username, Color color) {
         super(username, color);
         isAI = true;
     }
 
+    /**
+     * Method to set the model
+     * @param tttModel
+     */
     public void setModel(TTTModel tttModel) {
         _TTTModel = tttModel;
     }
 
+    /**
+     * Method to make a random move
+     * @param player
+     * @param possibleMoves
+     * @return Returns the vector to make a move
+     */
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
         Integer move;

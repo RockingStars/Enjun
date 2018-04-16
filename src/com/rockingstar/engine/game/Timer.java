@@ -11,6 +11,9 @@ public class Timer extends Thread {
         _countLabel = countLabel;
     }
 
+    /**
+     * Method that sets a timer to keep track of the time left to make a move
+     */
     @Override
     public void run(){
         int counter = 10;
