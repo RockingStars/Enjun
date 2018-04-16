@@ -31,6 +31,9 @@ public class LoginView {
     private Label _difficulty;
     private HBox _AIMode;
 
+    private Label _hostIP;
+    private TextField _hostIPInput;
+
     public LoginView() {
         _borderPane = new BorderPane();
         setup();
@@ -55,21 +58,30 @@ public class LoginView {
 
     private void createCenterPane() {
         VBox centerPane = new VBox();
-        centerPane.setMaxHeight(height/2);
+        centerPane.setMaxHeight(height/1.5);
         centerPane.setMaxWidth(width/2);
         centerPane.setAlignment(Pos.CENTER);
         centerPane.setId("centerPane");
-        centerPane.setSpacing(50);
-
+        centerPane.setSpacing(30);
 
         Label playerMode = new Label("Choose your player type");
         playerMode.setId("login_label");
+
+        _hostIP = new Label("Host address");
+        _hostIP.setId("host_ip_label");
+        _hostIP.setVisible(false);
+
+        _hostIPInput = new TextField("77.162.40.81:7789");
+        _hostIPInput.setPromptText("127.0.0.1:7789");
+        _hostIPInput.setId("hostname_input");
+        _hostIPInput.setMaxWidth(300);
+        _hostIPInput.setVisible(false);
 
         HBox radioButtons = new HBox(30);
         radioButtons.setAlignment(Pos.CENTER);
 
         _playMode = new ToggleGroup();
-        _AIGroup= new ToggleGroup();
+        _AIGroup = new ToggleGroup();
 
         RadioButton player = new RadioButton("Player");
         player.setUserData("Player");
@@ -99,19 +111,18 @@ public class LoginView {
         _difficulty.setId("login_label");
         _difficulty.setVisible(false);
 
-        RadioButton lech = new RadioButton("Lech");
-        lech.setUserData("Lech");
-        lech.setId("player_type");
-        lech.setToggleGroup(_AIGroup);
+        RadioButton easyAI = new RadioButton("EasyAI");
+        easyAI.setUserData("EasyAI");
+        easyAI.setId("player_type");
+        easyAI.setToggleGroup(_AIGroup);
 
-        RadioButton bas = new RadioButton("Bas");
-        bas.setUserData("Bas");
-        bas.setId("player_type");
-        bas.setToggleGroup(_AIGroup);
-
+        RadioButton hardAI = new RadioButton("HardAI");
+        hardAI.setUserData("HardAI");
+        hardAI.setId("player_type");
+        hardAI.setToggleGroup(_AIGroup);
 
         _AIMode = new HBox(30);
-        _AIMode.getChildren().addAll(lech, bas);
+        _AIMode.getChildren().addAll(easyAI, hardAI);
         _AIMode.setVisible(false);
         _AIMode.setAlignment(Pos.CENTER);
 
@@ -121,7 +132,9 @@ public class LoginView {
         _continueButton.setVisible(false);
         _continueButton.setId("button");
 
-        centerPane.getChildren().addAll(playerMode, radioButtons, _difficulty, _AIMode, userName, _continueButton);
+        centerPane.getChildren().addAll(playerMode, radioButtons, _difficulty,
+            _AIMode, userName, _hostIP, _hostIPInput, _continueButton
+        );
         _borderPane.setCenter(centerPane);
     }
 
@@ -135,12 +148,18 @@ public class LoginView {
                 _difficulty.setVisible(true);
                 _AIMode.setVisible(true);
                 _continueButton.setVisible(false);
-                _usernameTextField.setVisible(false);
-                _enteredUsername.setVisible(false);
+                _usernameTextField.setVisible(true);
+                _enteredUsername.setVisible(true);
+
+                _hostIP.setVisible(true);
+                _hostIPInput.setVisible(true);
             } else{
                 _difficulty.setVisible(false);
                 _AIMode.setVisible(false);
                 _enteredUsername.setVisible(true);
+
+                _hostIP.setVisible(true);
+                _hostIPInput.setVisible(true);
             }
         });
 
@@ -150,8 +169,10 @@ public class LoginView {
                 _enteredUsername.setVisible(true);
                 _usernameTextField.setVisible(true);
                 _continueButton.setVisible(true);
+
+                _hostIP.setVisible(true);
+                _hostIPInput.setVisible(true);
             }
-            System.out.println(_selectedDifficulty);
         });
     }
 
@@ -166,6 +187,10 @@ public class LoginView {
 
     public String getInsertedUsername() {
         return _usernameTextField.getText();
+    }
+
+    public String getHostname() {
+        return _hostIPInput.getText();
     }
 
     public String getGameMode(){

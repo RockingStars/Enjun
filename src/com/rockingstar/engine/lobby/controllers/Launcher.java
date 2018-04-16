@@ -38,6 +38,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.paint.Color;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -64,19 +65,27 @@ public class Launcher {
 
     private LinkedList<Player> _onlinePlayers;
 
-    private Launcher(GUIController guiController, ServerConnection serverConnection) {
+    /**
+     * Method to instantiate a launcher
+     * @param guiController
+     * @param serverConnection
+     */
+    private Launcher(GUIController guiController) {
         _guiController = guiController;
-        _serverConnection = serverConnection;
 
         _model = new LobbyModel();
         _loginView = new LoginView();
 
-        _model.addLoginActionHandlers(_loginView, this);
+        addLoginActionHandlers(_loginView, this);
         _onlinePlayers = new LinkedList<>();
 
         setupOnlinePlayerList();
     }
 
+    /**
+     * Method that returns the instance
+     * @return returns the instance
+     */
     public static Launcher getInstance() {
         if (_instance == null)
             return null;
@@ -84,9 +93,14 @@ public class Launcher {
         return _instance;
     }
 
-    public static Launcher getInstance(GUIController guiController, ServerConnection serverConnection) {
+    /**
+     * 
+     * @param guiController
+     * @return
+     */
+    public static Launcher getInstance(GUIController guiController) {
         if (_instance == null)
-            _instance = new Launcher(guiController, serverConnection);
+            _instance = new Launcher(guiController);
 
         return _instance;
     }
@@ -115,12 +129,12 @@ public class Launcher {
         // @todo Check for difficulty
 
         if (isAI){
-            if (difficulty.equals("Lech")) {
-                Util.displayStatus(difficulty + " Lech is AI");
-                _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+            if (difficulty.equals("Easy")) {
+                Util.displayStatus(difficulty + " Easy AI selected");
+                _localPlayer = new EasyAI(username, new Color(0.5, 0.5, 0.5, 0));
             } else {
-                Util.displayStatus(difficulty + " Bas is AI");
-                _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
+                Util.displayStatus(difficulty + " Hard AI selected");
+                _localPlayer = new HardAI(username, new Color(0.5, 0.5, 0.5, 0));
             }
 
         } else {
@@ -135,8 +149,8 @@ public class Launcher {
 
             _lobbyView.setPlayerList(_onlinePlayers);
 
-            getPlayerList();
-            getGameList();
+            _model.getPlayerList();
+            _model.getGameList();
 
             _lobbyView.setup();
 
@@ -216,14 +230,6 @@ public class Launcher {
         gameModule.startGame();
     }
 
-    private void getPlayerList() {
-        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
-    }
-
-    private void getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
-    }
 
     public void updatePlayerList(String response) {
         HashMap<String, Player> playerNames = new HashMap<>();
@@ -265,7 +271,7 @@ public class Launcher {
     private void setupOnlinePlayerList() {
         _updatePlayerList = new Thread(() -> {
             while (_currentGame == null) {
-                getPlayerList();
+                _model.getPlayerList();
 
                 try {
                     Thread.sleep(5000);
@@ -276,4 +282,57 @@ public class Launcher {
             }
         });
     }
+
+    public boolean connectToServer(String hostname) {
+        if (_serverConnection != null)
+            return true;
+
+        // Theres a better way to do this. But it's late and I'm not in the mood for writing a regex
+        String[] parts = hostname.trim().split(":");
+
+        if (parts.length != 2) {
+            Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+            uNameAlert.setTitle("ACHTUNG!");
+            uNameAlert.setHeaderText("ACHTUNG!");
+            uNameAlert.setContentText("Invalid host address. Required format: ip:port.");
+
+            uNameAlert.showAndWait();
+            return false;
+        }
+
+        try {
+            int port = Integer.parseInt(parts[1]);
+
+            _serverConnection = ServerConnection.getInstance(parts[0], port);
+            _serverConnection.start();
+        }
+        catch (IOException | ArrayIndexOutOfBoundsException e) {
+            Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
+            uNameAlert.setTitle("ACHTUNG!");
+            uNameAlert.setHeaderText("ACHTUNG!");
+            uNameAlert.setContentText("Der verdammte Server funktioniert nicht.");
+
+            uNameAlert.showAndWait();
+            return false;
+        }
+
+        return true;
+    }
+
+    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+        loginView.getContinueButton().setOnAction(e -> {
+            boolean connected = launcher.connectToServer(loginView.getHostname());
+
+            if (!connected)
+                return;
+
+            if (loginView.getGameMode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
+            } else {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), true, loginView.getDifficulty());
+            }
+        });
+    }
+
+
 }

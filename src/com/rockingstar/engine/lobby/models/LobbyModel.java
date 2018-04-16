@@ -22,19 +22,20 @@
 
 package com.rockingstar.engine.lobby.models;
 
-import com.rockingstar.engine.game.Player;
-import com.rockingstar.engine.lobby.controllers.Launcher;
-import com.rockingstar.engine.lobby.views.LoginView;
+import com.rockingstar.engine.ServerConnection;
+import com.rockingstar.engine.command.client.CommandExecutor;
+import com.rockingstar.engine.command.client.GetGameListCommand;
+import com.rockingstar.engine.command.client.GetPlayerListCommand;
 
 public class LobbyModel {
 
-    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
-        loginView.getContinueButton().setOnAction(e -> {
-            if (loginView.getGameMode().equals("Player")) {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
-            } else {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), true, loginView.getDifficulty());
-            }
-        });
+    public void getPlayerList() {
+        CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
     }
+
+    public void getGameList() {
+        ServerConnection serverConnection = ServerConnection.getInstance();
+        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+    }
+
 }

@@ -21,22 +21,16 @@ public class ServerConnection extends Thread {
     private Socket _socket;
     private ResponseHandler _handler;
 
+
     /**
      * Tries to connect to the server via socket, if not possible prints error message
      */
-    private ServerConnection() {
-        try {
-            //_socket = new Socket("145.33.225.170", 7789);
-            //_socket = new Socket("127.0.0.1", 7789);
-            _socket = new Socket("77.162.40.81", 7789);
-
-            Util.displayStatus("Established server connection");
-            _handler = new ResponseHandler();
-        }
-        catch(IOException e) {
-            System.out.printf("Could not connect to server: %s\n", e.toString());
-            Util.exit("Establishing server connection...");
-        }
+    private ServerConnection(String hostname, int port) throws IOException {
+        //_socket = new Socket("145.33.225.170", 7789);
+        _socket = new Socket(hostname, port);
+        //_socket = new Socket("77.162.40.81", 7789);
+        Util.displayStatus("Established server connection");
+        _handler = new ResponseHandler();
     }
 
     /**
@@ -114,8 +108,15 @@ public class ServerConnection extends Thread {
      * @return new Serverconnection
      */
     public static ServerConnection getInstance(){
+        if (uniqueInstance == null)
+            return null;
+
+        return uniqueInstance;
+    }
+
+    public static ServerConnection getInstance(String hostname, int port) throws IOException {
         if(uniqueInstance == null){
-            uniqueInstance = new ServerConnection();
+            uniqueInstance = new ServerConnection(hostname, port);
         }
 
         return uniqueInstance;

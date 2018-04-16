@@ -13,7 +13,7 @@
 	-fx-text-fill: #fff;
 }
 
-#username_input {
+#username_input, #hostname_input {
     -fx-padding: 10px;
     -fx-border-width: 1px;
     -fx-border-style: solid;
@@ -28,7 +28,7 @@
     -fx-font: 22px Arial;
 }
 
-#login_label {
+#login_label, #host_ip_label {
     -fx-text-fill: #a0a0a0;
     -fx-font: 22px Arial;
 }
