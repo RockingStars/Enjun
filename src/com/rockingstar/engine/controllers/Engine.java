@@ -30,12 +30,24 @@ import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import javafx.util.Duration;
+import java.net.URL;
+
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
+
 
 public class Engine extends Application {
 
     private GUIController _gui;
     private Launcher _launcher;
 
+    /**
+     * Boots the engine.
+     * Starts the gui and sets up the server connection
+     */
     private void boot() {
         Util.displayStatus("Entering boot sequence");
 
@@ -47,6 +59,10 @@ public class Engine extends Application {
         _launcher.setCentralNode();
     }
 
+    /***
+     * Sets the GUI to primaryStage, when primaryStage is closed, user is logged out.
+     * @param primaryStage The GUI
+     */
     @Override
     public void start(Stage primaryStage) {
         _gui = new GUIController(primaryStage);

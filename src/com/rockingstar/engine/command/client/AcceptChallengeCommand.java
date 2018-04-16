@@ -1,7 +1,10 @@
 package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class AcceptChallengeCommand implements Command {
 
     private ServerConnection _serverConnection;
@@ -17,6 +20,9 @@ public class AcceptChallengeCommand implements Command {
         _challengeNumber = challengeNumber;
     }
 
+    /**
+     * accept the incoming challenge
+     */
     @Override
     public void execute() {
         _serverConnection.send("challenge accept " + _challengeNumber);
