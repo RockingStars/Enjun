@@ -1,8 +1,5 @@
 package com.rockingstar.engine.game;
 
-import com.rockingstar.engine.game.AI;
-import com.rockingstar.engine.game.Player;
-
 import com.rockingstar.engine.game.models.VectorXY;
 import com.rockingstar.modules.TicTacToe.models.TTTModel;
 import javafx.scene.paint.Color;
