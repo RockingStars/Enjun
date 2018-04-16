@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.net.SocketException;
 
 /**
  * Created by Bert de Boer on 3/27/2018.
@@ -52,8 +53,16 @@ public class ServerConnection extends Thread {
 
     private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
+
         while (connected()) {
-            String response = input.readLine();
+            String response;
+
+            try {
+                response = input.readLine();
+            }
+            catch (SocketException e) {
+                return;
+            }
 
             if (response != null) {
                 Util.displayStatus("Server Response: " + response);

@@ -152,7 +152,7 @@ public class Launcher {
     }
 
     public void challengeReceived(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String challenger = parts[1];
         int challengeNumber;
@@ -182,7 +182,7 @@ public class Launcher {
     }
 
     public void startMatch(String response) {
-        String[] parts = response.replaceAll("[^a-zA-Z0-9 ]","").split(" ");
+        String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
         String startingPlayer = parts[1];
         String gameType = parts[3];
