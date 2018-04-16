@@ -23,7 +23,6 @@ public class OverPoweredAI extends Player implements AI {
         isAI = true;
     }
 
-    @Override
     public void setModel(ReversiModel reversiModel) {
         _reversiModel = reversiModel;
     }
