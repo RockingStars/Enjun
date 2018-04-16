@@ -10,6 +10,11 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * This class contains methods that create and update a Hard AI
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class OverPoweredAI extends Player implements AI {
 
     private static final int[] powerSpots1 = {0,7,56,63}; // corners
@@ -35,7 +40,7 @@ public class OverPoweredAI extends Player implements AI {
     private int counter = 0;
 
     /**
-     * Method to instantiate the a OverPowered AI
+     * Method to instantiate the a Hard AI
      * @param username
      * @param color
      */

@@ -41,6 +41,11 @@ import javafx.scene.paint.Color;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Class that creates the login view and handles all the actions that can be performed in the login view.
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class Launcher {
 
     private GUIController _guiController;
@@ -94,7 +99,7 @@ public class Launcher {
     }
 
     /**
-     * 
+     *
      * @param guiController
      * @param serverConnection
      * @return

@@ -7,6 +7,11 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class contains methods that create and update a Easy AI
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class Lech extends Player implements AI {
 
     private ReversiModel _reversiModel;
@@ -21,7 +26,7 @@ public class Lech extends Player implements AI {
     }
 
     /**
-     * Method to instantiate a Lech AI
+     * Method to instantiate a Easy AI
      * @param username
      * @param color
      */

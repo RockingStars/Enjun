@@ -7,7 +7,9 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
-
+/**
+ * This class contains methods that create and update a TicTacToe AI
+ */
 public class TTTAI extends Player implements AI {
     private TTTModel _TTTModel;
 
