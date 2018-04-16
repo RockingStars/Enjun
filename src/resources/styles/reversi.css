@@ -7,9 +7,10 @@
 }
 
 /*Top*/
-#titleText {
+.titleText {
 	-fx-font:25px "Noto Sans", Arial;
-	-fx-text-fill:teal;
+	-fx-text-fill: rgba(218,177,113,1);
+	/*'Noto Sans', sans-serif;*/
 }
 
 #errorStatus {
@@ -17,20 +18,15 @@
 	-fx-text-fill:red;
 }
 
-#timer {
-	-fx-font:20px "Noto Sans", Arial;
-	-fx-text-fill:teal;
-}
-
 /*Player1*/
 #p1info{
 	-fx-background-color: rgba(41,56,79,0.5);
 }
 
-.titles{
+/*.titles{
 	-fx-font:45px "Noto Sans", Arial;
 	-fx-text-fill:rgba(242,209,166, 1);
-}
+}*/
 
 /*Player2*/
 #p2info {
@@ -48,22 +44,23 @@
 }
 
 .titles{
-	-fx-font:45px "Serif";
-	-fx-text-fill:rgba(242,209,166, 1);
+	-fx-font:45px "Noto Sans", Arial;
+	-fx-text-fill:rgba(218,177,113, 1);
 }
 
 /*Player2 */
 #p2info {
     -fx-margin: 20px;
 	-fx-background-color: rgba(41,56,79,0.5);
-	-fx-font: 45px "Serif";
+	-fx-font: 45px "Noto Sans", Arial;
 	/*-fx-text-fill:tea;*/
 }
 
 /*Common */
 .players {
-	-fx-font: 30px "Serif";
-	-fx-text-fill:rgba(242,209,166, 1);
+	-fx-font: 30px "Noto Sans", Arial;
+	-fx-text-fill:rgba(242,209,166);
+	-fx-background:rgba(41,56,78,0.5);
 }
 
 #playerScore {
