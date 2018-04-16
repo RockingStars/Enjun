@@ -78,18 +78,7 @@ public class Launcher {
         _model.addLoginActionHandlers(_loginView, this);
         _onlinePlayers = new LinkedList<>();
 
-        _updatePlayerList = new Thread(() -> {
-            while (_currentGame == null) {
-                getPlayerList();
-
-                try {
-                    Thread.sleep(5000);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        setupOnlinePlayerList();
     }
 
     public static Launcher getInstance() {
@@ -113,7 +102,10 @@ public class Launcher {
     public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
+
+        setupOnlinePlayerList();
         _updatePlayerList.start();
+
         _backgroundMusic.play();
     }
 
@@ -262,5 +254,20 @@ public class Launcher {
     private void setupBackgroundMusic() {
         _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
         _backgroundMusic.play();
+    }
+
+    private void setupOnlinePlayerList() {
+        _updatePlayerList = new Thread(() -> {
+            while (_currentGame == null) {
+                getPlayerList();
+
+                try {
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

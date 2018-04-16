@@ -63,6 +63,6 @@ public class AudioPlayer extends Thread {
     }
 
     public void end() {
-        interrupt();
+        _mediaPlayer.stop();
     }
 }
