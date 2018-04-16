@@ -320,7 +320,7 @@ public class LobbyView {
                     CommandExecutor.execute(new SendChallengeCommand(ServerConnection.getInstance(), new Player(chk.getText()), _selectedGame));
                     Util.displayStatus("Sent invitation to " + playerToChallenge);
                 }
-            }
+            }        
         });
     }
 

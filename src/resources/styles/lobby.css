@@ -1,6 +1,6 @@
 .root {
-	-fx-background-image: url("../wallpaper.jpeg");
-	-fx-background-size: cover;
+ 	-fx-background-image: url("../wallpaper.jpeg");
+ 	-fx-background-size: cover;
 }
 
 .lobby_pane {

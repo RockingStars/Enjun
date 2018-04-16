@@ -97,6 +97,8 @@ public class Launcher {
     }
 
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
+        // @todo Check for difficulty
+
         if (isAI){
               if (difficulty.equals("Lech")){
                   Util.displayStatus(difficulty + " Lech is AI");
@@ -125,7 +127,6 @@ public class Launcher {
 
             _guiController.setCenter(_lobbyView.getNode());
             _guiController.addStylesheet("lobby");
-            _model.addGameSelectionActionHandlers(_lobbyView);
 
             _updatePlayerList.start();
         }

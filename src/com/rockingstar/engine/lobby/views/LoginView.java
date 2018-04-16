@@ -45,7 +45,7 @@ public class LoginView {
     }
 
     private void createTopPane() {
-        Label welcomeMessage = new Label("Login");
+        Label welcomeMessage = new Label("Welcome to Rockingstar Games!");
         welcomeMessage.setAlignment(Pos.CENTER);
         welcomeMessage.setMinWidth(width);
         welcomeMessage.setId("welcome");
@@ -62,7 +62,7 @@ public class LoginView {
         centerPane.setSpacing(50);
 
 
-        Label playerMode = new Label("How do you want to play?");
+        Label playerMode = new Label("Choose your player type");
         playerMode.setId("login_label");
 
         HBox radioButtons = new HBox(30);
@@ -88,14 +88,14 @@ public class LoginView {
         _usernameTextField.setMaxWidth(300);
         _usernameTextField.setId("username_input");
 
-        _enteredUsername = new Label("Please enter your username:");
+        _enteredUsername = new Label("Enter your username:");
         _enteredUsername.setVisible(false);
         _enteredUsername.setId("login_label");
 
         userName.getChildren().addAll(_enteredUsername, _usernameTextField);
         userName.setAlignment(Pos.CENTER);
 
-        _difficulty = new Label("Please select the AI difficulty");
+        _difficulty = new Label("Select AI difficulty");
         _difficulty.setId("login_label");
         _difficulty.setVisible(false);
 
