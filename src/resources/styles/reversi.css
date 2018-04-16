@@ -1,5 +1,5 @@
 #gameInfo {
-	-fx-text-fill: rgba(242,209,166);
+	-fx-text-fill: rgba(242,209,166, 1);
 }
 
 #bottomPane {
@@ -29,7 +29,7 @@
 
 .titles{
 	-fx-font:45px "Noto Sans", Arial;
-	-fx-text-fill:rgba(242,209,166);
+	-fx-text-fill:rgba(242,209,166, 1);
 }
 
 /*Player2*/
@@ -41,19 +41,18 @@
 /*Common*/
 .players {
 	-fx-font: 30px "Noto Sans", Arial;
-/*
     -fx-margin: 20px;
 	-fx-background-color: rgba(41,56,79,0.5);
 	/*-fx-font: 45px "Serif";
-	/*-fx-text-fill:teal;
+	/*-fx-text-fill:teal;*/
 }
 
 .titles{
 	-fx-font:45px "Serif";
-	-fx-text-fill:rgba(242,209,166);
+	-fx-text-fill:rgba(242,209,166, 1);
 }
 
-/*Player2
+/*Player2 */
 #p2info {
     -fx-margin: 20px;
 	-fx-background-color: rgba(41,56,79,0.5);
@@ -61,25 +60,25 @@
 	/*-fx-text-fill:tea;*/
 }
 
-/*Common
+/*Common */
 .players {
 	-fx-font: 30px "Serif";
-*/
-	-fx-text-fill:rgba(242,209,166);
+	-fx-text-fill:rgba(242,209,166, 1);
 }
 
 #playerScore {
 	-fx-font: 30px "Noto Sans", Arial;
-	-fx-text-fill:rgba(242,209,166);
+	-fx-text-fill:rgba(242,209,166, 1);
 }
-
 
 #white{
 	-fx-background-image:url("white1.png");
+	-fx-text-fill: #fff;
 }
 
 #black{
 	-fx-background-image:url("black1.png");
+    -fx-text-fill: #000;
 }
 
 /*Bottom*/
@@ -93,14 +92,14 @@
 }
 
 #forfeit{
-	-fx-background-color: rgba(41,56,78),
+	-fx-background-color: rgba(41,56,78, 1),
         linear-gradient(#7ebcea, #2f4b8f),
         linear-gradient(#426ab7, #263e75),
         linear-gradient(#395cab, #223768);
     -fx-background-insets: 0,1,2,3;
     -fx-background-radius: 3,2,2,2;
     -fx-padding: 12 30 12 30;
-    -fx-text-fill: rgba(242,209,166);
+    -fx-text-fill: rgba(242,209,166, 1);
     -fx-font-size: 18px;
 }
 
