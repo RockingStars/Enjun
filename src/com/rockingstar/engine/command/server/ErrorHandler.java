@@ -1,7 +1,8 @@
 package com.rockingstar.engine.command.server;
 
 /**
- * Created by Bert de Boer on 4/5/2018.
+ * @author Rocking Stars
+ * @since  beta 1.0
  */
 public class ErrorHandler {
 

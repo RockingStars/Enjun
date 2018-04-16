@@ -2,7 +2,10 @@ package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.game.Player;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class SendChallengeCommand implements Command {
 
     private ServerConnection _serverConnection;

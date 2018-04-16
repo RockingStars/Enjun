@@ -26,7 +26,10 @@ import com.rockingstar.engine.controllers.Engine;
 import com.rockingstar.engine.io.models.Util;
 
 import static javafx.application.Application.launch;
-
+/**
+ * @author Rocking Stars
+ * @since  1.0 beta 1.0
+ */
 public class Main {
 
     public static final boolean DEBUG_MODE = true;

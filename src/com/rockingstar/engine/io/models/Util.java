@@ -1,11 +1,17 @@
 package com.rockingstar.engine.io.models;
 
+
 import com.rockingstar.main.Main;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+
+/**
+ * @author Rocking Stars
+ * @version beta 1.0
+ */
 
 public class Util {
     /**

@@ -11,7 +11,8 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * Created by Bert de Boer on 3/27/2018.
+ * @author Rocking Stars
+ * @since  beta 1.0
  */
 public class ServerConnection extends Thread {
 
@@ -93,6 +94,9 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * Tries to close the connection with the server
+     */
     public void close() {
         try {
             _socket.close();
@@ -105,6 +109,10 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * checks if there is an serverconnection, if not, create a new ServerConnection
+     * @return new Serverconnection
+     */
     public static ServerConnection getInstance(){
         if(uniqueInstance == null){
             uniqueInstance = new ServerConnection();
@@ -113,10 +121,18 @@ public class ServerConnection extends Thread {
         return uniqueInstance;
     }
 
+    /**
+     * Gets response from Response Handler
+     * @return the getMessage method from ResponseHandler
+     */
     public String getResponse() {
         return _handler.getMessage();
     }
 
+    /**
+     * Checks if a command is a valid command
+     * @return true if a command is valid, false if not
+     */
     public boolean isValidCommand() {
         return _handler.isValidCommand();
     }

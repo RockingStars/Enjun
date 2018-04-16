@@ -4,7 +4,10 @@ import com.rockingstar.engine.gui.views.MainWindow;
 import com.rockingstar.engine.io.models.Util;
 import javafx.scene.Node;
 import javafx.stage.Stage;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class GUIController {
 
     private Stage _mainStage;

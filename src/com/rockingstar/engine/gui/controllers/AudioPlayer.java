@@ -28,7 +28,10 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.net.URL;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class AudioPlayer extends Thread {
 
     private boolean _repeat;

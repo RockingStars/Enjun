@@ -4,7 +4,10 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class MainWindow {
 
     private Stage _mainStage;

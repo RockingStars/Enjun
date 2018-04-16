@@ -1,7 +1,10 @@
 package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class LogoutCommand implements Command {
 
     private ServerConnection _serverConnection;

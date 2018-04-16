@@ -35,7 +35,10 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class Engine extends Application {
 
     private GUIController _gui;

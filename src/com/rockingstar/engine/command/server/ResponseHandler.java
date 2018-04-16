@@ -4,7 +4,10 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.State;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class ResponseHandler {
 
     private String _message;

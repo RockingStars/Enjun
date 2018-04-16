@@ -3,7 +3,8 @@ package com.rockingstar.engine.command.client;
 import com.rockingstar.engine.ServerConnection;
 
 /**
- * receives gamelist from server
+ * @author Rocking Stars
+ * @since  beta 1.0
  */
 public class GetGameListCommand implements Command {
 
