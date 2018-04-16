@@ -120,7 +120,7 @@ public class Launcher {
                 _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
             } else {
                 Util.displayStatus(difficulty + " Bas is AI");
-                _localPlayer = new MinimaxAI(username, new Color(0.5, 0.5, 0.5, 0));
+                _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
             }
 
         } else {
