@@ -68,6 +68,7 @@ public class ResponseHandler {
                         synchronized (Launcher.LOCK) {
                             try {
                                 System.out.println("MOVE RESPONSE FROM SERVER: " + response.substring(14));
+                                // Remove all characters other than alphanumeric ones and spaces / dashes
                                 response = response.replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[6];
 
                                 Thread.sleep(200);
