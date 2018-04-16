@@ -22,6 +22,7 @@
 
 package com.rockingstar.engine.lobby.models;
 
+import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import com.rockingstar.engine.lobby.views.LoginView;
 
@@ -29,10 +30,10 @@ public class LobbyModel {
 
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
-            if (loginView.getGamemode().equals("Player")) {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), false, null);
+            if (loginView.getGameMode().equals("Player")) {
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
             } else {
-                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGamemode(), true, loginView.getDifficulty());
+                launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), true, loginView.getDifficulty());
             }
         });
     }

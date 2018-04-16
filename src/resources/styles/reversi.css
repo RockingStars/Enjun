@@ -1,53 +1,106 @@
 #gameInfo {
-	/*-fx-bac32kground-color:blue;*/
+	-fx-text-fill: rgba(242,209,166);
 }
 
 #bottomPane {
 	/*-fx-background-color:purple;*/
 }
 
-#rightGame {
-	-fx-background-color:red;
-	/*-fx-setAlignment(Pos.CENTER_RIGHT)*/
-}
-
-#leftGame {
-	/*-fx-background-color:green;*/
-}
-
+/*Top*/
 #titleText {
-	-fx-font:25px "Serif";
-	-fx-text-fill:yellow;
-	/*-fx-text-fill:teal;*/
+	-fx-font:25px "Noto Sans", Arial;
+	-fx-text-fill:teal;
 }
 
 #errorStatus {
-	-fx-font:16px "Serif";
+	-fx-font:16px "Noto Sans", Arial;
 	-fx-text-fill:red;
 }
 
 #timer {
-	-fx-font:30px "Serif";
-	-fx-text-fill:green;
-	/*-fx-text-fill:teal;*/
+	-fx-font:20px "Noto Sans", Arial;
+	-fx-text-fill:teal;
 }
 
+/*Player1*/
+#p1info{
+	-fx-background-color: rgba(41,56,79,0.5);
+}
 
-#players {
+.titles{
+	-fx-font:45px "Noto Sans", Arial;
+	-fx-text-fill:rgba(242,209,166);
+}
+
+/*Player2*/
+#p2info {
+	-fx-background-color: rgba(41,56,79,0.5);
+	-fx-font: 45px "Noto Sans", Arial;
+}
+
+/*Common*/
+.players {
+	-fx-font: 30px "Noto Sans", Arial;
+/*
+    -fx-margin: 20px;
+	-fx-background-color: rgba(41,56,79,0.5);
+	/*-fx-font: 45px "Serif";
+	/*-fx-text-fill:teal;
+}
+
+.titles{
+	-fx-font:45px "Serif";
+	-fx-text-fill:rgba(242,209,166);
+}
+
+/*Player2
+#p2info {
+    -fx-margin: 20px;
+	-fx-background-color: rgba(41,56,79,0.5);
 	-fx-font: 45px "Serif";
-	-fx-text-fill:teal;
+	/*-fx-text-fill:tea;*/
+}
+
+/*Common
+.players {
+	-fx-font: 30px "Serif";
+*/
+	-fx-text-fill:rgba(242,209,166);
 }
 
 #playerScore {
-	-fx-font: 45px "Serif";
-	-fx-text-fill:teal;
+	-fx-font: 30px "Noto Sans", Arial;
+	-fx-text-fill:rgba(242,209,166);
 }
 
+
+#white{
+	-fx-background-image:url("white1.png");
+}
+
+#black{
+	-fx-background-image:url("black1.png");
+}
+
+/*Bottom*/
 #rageQuit{
 	-fx-background-image:url("maximumRage.jpg");
 }
 
 #Hanze{
 	-fx-background-image:url("hanzeMeme.jpg");	
-	-fx-opacity:0.2;
+	-fx-opacity:0.1;
 }
+
+#forfeit{
+	-fx-background-color: rgba(41,56,78),
+        linear-gradient(#7ebcea, #2f4b8f),
+        linear-gradient(#426ab7, #263e75),
+        linear-gradient(#395cab, #223768);
+    -fx-background-insets: 0,1,2,3;
+    -fx-background-radius: 3,2,2,2;
+    -fx-padding: 12 30 12 30;
+    -fx-text-fill: rgba(242,209,166);
+    -fx-font-size: 18px;
+}
+
