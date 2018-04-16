@@ -30,6 +30,11 @@ public class LobbyModel {
 
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
+            boolean connected = launcher.connectToServer(loginView.getHostname());
+
+            if (!connected)
+                return;
+
             if (loginView.getGameMode().equals("Player")) {
                 launcher.handleLogin(String.valueOf(loginView.getInsertedUsername()), loginView.getGameMode(), false, null);
             } else {
