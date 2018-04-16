@@ -31,11 +31,20 @@ public class VectorXY {
         x = y = value;
     }
 
+    /**
+     * Method that creates a vector
+     * @param x
+     * @param y
+     */
     public VectorXY(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * Method that makes a string from the integers x and y
+     * @return returns a string of the 2 integers
+     */
     @Override
     public String toString() {
         return String.format("(%d, %d)", x, y);

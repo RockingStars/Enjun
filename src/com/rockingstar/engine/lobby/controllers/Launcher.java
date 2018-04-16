@@ -65,6 +65,11 @@ public class Launcher {
 
     private LinkedList<Player> _onlinePlayers;
 
+    /**
+     * Method to instantiate a launcher
+     * @param guiController
+     * @param serverConnection
+     */
     private Launcher(GUIController guiController) {
         _guiController = guiController;
 
@@ -77,6 +82,10 @@ public class Launcher {
         setupOnlinePlayerList();
     }
 
+    /**
+     * Method that returns the instance
+     * @return returns the instance
+     */
     public static Launcher getInstance() {
         if (_instance == null)
             return null;
@@ -84,6 +93,11 @@ public class Launcher {
         return _instance;
     }
 
+    /**
+     * 
+     * @param guiController
+     * @return
+     */
     public static Launcher getInstance(GUIController guiController) {
         if (_instance == null)
             _instance = new Launcher(guiController);

@@ -47,6 +47,10 @@ public class Player {
         Color.valueOf("27ad44")
     };
 
+    /**
+     * Method to instantiate a player
+     * @param username
+     */
     public Player(String username) {
         this.username = username;
         score = 0;
@@ -54,12 +58,23 @@ public class Player {
         color = COLORS[new Random().nextInt(COLORS.length)];
     }
 
+    /**
+     * Method to instantiate a player
+     * @param username
+     * @param color
+     */
     public Player(String username, Color color) {
         this.username = username;
         score = 0;
         this.color = color;
     }
 
+    /**
+     * Method to instantiate a player
+     * @param username
+     * @param color
+     * @param character
+     */
     public Player(String username, Color color, char character) {
         this.username = username;
         score = 0;
@@ -67,6 +82,10 @@ public class Player {
         _character = character;
     }
 
+    /**
+     * Method to log in a player
+     * @return returns a boolean for a valid or invalid login
+     */
     public boolean login() {
         ServerConnection serverConnection = ServerConnection.getInstance();
 
@@ -86,26 +105,50 @@ public class Player {
         return true;
     }
 
+    /**
+     * Method that returns the username
+     * @return returns the username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * Method that returns the color
+     * @return returns the color
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Method that returns the score
+     * @return returns the score
+     */
     public int getScore() {
         return score;
     }
 
+    /**
+     * Method that returns the character
+     * @return returns the character
+     */
     public char getCharacter() {
         return _character;
     }
 
+    /**
+     * Method that sets the color
+     * @param color
+     */
     public void setColor(Color color) {
         this.color = color;
     }
 
+    /**
+     * Method that sets the character
+     * @param character
+     */
     public void setCharacter(char character) {
         _character = character;
     }

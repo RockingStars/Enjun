@@ -31,6 +31,10 @@ public class Main {
 
     public static final boolean DEBUG_MODE = true;
 
+    /**
+     * Method that starts the engine and checks whether you are debugging or not
+     * @param args
+     */
     public static void main(String[] args) {
         Util.displayStatus("Starting pre-launch checks");
         Util.displayStatus("Debug mode is on");

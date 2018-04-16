@@ -11,25 +11,50 @@ public class Lech extends Player implements AI {
 
     private ReversiModel _reversiModel;
 
+    /**
+     * Method to instantiate a Lech AI
+     * @param username
+     */
     public Lech(String username) {
         super(username);
         isAI = true;
     }
 
+    /**
+     * Method to instantiate a Lech AI
+     * @param username
+     * @param color
+     */
     public Lech(String username, Color color) {
         super(username, color);
         isAI = true;
     }
 
+    /**
+     * Method to instantiate a Lech AI
+     * @param username
+     * @param color
+     * @param character
+     */
     public Lech(String username, Color color, char character) {
         super(username, color, character);
         isAI = true;
     }
 
+    /**
+     * Method to set the model of the class
+     * @param reversiModel
+     */
     public void setModel(ReversiModel reversiModel) {
         _reversiModel = reversiModel;
     }
 
+    /**
+     * Method to get the possible moves and a check for corners.
+     * @param player
+     * @param possibleMoves
+     * @return Returns the vector to make a move
+     */
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
         Integer move;

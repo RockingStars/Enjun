@@ -34,24 +34,46 @@ public class OverPoweredAI extends Player implements AI {
     private ReversiController _reversiController;
     private int counter = 0;
 
+    /**
+     * Method to instantiate the a OverPowered AI
+     * @param username
+     * @param color
+     */
     public OverPoweredAI(String username, Color color) {
         super(username, color);
         isAI = true;
     }
 
+    /**
+     * Method to set the model of the class
+     * @param reversiModel
+     */
     public void setModel(ReversiModel reversiModel) {
         _reversiModel = reversiModel;
     }
 
+    /**
+     * Method to set the controller of the class
+     * @param reversiController
+     */
     public void setController(ReversiController reversiController) {
         _reversiController = reversiController;
     }
 
+    /**
+     * Method to create a variable that tracks how many turns have past
+     * @param value
+     */
     public void setCounter(int value){
         counter = value;
     }
 
-
+    /**
+     * Method to get the best possible moves
+     * @param player
+     * @param possibleMoves
+     * @return Returns the vector to make a move
+     */
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
         //int valueOfBestMove = Integer.MIN_VALUE;
@@ -86,6 +108,11 @@ public class OverPoweredAI extends Player implements AI {
         return new VectorXY(bestMove % 8, bestMove / 8);
     }
 
+    /**
+     * Method to find power spots in the list of possible moves
+     * @param possibleMoves
+     * @return Gives back a power spot if it contains 1
+     */
     public int getPowerSpotMove(ArrayList<Integer> possibleMoves){
         for(int i : powerSpots1) {
             if (possibleMoves.contains(i)) {
@@ -105,6 +132,11 @@ public class OverPoweredAI extends Player implements AI {
         return -1;
     }
 
+    /**
+     * Method that selects a random move out of possible moves
+     * @param possibleMoves
+     * @return Returns a move
+     */
     public int generateRandomMove(ArrayList<Integer> possibleMoves){
         int move;
         Random random = new Random();
@@ -114,6 +146,12 @@ public class OverPoweredAI extends Player implements AI {
         return move;
     }
 
+    /**
+     * Method that checks how advantageous the current state of the board is for the player
+     * @param board
+     * @param player
+     * @return
+     */
     public int measure(Player[][] board, Player player){
         int measure = 0;
 
@@ -127,6 +165,13 @@ public class OverPoweredAI extends Player implements AI {
         return measure;
     }
 
+    /**
+     * Code to implement minimax in the AI
+     * @param board
+     * @param depth
+     * @param maximizingPlayer
+     * @return returns the best value for a move
+     */
     private int minimax(Player[][] board, int depth, boolean maximizingPlayer){
         //int bestMove = 0;
         Player currentPlayer = maximizingPlayer ? _reversiController.getPlayer1() : _reversiController.getPlayer2();
