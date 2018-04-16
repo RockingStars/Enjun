@@ -81,15 +81,15 @@ public class ResponseHandler {
                         }
                         break;
                     case "CHALLENGE":
-                       /* switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
+                        switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
                             case "CANCELLED":
                                 System.out.println("cancelled");
-                                break;
+                                return;
                             case "CHALLENGER":
                                 Launcher.getInstance().challengeReceived(response.substring(19));
                                 break;
-                        }*/
-                        Launcher.getInstance().challengeReceived(response.substring(19));
+                        }
+                        //Launcher.getInstance().challengeReceived(response.substring(19));
                         break;
                     case "WIN":
                     case "LOSS":

@@ -101,27 +101,11 @@ public class Player {
         return _character;
     }
 
-    public boolean isAI() {
-        return isAI;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
     public void setColor(Color color) {
         this.color = color;
     }
 
     public void setCharacter(char character) {
         _character = character;
-    }
-
-    public void setIsAI(boolean isAI) {
-        this.isAI = isAI;
     }
 }
