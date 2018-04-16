@@ -29,32 +29,22 @@ import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.controllers.Launcher;
 import javafx.application.Application;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
-import java.net.URL;
 
 public class Engine extends Application {
 
     private GUIController _gui;
-    private ServerConnection _serverConnection;
     private Launcher _launcher;
 
     private void boot() {
         Util.displayStatus("Entering boot sequence");
 
         _gui.display();
-        _serverConnection = ServerConnection.getInstance();
-        _serverConnection.start();
 
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
 
-        _launcher = Launcher.getInstance(_gui, _serverConnection);
+        _launcher = Launcher.getInstance(_gui);
         _launcher.setCentralNode();
-
-        //_serverConnection.close();
     }
 
     @Override
@@ -62,8 +52,13 @@ public class Engine extends Application {
         _gui = new GUIController(primaryStage);
         primaryStage.setOnCloseRequest(e -> {
             Util.displayStatus("Preparing to exit engine on request by user");
-            CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance()));
-            _serverConnection.close();
+
+            ServerConnection serverConnection = ServerConnection.getInstance();
+            if (serverConnection != null) {
+                CommandExecutor.execute(new LogoutCommand(ServerConnection.getInstance()));
+                serverConnection.close();
+            }
+
             System.exit(0);
         });
         boot();
