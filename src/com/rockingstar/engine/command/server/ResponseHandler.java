@@ -33,7 +33,7 @@ public class ResponseHandler {
         }
     }
 
-    public void handleSVR(String response){
+    private void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
         Launcher launcher = Launcher.getInstance();

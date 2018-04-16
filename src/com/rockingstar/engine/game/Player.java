@@ -71,12 +71,13 @@ public class Player {
         ServerConnection serverConnection = ServerConnection.getInstance();
 
         CommandExecutor.execute(new LoginCommand(serverConnection, username));
+        String response = serverConnection.getResponse();
 
-        if (!serverConnection.isValidCommand()) {
+        if (!serverConnection.isValidCommand() || response != null) {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("Unable to login");
             uNameAlert.setHeaderText("Unable to login");
-            uNameAlert.setContentText(serverConnection.getResponse());
+            uNameAlert.setContentText(response);
             uNameAlert.showAndWait();
 
             return false;
