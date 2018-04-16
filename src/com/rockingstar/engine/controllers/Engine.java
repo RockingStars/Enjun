@@ -42,6 +42,10 @@ public class Engine extends Application {
     private ServerConnection _serverConnection;
     private Launcher _launcher;
 
+    /**
+     * Boots the engine.
+     * Starts the gui and sets up the server connection
+     */
     private void boot() {
         Util.displayStatus("Entering boot sequence");
 
@@ -57,6 +61,10 @@ public class Engine extends Application {
         //_serverConnection.close();
     }
 
+    /***
+     * Sets the GUI to primaryStage, when primaryStage is closed, user is logged out.
+     * @param primaryStage The GUI
+     */
     @Override
     public void start(Stage primaryStage) {
         _gui = new GUIController(primaryStage);

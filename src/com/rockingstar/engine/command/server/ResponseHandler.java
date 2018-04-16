@@ -14,6 +14,10 @@ public class ResponseHandler {
 
     }
 
+    /**
+     * Handles the responses from the server
+     * @param response the received response from the server
+     */
     public void handle(String response) {
         String responseType = response.split(" ")[0];
         _isValidCommand = false;
@@ -33,6 +37,10 @@ public class ResponseHandler {
         }
     }
 
+    /**
+     * Handles every server messages starting with SVR
+     * @param response contains the server message
+     */
     private void handleSVR(String response){
         String responseType = response.substring(4).split(" ")[0];
 
@@ -102,10 +110,18 @@ public class ResponseHandler {
         }
     }
 
+    /**
+     * Returns a substring, which is set in handle()
+     * @return substring from response
+     */
     public String getMessage() {
         return _message;
     }
 
+    /**
+     * Checks if a command is a valid command
+     * @return Boolean, true if valid command, false if not
+     */
     public boolean isValidCommand() {
         return _isValidCommand;
     }

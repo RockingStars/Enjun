@@ -20,6 +20,9 @@ public class ServerConnection extends Thread {
     private Socket _socket;
     private ResponseHandler _handler;
 
+    /**
+     * Tries to connect to the server via socket, if not possible prints error message
+     */
     private ServerConnection() {
         try {
             //_socket = new Socket("145.33.225.170", 7789);
@@ -35,10 +38,19 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * To check if you are connected
+     * @return true while connected
+     */
     private boolean connected(){
         return !_socket.isClosed();
     }
 
+    /**
+     * Creates new PrintWriter, prints command to the PrintWriter.
+     * Displats command as status and wait for 0,1 seconds
+     * @param command command to be entered to PrintWriters and status
+     */
     public void send(String command) {
         try {
             PrintWriter output = new PrintWriter(_socket.getOutputStream(), true);
@@ -51,6 +63,11 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * While connected to server, put the response to the BufferedReader.
+     * displays the response, and makes sure the response is handled
+     * @throws IOException
+     */
     private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
         String response;

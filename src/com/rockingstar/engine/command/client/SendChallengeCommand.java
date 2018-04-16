@@ -22,6 +22,9 @@ public class SendChallengeCommand implements Command {
         _game = game;
     }
 
+    /**
+     * Sends the command for the challenge message to the server for the selected player
+     */
     @Override
     public void execute() {
         _serverConnection.send(String.format("challenge \"%s\" \"%s\"", _player.getUsername(), _game));

@@ -17,6 +17,9 @@ public class AcceptChallengeCommand implements Command {
         _challengeNumber = challengeNumber;
     }
 
+    /**
+     * accept the incoming challenge
+     */
     @Override
     public void execute() {
         _serverConnection.send("challenge accept " + _challengeNumber);

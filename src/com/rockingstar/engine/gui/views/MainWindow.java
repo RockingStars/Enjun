@@ -11,6 +11,10 @@ public class MainWindow {
     private BorderPane _layout;
     private Scene _scene;
 
+    /**
+     * Creates a BorderPane in a Scene
+     * @param mainStage main windows for the GUI
+     */
     public MainWindow(Stage mainStage) {
         _mainStage = mainStage;
         _layout = new BorderPane();
@@ -18,6 +22,9 @@ public class MainWindow {
         setup();
     }
 
+    /**
+     * Sets screen maximized and adds all the css files
+     */
     private void setup() {
         _mainStage.setMaximized(true);
         //_mainStage.setResizable(false);
@@ -29,14 +36,26 @@ public class MainWindow {
         _mainStage.setScene(_scene);
     }
 
+    /**
+     * Centers the Node
+     * @param node node to be centered
+     */
     public void setCenter(Node node) {
         _layout.setCenter(node);
     }
 
+    /**
+     * Sets a title for mainstage
+     * @param title String as title for the mainstage
+     */
     public void setTitle(String title) {
         _mainStage.setTitle(title);
     }
 
+    /**
+     * Add more stylesheets to the GUI
+     * @param stylesheet name of the css file to be added
+     */
     public void addStylesheet(String stylesheet) {
         _scene.getStylesheets().add("styles/" + stylesheet + ".css");
     }
