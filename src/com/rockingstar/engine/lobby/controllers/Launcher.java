@@ -24,10 +24,7 @@ package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.command.client.*;
-import com.rockingstar.engine.game.AbstractGame;
-import com.rockingstar.engine.game.Lech;
-import com.rockingstar.engine.game.OverPoweredAI;
-import com.rockingstar.engine.game.Player;
+import com.rockingstar.engine.game.*;
 import com.rockingstar.engine.gui.controllers.AudioPlayer;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
@@ -119,13 +116,14 @@ public class Launcher {
         // @todo Check for difficulty
 
         if (isAI){
-              if (difficulty.equals("Lech")){
-                  Util.displayStatus(difficulty + " Lech is AI");
-                  _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
-              } else {
-                  Util.displayStatus(difficulty + " Bas is AI");
-                  _localPlayer = new OverPoweredAI(username, new Color(0.5,0.5,0.5,0));
-              }
+            if (difficulty.equals("Lech")) {
+                Util.displayStatus(difficulty + " Lech is AI");
+                _localPlayer = new Lech(username, new Color(0.5, 0.5, 0.5, 0));
+            } else {
+                Util.displayStatus(difficulty + " Bas is AI");
+                _localPlayer = new OverPoweredAI(username, new Color(0.5, 0.5, 0.5, 0));
+            }
+
         } else {
               _localPlayer = new Player(username, new Color(0.5, 0.5, 0.5, 0));
         }
@@ -194,7 +192,12 @@ public class Launcher {
         switch (gameType) {
             case "Tic-tac-toe":
             case "Tictactoe":
-                gameModule = new TTTController(_localPlayer, opponent);
+                if (_localPlayer instanceof AI) {
+                    _localPlayer = new TTTAI(opponentName);
+                    gameModule = new TTTController(_localPlayer, opponent);
+                } else {
+                    gameModule = new TTTController(_localPlayer, opponent);
+                }
                 break;
             case "Reversi":
                 gameModule = new ReversiController(_localPlayer, opponent);

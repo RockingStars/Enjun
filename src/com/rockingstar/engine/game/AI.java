@@ -7,6 +7,5 @@ import java.util.ArrayList;
 
 public interface AI {
 
-    void setModel(ReversiModel reversiModel);
     VectorXY getMove(Player player, ArrayList<Integer> possibleMoves);
 }
