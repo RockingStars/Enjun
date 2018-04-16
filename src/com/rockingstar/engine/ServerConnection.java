@@ -53,17 +53,13 @@ public class ServerConnection extends Thread {
 
     private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
-
+        String response;
         while (connected()) {
-            String response;
-
             try {
                 response = input.readLine();
-            }
-            catch (SocketException e) {
+            } catch (SocketException e){
                 return;
             }
-
             if (response != null) {
                 Util.displayStatus("Server Response: " + response);
                 _handler.handle(response);
