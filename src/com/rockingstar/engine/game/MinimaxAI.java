@@ -41,18 +41,9 @@ public class MinimaxAI extends Player implements AI {
 
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
-        bestMove = 0;
-        /*int bestMove = 0;
-        int positionOfBestMove = 0;
 
-        for(int posMove : possibleMoves){
-            int move = minimax(_reversiModel.getBoard(),4, true);
-            if(move > bestMove){
-                bestMove = move;
-                positionOfBestMove = posMove;
-            }
-        }*/
-        minimax(_reversiModel.getBoard(),1,true);
+
+        minimax(_reversiModel.getBoard(),5,true);
         System.out.println(bestMove);
         return new VectorXY(bestMove % 8, bestMove / 8);
     }
@@ -71,6 +62,7 @@ public class MinimaxAI extends Player implements AI {
     }
 
     public int minimax(Player[][] board, int depth, boolean maximizingPlayer){
+        int bestMove = 0;
         Player currentPlayer = maximizingPlayer ? _reversiController.getPlayer1() : _reversiController.getPlayer2();
 
         if(depth == 0){
@@ -81,9 +73,10 @@ public class MinimaxAI extends Player implements AI {
             int bestValue = Integer.MIN_VALUE;
             ArrayList<Integer> moves = _reversiModel.getPossibleMoves(currentPlayer, board);
             for(int pos : moves){
-                Player[][] newBoard = board.clone();
+                Player[][] newBoard = _reversiModel.cloneBoard(board);
                 LinkedList<Integer> flippedTiles =_reversiModel.getFlippableTiles(pos % 8, pos / 8, currentPlayer, newBoard);
                 _reversiModel.flipTiles(flippedTiles, currentPlayer, newBoard);
+
                 newBoard[pos % 8][pos / 8] = currentPlayer;
                 System.out.println("Curr player:" + currentPlayer);
                 int value = minimax(newBoard, depth-1, !maximizingPlayer);
@@ -99,9 +92,21 @@ public class MinimaxAI extends Player implements AI {
             int bestValue = Integer.MAX_VALUE;
             ArrayList<Integer> moves = _reversiModel.getPossibleMoves(currentPlayer, board);
             for(int pos : moves){
-                Player[][] newBoard = board.clone();
+                Player[][] newBoard = _reversiModel.cloneBoard(board);
                 LinkedList<Integer> flippedTiles =_reversiModel.getFlippableTiles(pos % 8, pos / 8, currentPlayer, newBoard);
                 _reversiModel.flipTiles(flippedTiles, currentPlayer, newBoard);
+
+                for (int x = 0; x < _reversiModel.getBoard().length; x++) {
+                    for (int y = 0; y < _reversiModel.getBoard().length; y++) {
+                        if (_reversiModel.getBoard()[x][y] == null) {
+                            System.out.print(" n");
+                        } else {
+                            System.out.print(" " + _reversiModel.getBoard()[x][y].getCharacter());
+                        }
+                    }
+                    System.out.println(" \n--------------");
+                }
+                System.out.println("Hahahaha we're done");
                 newBoard[pos % 8][pos / 8] = currentPlayer;
                 int value = minimax(newBoard, depth-1, !maximizingPlayer);
                 if(value < bestValue){
@@ -116,3 +121,18 @@ public class MinimaxAI extends Player implements AI {
     }
 
 }
+
+/*
+
+                for (int x = 0; x < _reversiModel.getBoard().length; x++) {
+                    for (int y = 0; y < _reversiModel.getBoard().length; y++) {
+                        if (_reversiModel.getBoard()[x][y] == null) {
+                            System.out.print(" n");
+                        } else {
+                            System.out.print(" " + _reversiModel.getBoard()[x][y].getCharacter());
+                        }
+                    }
+                    System.out.println(" \n--------------");
+                }
+                System.out.println("Hahahaha we're done");
+*/
