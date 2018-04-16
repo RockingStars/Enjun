@@ -2,7 +2,6 @@ package com.rockingstar.engine.lobby.models;
 
 import com.rockingstar.engine.game.Player;
 import com.rockingstar.engine.lobby.controllers.Launcher;
-import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 
 public class LobbyModel {
@@ -24,24 +23,7 @@ public class LobbyModel {
         });
     }
 
-//    public void addRefreshActionHandlers(LobbyView lobbyView) {
-//        lobbyView.getRefreshButton().setOnAction(e ->
-//                getPlayerList()
-//        );}
-
-    public void addGameSelectionActionHandlers(LobbyView lobbyView) {
-        System.out.println("OK");
-    }
-
-    public void setPlayers(Player[] players) {
-        _players = players;
-    }
-
     public void setLocalPlayer(Player player) {
         _players[0] = player;
-    }
-
-    public void setOpponent(Player player) {
-        _players[1] = player;
     }
 }

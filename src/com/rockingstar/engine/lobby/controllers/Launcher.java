@@ -125,7 +125,6 @@ public class Launcher {
 
             _guiController.setCenter(_lobbyView.getNode());
             _guiController.addStylesheet("lobby");
-            _model.addGameSelectionActionHandlers(_lobbyView);
 
             _updatePlayerList.start();
         }
