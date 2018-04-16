@@ -1,3 +1,25 @@
+/*
+ * Enjun
+ *
+ * @version     1.0 Beta 1
+ * @author      Rocking Stars
+ * @copyright   2018, Enjun
+ *
+ * Copyright 2018 RockingStars
+
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.rockingstar.engine.lobby.views;
 
 import com.rockingstar.engine.ServerConnection;
@@ -27,15 +49,13 @@ public class LobbyView {
     private VBox _players;
     private ToggleGroup _usergroup;
 
-    GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
-    double width = graphicsDevice.getDisplayMode().getWidth();
-    double height = graphicsDevice.getDisplayMode().getHeight();
+    private GraphicsDevice graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    private double width = graphicsDevice.getDisplayMode().getWidth();
+    private double height = graphicsDevice.getDisplayMode().getHeight();
 
     private BorderPane _lobbyPane;
 
     private Launcher _launcher;
-
-    private Label gameModus;
 
     private String _selectedGame;
 
@@ -44,7 +64,6 @@ public class LobbyView {
 
     private BorderPane _leftPane;
     private BorderPane _rightPane;
-    private VBox _rightPaneContentBox;
 
     private Label _subscribed;
     private VBox _leftPaneMenu;
@@ -125,8 +144,8 @@ public class LobbyView {
     private void createRightPane() {
         _players = new VBox(1);
 
-        _rightPaneContentBox = new VBox(1);
-        _rightPaneContentBox.getStyleClass().addAll("lobby_pane_content", "no_padding");
+        VBox rightPaneContentBox = new VBox(1);
+        rightPaneContentBox.getStyleClass().addAll("lobby_pane_content", "no_padding");
 
         Button challengePlayerButton = new Button("Challenge");
         challengePlayerButton.getStyleClass().add("option");
@@ -150,10 +169,10 @@ public class LobbyView {
         scrollPane.setFitToWidth(true);
 
         // Add everything to the pane
-        _rightPaneContentBox.getChildren().addAll(scrollPane, challengePlayerButton);
+        rightPaneContentBox.getChildren().addAll(scrollPane, challengePlayerButton);
 
         _rightPane.setTop(_onlinePlayersLabel);
-        _rightPane.setCenter(_rightPaneContentBox);
+        _rightPane.setCenter(rightPaneContentBox);
     }
 
     private void addGames() {

@@ -1,3 +1,25 @@
+/*
+ * Enjun
+ *
+ * @version     1.0 Beta 1
+ * @author      Rocking Stars
+ * @copyright   2018, Enjun
+ *
+ * Copyright 2018 RockingStars
+
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.rockingstar.engine.lobby.controllers;
 
 import com.rockingstar.engine.ServerConnection;
@@ -6,6 +28,7 @@ import com.rockingstar.engine.game.AbstractGame;
 import com.rockingstar.engine.game.Lech;
 import com.rockingstar.engine.game.OverPoweredAI;
 import com.rockingstar.engine.game.Player;
+import com.rockingstar.engine.gui.controllers.AudioPlayer;
 import com.rockingstar.engine.gui.controllers.GUIController;
 import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.engine.lobby.models.LobbyModel;
@@ -13,6 +36,7 @@ import com.rockingstar.engine.lobby.views.LobbyView;
 import com.rockingstar.engine.lobby.views.LoginView;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.TicTacToe.controllers.TTTController;
+
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -40,6 +64,7 @@ public class Launcher {
     public static final Object LOCK = new Object();
 
     private Thread _updatePlayerList;
+    private AudioPlayer _backgroundMusic;
 
     private LinkedList<Player> _onlinePlayers;
 
@@ -47,24 +72,13 @@ public class Launcher {
         _guiController = guiController;
         _serverConnection = serverConnection;
 
-        _model = new LobbyModel(this);
+        _model = new LobbyModel();
         _loginView = new LoginView();
 
         _model.addLoginActionHandlers(_loginView, this);
         _onlinePlayers = new LinkedList<>();
 
-        _updatePlayerList = new Thread(() -> {
-            while (_currentGame == null) {
-                getPlayerList();
-
-                try {
-                    Thread.sleep(5000);
-                }
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        setupOnlinePlayerList();
     }
 
     public static Launcher getInstance() {
@@ -88,12 +102,17 @@ public class Launcher {
     public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
+
+        setupOnlinePlayerList();
         _updatePlayerList.start();
+
+        _backgroundMusic.play();
     }
 
     private void loadModule(AbstractGame game) {
         _currentGame = game;
         Platform.runLater(() -> _guiController.setCenter(game.getView()));
+        _backgroundMusic.end();
     }
 
     public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
@@ -116,7 +135,6 @@ public class Launcher {
 
             _lobbyView.setGameMode(gameMode);
             _lobbyView.setUsername(_localPlayer.getUsername());
-            _model.setLocalPlayer(_localPlayer);
 
             _lobbyView.setPlayerList(_onlinePlayers);
 
@@ -129,6 +147,7 @@ public class Launcher {
             _guiController.addStylesheet("lobby");
 
             _updatePlayerList.start();
+            setupBackgroundMusic();
         }
     }
 
@@ -171,7 +190,6 @@ public class Launcher {
 
         Player opponent = new Player(opponentName);
 
-        System.out.println("Entered lock-protected area in launcher");
         AbstractGame gameModule;
         switch (gameType) {
             case "Tic-tac-toe":
@@ -183,7 +201,7 @@ public class Launcher {
                 ((ReversiController) gameModule).setStartingPlayer(startingPlayer.equals(opponentName) ? opponent : _localPlayer);
                 break;
             default:
-                Util.displayStatus("Failed to load game module " + gameType);
+                Util.displayStatus("Unsupported game module " + gameType);
                 return;
         }
 
@@ -191,7 +209,6 @@ public class Launcher {
 
         loadModule(gameModule);
         gameModule.startGame();
-        System.out.println("Left lock-protected area in Launcher");
     }
 
     private void getPlayerList() {
@@ -234,5 +251,25 @@ public class Launcher {
 
     public void subscribeToGame(String game) {
         CommandExecutor.execute(new SubscribeCommand(ServerConnection.getInstance(), game));
+    }
+
+    private void setupBackgroundMusic() {
+        _backgroundMusic = new AudioPlayer("LobbyMusic.mp3", true);
+        _backgroundMusic.play();
+    }
+
+    private void setupOnlinePlayerList() {
+        _updatePlayerList = new Thread(() -> {
+            while (_currentGame == null) {
+                getPlayerList();
+
+                try {
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

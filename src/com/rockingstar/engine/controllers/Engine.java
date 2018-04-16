@@ -1,3 +1,25 @@
+/*
+ * Enjun
+ *
+ * @version     1.0 Beta 1
+ * @author      Rocking Stars
+ * @copyright   2018, Enjun
+ *
+ * Copyright 2018 RockingStars
+
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.rockingstar.engine.controllers;
 
 import com.rockingstar.engine.ServerConnection;
@@ -27,9 +49,6 @@ public class Engine extends Application {
         _serverConnection = ServerConnection.getInstance();
         _serverConnection.start();
 
-        // @todo Move to own class
-        //setBackgroundMusic();
-
         Util.displayStatus("Boot sequence completed. Welcome to Enjun!");
 
         _launcher = Launcher.getInstance(_gui, _serverConnection);
@@ -48,20 +67,5 @@ public class Engine extends Application {
             System.exit(0);
         });
         boot();
-    }
-
-    private void setBackgroundMusic() {
-        new Thread(() -> {
-            URL resource = getClass().getClassLoader().getResource("resources/sound/music/LobbyMusic.mp3");
-
-            Util.displayStatus("Loading background music", resource != null);
-
-            if (resource == null)
-                return;
-
-            MediaPlayer player = new MediaPlayer(new Media(resource.toString()));
-            player.play();
-            player.setOnEndOfMedia(() -> player.seek(Duration.ZERO));
-        }).start();
     }
 }
