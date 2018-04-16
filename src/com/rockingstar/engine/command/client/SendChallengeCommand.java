@@ -2,7 +2,10 @@ package com.rockingstar.engine.command.client;
 
 import com.rockingstar.engine.ServerConnection;
 import com.rockingstar.engine.game.Player;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class SendChallengeCommand implements Command {
 
     private ServerConnection _serverConnection;
@@ -22,6 +25,9 @@ public class SendChallengeCommand implements Command {
         _game = game;
     }
 
+    /**
+     * Sends the command for the challenge message to the server for the selected player
+     */
     @Override
     public void execute() {
         _serverConnection.send(String.format("challenge \"%s\" \"%s\"", _player.getUsername(), _game));

@@ -28,12 +28,20 @@ import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 import java.net.URL;
-
+/**
+ * @author Rocking Stars
+ * @since  beta 1.0
+ */
 public class AudioPlayer extends Thread {
 
     private boolean _repeat;
     private MediaPlayer _mediaPlayer;
 
+    /**
+     * audio file is added to the MediaPlayer
+     * @param filename filename of the audio file
+     * @param repeat boolean is a audio file has to repeat or not
+     */
     public AudioPlayer(String filename, boolean repeat) {
         _repeat = repeat;
 
@@ -47,6 +55,9 @@ public class AudioPlayer extends Thread {
         _mediaPlayer = new MediaPlayer(new Media(resource.toString()));
     }
 
+    /**
+     * Checks if _mediaPlayer is set, then plays the audio, and repeats if needed
+     */
     @Override
     public void run() {
         if (_mediaPlayer == null)
@@ -58,10 +69,16 @@ public class AudioPlayer extends Thread {
             _mediaPlayer.setOnEndOfMedia(() -> _mediaPlayer.seek(Duration.ZERO));
     }
 
+    /**
+     * Starts the audio
+     */
     public void play() {
         start();
     }
 
+    /**
+     * Ends the audio
+     */
     public void end() {
         _mediaPlayer.stop();
     }
