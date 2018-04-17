@@ -73,12 +73,19 @@ public class LobbyView {
 
     private static final int NUMBER_OF_PLAYERS_WITHOUT_SCROLL = 15;
 
+    /**
+     * Instantiate the lobbyview
+     * @param launcher
+     */
     public LobbyView(Launcher launcher) {
         _playerList = new LinkedList<>();
         _gameList = new LinkedList<>();
         _launcher = launcher;
     }
 
+    /**
+     * Method to setup the lobby gui
+     */
     public void setup() {
         _lobbyPane = new BorderPane();
 
@@ -100,6 +107,9 @@ public class LobbyView {
         createRightPane();
     }
 
+    /**
+     * Method to create the left pane
+     */
     private void createLeftPane() {
         _leftPaneMenu = new VBox();
         Label gameConfigLabel = new Label("CONFIGURATION");
@@ -114,6 +124,9 @@ public class LobbyView {
         _leftPane.setCenter(_leftPaneMenu);
     }
 
+    /**
+     * Method to populate the left pane
+     */
     private void populateLeftPane() {
         Label selectGame = new Label("Select game");
         _subscribed = new Label("Subscriptions");
@@ -141,6 +154,10 @@ public class LobbyView {
         });
     }
 
+
+    /**
+     * Method to create the right pane
+     */
     private void createRightPane() {
         _players = new VBox(1);
 
@@ -175,6 +192,9 @@ public class LobbyView {
         _rightPane.setCenter(rightPaneContentBox);
     }
 
+    /**
+     * Method to add the games to the left pane
+     */
     private void addGames() {
         for (String game : _gameList) {
             Label label = new Label(game);
@@ -214,6 +234,10 @@ public class LobbyView {
         return _lobbyPane;
     }
 
+
+    /**
+     * Method to get the online users and add (me) if the player name equals the client's name
+     */
     private void getOnlineUsers() {
         Platform.runLater(() -> {
             RadioButton user;
@@ -300,6 +324,10 @@ public class LobbyView {
         });
     }
 
+    /**
+     * Method to handle the challenge button actions
+     * @param button
+     */
     private void addUserSelectionHandlers(Button button) {
         _rightPane.getChildren().clear();
 
