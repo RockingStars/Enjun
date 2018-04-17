@@ -15,7 +15,7 @@ import java.util.Random;
  * @author Rockingstars
  * @since 1.0 Beta 1
  */
-public class OverPoweredAI extends Player implements AI {
+public class HardAI extends Player implements AI {
 
     private static final int[] powerSpots1 = {0,7,56,63}; // corners
     private static final int[] powerSpots2 = {2,5,16,23,40,47,58,61}; // corner avoiders
@@ -40,11 +40,11 @@ public class OverPoweredAI extends Player implements AI {
     private int counter = 0;
 
     /**
-     * Method to instantiate the a Hard AI
+     * Method to instantiate the HardAI
      * @param username
      * @param color
      */
-    public OverPoweredAI(String username, Color color) {
+    public HardAI(String username, Color color) {
         super(username, color);
         isAI = true;
     }
@@ -108,7 +108,7 @@ public class OverPoweredAI extends Player implements AI {
                 }
             }
         }*/
-        Util.displayStatus("Possible moves for OPAI:  " + possibleMoves);
+        Util.displayStatus("Possible moves for HardAI:  " + possibleMoves);
         Util.displayStatus("BestMove:  " + bestMove);
         return new VectorXY(bestMove % 8, bestMove / 8);
     }
@@ -129,11 +129,11 @@ public class OverPoweredAI extends Player implements AI {
                 return j;
             }
         }
-        /*for (int k : powerSpots3) {
+        for (int k : powerSpots3) {
             if (possibleMoves.contains(k)) {
                 return k;
             }
-        }*/
+        }
         return -1;
     }
 
@@ -223,8 +223,7 @@ public class OverPoweredAI extends Player implements AI {
         }
     }
 
-
-    /*public VectorXY mostTilesFlippedStrategy(Player player, ArrayList<Integer> possibleMoves){
+    public VectorXY mostTilesFlippedStrategy(Player player, ArrayList<Integer> possibleMoves){
         System.out.println(possibleMoves);
 
         LinkedList<Integer> goodMoves = new LinkedList<>();
@@ -263,6 +262,4 @@ public class OverPoweredAI extends Player implements AI {
 
         return bestMoveCoordinates;
     }
-*/
-
 }

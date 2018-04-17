@@ -71,7 +71,7 @@ public class LoginView {
         _hostIP.setId("host_ip_label");
         _hostIP.setVisible(false);
 
-        _hostIPInput = new TextField();
+        _hostIPInput = new TextField("77.162.40.81:7789");
         _hostIPInput.setPromptText("127.0.0.1:7789");
         _hostIPInput.setId("hostname_input");
         _hostIPInput.setMaxWidth(300);
@@ -111,18 +111,18 @@ public class LoginView {
         _difficulty.setId("login_label");
         _difficulty.setVisible(false);
 
-        RadioButton lech = new RadioButton("Lech");
-        lech.setUserData("Lech");
-        lech.setId("player_type");
-        lech.setToggleGroup(_AIGroup);
+        RadioButton easyAI = new RadioButton("EasyAI");
+        easyAI.setUserData("EasyAI");
+        easyAI.setId("player_type");
+        easyAI.setToggleGroup(_AIGroup);
 
-        RadioButton bas = new RadioButton("Bas");
-        bas.setUserData("Bas");
-        bas.setId("player_type");
-        bas.setToggleGroup(_AIGroup);
+        RadioButton hardAI = new RadioButton("HardAI");
+        hardAI.setUserData("HardAI");
+        hardAI.setId("player_type");
+        hardAI.setToggleGroup(_AIGroup);
 
         _AIMode = new HBox(30);
-        _AIMode.getChildren().addAll(lech, bas);
+        _AIMode.getChildren().addAll(easyAI, hardAI);
         _AIMode.setVisible(false);
         _AIMode.setAlignment(Pos.CENTER);
 

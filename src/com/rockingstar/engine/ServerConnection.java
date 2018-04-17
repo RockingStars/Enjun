@@ -11,7 +11,8 @@ import java.net.Socket;
 import java.net.SocketException;
 
 /**
- * Created by Bert de Boer on 3/27/2018.
+ * @author Rocking Stars
+ * @since  beta 1.0
  */
 public class ServerConnection extends Thread {
 
@@ -20,19 +21,31 @@ public class ServerConnection extends Thread {
     private Socket _socket;
     private ResponseHandler _handler;
 
+
+    /**
+     * Tries to connect to the server via socket, if not possible prints error message
+     */
     private ServerConnection(String hostname, int port) throws IOException {
         //_socket = new Socket("145.33.225.170", 7789);
         _socket = new Socket(hostname, port);
         //_socket = new Socket("77.162.40.81", 7789);
-
         Util.displayStatus("Established server connection");
         _handler = new ResponseHandler();
     }
 
+    /**
+     * To check if you are connected
+     * @return true while connected
+     */
     private boolean connected(){
         return !_socket.isClosed();
     }
 
+    /**
+     * Creates new PrintWriter, prints command to the PrintWriter.
+     * Displats command as status and wait for 0,1 seconds
+     * @param command command to be entered to PrintWriters and status
+     */
     public void send(String command) {
         try {
             PrintWriter output = new PrintWriter(_socket.getOutputStream(), true);
@@ -45,6 +58,11 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * While connected to server, put the response to the BufferedReader.
+     * displays the response, and makes sure the response is handled
+     * @throws IOException
+     */
     private void receive() throws IOException {
         BufferedReader input = new BufferedReader(new InputStreamReader(_socket.getInputStream()));
         String response;
@@ -70,6 +88,9 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * Tries to close the connection with the server
+     */
     public void close() {
         try {
             _socket.close();
@@ -82,6 +103,10 @@ public class ServerConnection extends Thread {
         }
     }
 
+    /**
+     * checks if there is an serverconnection, if not, create a new ServerConnection
+     * @return new Serverconnection
+     */
     public static ServerConnection getInstance(){
         if (uniqueInstance == null)
             return null;
@@ -97,10 +122,18 @@ public class ServerConnection extends Thread {
         return uniqueInstance;
     }
 
+    /**
+     * Gets response from Response Handler
+     * @return the getMessage method from ResponseHandler
+     */
     public String getResponse() {
         return _handler.getMessage();
     }
 
+    /**
+     * Checks if a command is a valid command
+     * @return true if a command is valid, false if not
+     */
     public boolean isValidCommand() {
         return _handler.isValidCommand();
     }
