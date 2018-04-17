@@ -30,7 +30,7 @@ public class MainWindow {
      */
     private void setup() {
         _mainStage.setMaximized(true);
-        //_mainStage.setResizable(false);
+        _mainStage.setResizable(false);
         _scene.getStylesheets().add("styles/login.css");
         _scene.getStylesheets().add("styles/gameSelect.css");
         _scene.getStylesheets().add("styles/TTT.css");

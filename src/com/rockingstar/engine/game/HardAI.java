@@ -1,7 +1,6 @@
 package com.rockingstar.engine.game;
 
 import com.rockingstar.engine.game.models.VectorXY;
-import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.Reversi.models.ReversiModel;
 import javafx.scene.paint.Color;
@@ -84,32 +83,51 @@ public class HardAI extends Player implements AI {
         //int valueOfBestMove = Integer.MIN_VALUE;
         int bestMove;
 
-        //if(counter++ < 10){
+        //if (counter++ < 15) {
+
         bestMove = getPowerSpotMove(possibleMoves);
-        if(bestMove == -1) {
-            for(int move : possibleMoves){
-                for(int avoid : avoidSpots){
-                    if(move != avoid){
+        if (bestMove == -1) {
+            for (int move : possibleMoves) {
+                for (int avoid : avoidSpots) {
+                    if (move != avoid) {
                         bestMove = move;
                     }
                 }
             }
-            if(bestMove == -1) {
+            if (bestMove == -1) {
                 bestMove = generateRandomMove(possibleMoves);
             }
         }
-         /*else {
-            System.out.println(possibleMoves);
-            for(int move : possibleMoves){
-                int value = minimax(_reversiModel.getBoard(),4,true);
-                if (value > valueOfBestMove) {
-                    valueOfBestMove = value;
-                    bestMove = move;
+        /* else {
+            if(possibleMoves.size() > 0){
+                System.out.println(possibleMoves);
+                for (int move : possibleMoves) {
+                    int value = minimax(_reversiModel.getBoard(), 4, true);
+                    if (value > valueOfBestMove) {
+                        valueOfBestMove = value;
+                        bestMove = move;
+                    }
+                }
+            }
+            Util.displayStatus("Possible moves for HardAI:  " + possibleMoves);
+            Util.displayStatus("BestMove:  " + bestMove);
+        }*/
+        // if bestmove is still -1
+        /*if(bestMove == -1) {
+            bestMove = getPowerSpotMove(possibleMoves);
+            if (bestMove == -1) {
+                for (int move : possibleMoves) {
+                    for (int avoid : avoidSpots) {
+                        if (move != avoid) {
+                            bestMove = move;
+                        }
+                    }
+                }
+                if (bestMove == -1) {
+                    bestMove = generateRandomMove(possibleMoves);
                 }
             }
         }*/
-        Util.displayStatus("Possible moves for HardAI:  " + possibleMoves);
-        Util.displayStatus("BestMove:  " + bestMove);
         return new VectorXY(bestMove % 8, bestMove / 8);
     }
 

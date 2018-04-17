@@ -150,7 +150,7 @@ public class Launcher {
         // @todo Check for difficulty
 
         if (isAI){
-            if (difficulty.equals("Easy")) {
+            if (difficulty.equals("EasyAI")) {
                 Util.displayStatus(difficulty + " Easy AI selected");
                 _localPlayer = new EasyAI(username, new Color(0.5, 0.5, 0.5, 0));
             } else {
