@@ -22,6 +22,11 @@
 
 package com.rockingstar.engine.game.models;
 
+/**
+ * Class that instantiates the vector needed to create a move
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class VectorXY {
 
     public int x;

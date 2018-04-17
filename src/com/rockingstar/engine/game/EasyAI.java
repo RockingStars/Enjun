@@ -7,6 +7,11 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * This class contains methods that create and update a Easy AI
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class EasyAI extends Player implements AI {
 
     private ReversiModel _reversiModel;

@@ -42,6 +42,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+/**
+ * Class that creates the login view and handles all the actions that can be performed in the login view.
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class Launcher {
 
     private GUIController _guiController;
@@ -68,7 +73,6 @@ public class Launcher {
     /**
      * Method to instantiate a launcher
      * @param guiController
-     * @param serverConnection
      */
     private Launcher(GUIController guiController) {
         _guiController = guiController;
@@ -94,7 +98,7 @@ public class Launcher {
     }
 
     /**
-     * 
+     *
      * @param guiController
      * @return
      */

@@ -26,7 +26,9 @@ import com.rockingstar.engine.controllers.Engine;
 import com.rockingstar.engine.io.models.Util;
 
 import static javafx.application.Application.launch;
+
 /**
+ * This class starts up the engine and checks which mode you're running in (Run or Debug)
  * @author Rocking Stars
  * @since  1.0 beta 1.0
  */

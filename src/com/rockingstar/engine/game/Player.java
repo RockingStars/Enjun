@@ -30,6 +30,11 @@ import javafx.scene.paint.Color;
 
 import java.util.Random;
 
+/**
+ * Class that creates a player object and handles a login
+ * @author Rockingstars
+ * @since 1.0 Beta 1
+ */
 public class Player {
 
     protected String username;
