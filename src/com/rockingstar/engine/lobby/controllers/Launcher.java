@@ -129,7 +129,7 @@ public class Launcher {
         _backgroundMusic.end();
     }
 
-    public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
+    private void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         // @todo Check for difficulty
 
         if (isAI){
@@ -287,7 +287,7 @@ public class Launcher {
         });
     }
 
-    public boolean connectToServer(String hostname) {
+    private boolean connectToServer(String hostname) {
         if (_serverConnection != null)
             return true;
 
@@ -323,7 +323,7 @@ public class Launcher {
         return true;
     }
 
-    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+    private void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
             boolean connected = launcher.connectToServer(loginView.getHostname());
 
