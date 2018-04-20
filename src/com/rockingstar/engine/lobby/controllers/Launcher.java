@@ -285,7 +285,7 @@ public class Launcher {
         });
     }
 
-    public boolean connectToServer(String hostname) {
+    private boolean connectToServer(String hostname) {
         if (_serverConnection != null)
             return true;
 
@@ -321,7 +321,7 @@ public class Launcher {
         return true;
     }
 
-    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+    private void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
         loginView.getContinueButton().setOnAction(e -> {
             boolean connected = launcher.connectToServer(loginView.getHostname());
 
