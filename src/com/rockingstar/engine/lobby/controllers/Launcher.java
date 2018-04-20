@@ -176,7 +176,7 @@ public class Launcher {
             challengeNumber = Integer.parseInt(parts[3]);
         }
         catch (NumberFormatException e) {
-            System.out.println("Invalid challenge");
+            Util.displayStatus("Invalid challenge");
             return;
         }
 
@@ -231,7 +231,6 @@ public class Launcher {
         loadModule(gameModule);
         gameModule.startGame();
     }
-
 
     public void updatePlayerList(String response) {
         HashMap<String, Player> playerNames = new HashMap<>();
@@ -312,7 +311,7 @@ public class Launcher {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("ACHTUNG!");
             uNameAlert.setHeaderText("ACHTUNG!");
-            uNameAlert.setContentText("Der verdammte Server funktioniert nicht.");
+            uNameAlert.setContentText("Der Server funktioniert nicht!");
 
             uNameAlert.showAndWait();
             return false;

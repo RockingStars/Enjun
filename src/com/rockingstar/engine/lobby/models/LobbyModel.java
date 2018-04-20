@@ -34,8 +34,6 @@ public class LobbyModel {
     }
 
     public void getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+        CommandExecutor.execute(new GetGameListCommand(ServerConnection.getInstance()));
     }
-
 }

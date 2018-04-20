@@ -13,10 +13,6 @@ public class ResponseHandler {
     private String _message;
     private boolean _isValidCommand;
 
-    public ResponseHandler() {
-
-    }
-
     /**
      * Handles the responses from the server
      * @param response the received response from the server
@@ -25,8 +21,6 @@ public class ResponseHandler {
         String responseType = response.split(" ")[0];
         _isValidCommand = false;
 
-        // test of server niet ofline is (kijken of je response krijgt)
-        // System.out.println(responseType);
         switch(responseType){
             case "OK":
                 _isValidCommand = true;
@@ -63,25 +57,20 @@ public class ResponseHandler {
                 switch(response.substring(4).split(" ")[1]) {
                     case "MATCH":
                         synchronized (Launcher.LOCK) {
-                            Launcher.getInstance().startMatch(response.substring(15));
+                            launcher.startMatch(response.substring(15));
                         }
                         break;
                     case "YOURTURN":
                         synchronized (Launcher.LOCK) {
-                            Util.displayStatus("Entering yourturn thingie");
                             AbstractGame game = launcher.getGame();
-                            //game.showPossibleMoves();
                             game.doYourTurn();
-                            Util.displayStatus("Yourturn done");
                         }
                         break;
                     case "MOVE":
                         synchronized (Launcher.LOCK) {
                             try {
-                                Util.displayStatus("MOVE RESPONSE FROM SERVER: " + response.substring(14));
                                 // Remove all characters other than alphanumeric ones and spaces / dashes
                                 response = response.replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[6];
-
                                 Thread.sleep(200);
                                 launcher.getGame().doPlayerMove(Integer.parseInt(response));
                             } catch (NumberFormatException e) {
@@ -95,13 +84,13 @@ public class ResponseHandler {
                     case "CHALLENGE":
                         switch(response.substring(4).replaceAll("[^a-zA-Z0-9 ]", "").split(" ")[2]){
                             case "CANCELLED":
-                                System.out.println("cancelled");
+                                Util.displayStatus("Challenge was cancelled");
                                 return;
                             case "CHALLENGER":
-                                Launcher.getInstance().challengeReceived(response.substring(19));
+                                launcher.challengeReceived(response.substring(19));
                                 break;
                         }
-                        //Launcher.getInstance().challengeReceived(response.substring(19));
+
                         break;
                     case "WIN":
                     case "LOSS":

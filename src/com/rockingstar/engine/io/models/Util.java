@@ -64,7 +64,7 @@ public class Util {
             return elements;
         }
         finally {
-            Util.displayStatus("Retrieving player list", result);
+            Util.displayStatus("Retrieving list", result);
         }
 
         for (String unparsedElement : unparsedElements)
