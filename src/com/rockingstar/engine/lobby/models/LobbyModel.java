@@ -41,8 +41,6 @@ public class LobbyModel {
      * Method to send the "get gamelist" command to the server
      */
     public void getGameList() {
-        ServerConnection serverConnection = ServerConnection.getInstance();
-        CommandExecutor.execute(new GetGameListCommand(serverConnection));
+        CommandExecutor.execute(new GetGameListCommand(ServerConnection.getInstance()));
     }
-
 }

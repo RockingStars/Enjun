@@ -146,9 +146,7 @@ public class Launcher {
      * @param isAI
      * @param difficulty
      */
-    public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
-        // @todo Check for difficulty
-
+    private void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         if (isAI){
             if (difficulty.equals("EasyAI")) {
                 Util.displayStatus(difficulty + " Easy AI selected");
@@ -199,7 +197,7 @@ public class Launcher {
             challengeNumber = Integer.parseInt(parts[3]);
         }
         catch (NumberFormatException e) {
-            System.out.println("Invalid challenge");
+            Util.displayStatus("Invalid challenge");
             return;
         }
 
@@ -258,7 +256,6 @@ public class Launcher {
         loadModule(gameModule);
         gameModule.startGame();
     }
-
 
     /**
      * Method to update the player list
@@ -331,7 +328,7 @@ public class Launcher {
      * @param hostname
      * @return true or false based on the connection being established
      */
-    public boolean connectToServer(String hostname) {
+    private boolean connectToServer(String hostname) {
         if (_serverConnection != null)
             return true;
 
@@ -358,7 +355,7 @@ public class Launcher {
             Alert uNameAlert = new Alert(Alert.AlertType.INFORMATION);
             uNameAlert.setTitle("ACHTUNG!");
             uNameAlert.setHeaderText("ACHTUNG!");
-            uNameAlert.setContentText("Der verdammte Server funktioniert nicht.");
+            uNameAlert.setContentText("Der Server funktioniert nicht!");
 
             uNameAlert.showAndWait();
             return false;
@@ -372,7 +369,7 @@ public class Launcher {
      * @param loginView
      * @param launcher
      */
-    public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+    private void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
 
         loginView.getContinueButton().setOnAction(e -> {
             boolean connected = launcher.connectToServer(loginView.getHostname());
@@ -387,6 +384,4 @@ public class Launcher {
             }
         });
     }
-
-
 }
