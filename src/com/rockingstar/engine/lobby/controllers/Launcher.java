@@ -325,6 +325,7 @@ public class Launcher {
         });
     }
 
+
     /**
      * Boolean that tries to connect to the entered hostname
      * @param hostname
@@ -372,6 +373,7 @@ public class Launcher {
      * @param launcher
      */
     public void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+
         loginView.getContinueButton().setOnAction(e -> {
             boolean connected = launcher.connectToServer(loginView.getHostname());
 
