@@ -29,10 +29,17 @@ import com.rockingstar.engine.command.client.GetPlayerListCommand;
 
 public class LobbyModel {
 
+    /**
+     * Method to send the "get playerlist" command to the server
+     */
     public void getPlayerList() {
         CommandExecutor.execute(new GetPlayerListCommand(ServerConnection.getInstance()));
     }
 
+
+    /**
+     * Method to send the "get gamelist" command to the server
+     */
     public void getGameList() {
         CommandExecutor.execute(new GetGameListCommand(ServerConnection.getInstance()));
     }

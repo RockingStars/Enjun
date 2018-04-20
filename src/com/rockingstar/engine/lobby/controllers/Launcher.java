@@ -87,7 +87,7 @@ public class Launcher {
     }
 
     /**
-     * Method that returns the instance
+     * Method that returns the instance of Launcher
      * @return returns the instance
      */
     public static Launcher getInstance() {
@@ -98,9 +98,9 @@ public class Launcher {
     }
 
     /**
-     *
+     * Singleton method that returns the instance of Launcher with parameter GuiController
      * @param guiController
-     * @return
+     * @return Returns the instance if it's already created, else create the instance
      */
     public static Launcher getInstance(GUIController guiController) {
         if (_instance == null)
@@ -109,10 +109,16 @@ public class Launcher {
         return _instance;
     }
 
+    /**
+     * Method to make the loginview visible
+     */
     public void setCentralNode() {
         _guiController.setCenter(_loginView.getNode());
     }
 
+    /**
+     * Method to return to Lobby
+     */
     public void returnToLobby() {
         _guiController.setCenter(_lobbyView.getNode());
         _currentGame = null;
@@ -123,12 +129,23 @@ public class Launcher {
         _backgroundMusic.play();
     }
 
+    /**
+     * Method to make the game view visible
+     * @param game
+     */
     private void loadModule(AbstractGame game) {
         _currentGame = game;
         Platform.runLater(() -> _guiController.setCenter(game.getView()));
         _backgroundMusic.end();
     }
 
+    /**
+     * Method to handle the login of a user
+     * @param username
+     * @param gameMode
+     * @param isAI
+     * @param difficulty
+     */
     private void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         if (isAI){
             if (difficulty.equals("Easy")) {
@@ -165,6 +182,10 @@ public class Launcher {
         }
     }
 
+    /**
+     * Method to handle an incoming challenge
+     * @param response
+     */
     public void challengeReceived(String response) {
         String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
@@ -196,6 +217,10 @@ public class Launcher {
         });
     }
 
+    /**
+     * Method to start the match if the challenged player has accepted the match
+     * @param response
+     */
     public void startMatch(String response) {
         String[] parts = response.replaceAll("[^a-zA-Z0-9 \\-]","").split(" ");
 
@@ -232,6 +257,10 @@ public class Launcher {
         gameModule.startGame();
     }
 
+    /**
+     * Method to update the player list
+     * @param response
+     */
     public void updatePlayerList(String response) {
         HashMap<String, Player> playerNames = new HashMap<>();
         HashMap<String, Player> loggedInPlayers = new HashMap<>();
@@ -251,11 +280,16 @@ public class Launcher {
         _lobbyView.setPlayerList(_onlinePlayers);
     }
 
+    /**
+     * Method to update the game list
+     * @param response
+     */
     public void updateGameList(String response) {
         LinkedList<String> games = new LinkedList<>();
         games.addAll(Util.parseFakeCollection(response));
         _lobbyView.setGameList(games);
     }
+
 
     public AbstractGame getGame() {
         return _currentGame;
@@ -269,6 +303,10 @@ public class Launcher {
         _backgroundMusic = new AudioPlayer("cod2soundtrack.mp3", true);
     }
 
+
+    /**
+     * Method to automatically refresh the player list every five seconds
+     */
     private void setupOnlinePlayerList() {
         _updatePlayerList = new Thread(() -> {
             while (_currentGame == null) {
@@ -284,6 +322,12 @@ public class Launcher {
         });
     }
 
+
+    /**
+     * Boolean that tries to connect to the entered hostname
+     * @param hostname
+     * @return true or false based on the connection being established
+     */
     private boolean connectToServer(String hostname) {
         if (_serverConnection != null)
             return true;
@@ -320,7 +364,13 @@ public class Launcher {
         return true;
     }
 
+    /**
+     * Add a actionHandler to the continue button
+     * @param loginView
+     * @param launcher
+     */
     private void addLoginActionHandlers(LoginView loginView ,Launcher launcher) {
+
         loginView.getContinueButton().setOnAction(e -> {
             boolean connected = launcher.connectToServer(loginView.getHostname());
 
