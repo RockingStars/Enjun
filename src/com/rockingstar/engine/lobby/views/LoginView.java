@@ -39,6 +39,9 @@ public class LoginView {
         setup();
     }
 
+    /**
+     * Method to setup the login view
+     */
     private void setup() {
         _borderPane.setPadding(new Insets(100,15,15,15));
 
@@ -47,6 +50,9 @@ public class LoginView {
         addActionHandlers();
     }
 
+    /**
+     * Method to create the top of the border pane
+     */
     private void createTopPane() {
         Label welcomeMessage = new Label("Welcome to Rockingstar Games!");
         welcomeMessage.setAlignment(Pos.CENTER);
@@ -56,6 +62,9 @@ public class LoginView {
         _borderPane.setTop(welcomeMessage);
     }
 
+    /**
+     * Method to create the center of the border pane
+     */
     private void createCenterPane() {
         VBox centerPane = new VBox();
         centerPane.setMaxHeight(height/1.5);
@@ -138,6 +147,9 @@ public class LoginView {
         _borderPane.setCenter(centerPane);
     }
 
+    /**
+     * Method to add action handlers to the buttons of the login view
+     */
     private void addActionHandlers() {
         _playMode.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             _usernameTextField.setVisible(true);
