@@ -129,9 +129,7 @@ public class Launcher {
         _backgroundMusic.end();
     }
 
-    public void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
-        // @todo Check for difficulty
-
+    private void handleLogin(String username, String gameMode, boolean isAI, String difficulty) {
         if (isAI){
             if (difficulty.equals("Easy")) {
                 Util.displayStatus(difficulty + " Easy AI selected");
@@ -337,6 +335,4 @@ public class Launcher {
             }
         });
     }
-
-
 }
