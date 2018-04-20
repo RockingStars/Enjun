@@ -1,6 +1,7 @@
 package com.rockingstar.engine.game;
 
 import com.rockingstar.engine.game.models.VectorXY;
+import com.rockingstar.engine.io.models.Util;
 import com.rockingstar.modules.Reversi.controllers.ReversiController;
 import com.rockingstar.modules.Reversi.models.ReversiModel;
 import javafx.scene.paint.Color;
@@ -21,6 +22,8 @@ public class HardAI extends Player implements AI {
     private static final int[] powerSpots3 = {18,21,42,45}; // corner avoiders avoiders
 
     private static final int[] avoidSpots = {1, 8, 9, 6, 14, 15, 48, 49, 57, 62, 54, 55};
+
+    private int bestMove;
 
     // Inspired by: https://gamedev.stackexchange.com/questions/45173/reversi-othello-early-game-evaluation-function
     public static final int[][] EVALUATION_MATRIX ={
@@ -80,40 +83,9 @@ public class HardAI extends Player implements AI {
      */
     @Override
     public VectorXY getMove(Player player, ArrayList<Integer> possibleMoves) {
-        //int valueOfBestMove = Integer.MIN_VALUE;
-        int bestMove;
+        int valueOfBestMove = Integer.MIN_VALUE;
 
-        //if (counter++ < 15) {
-
-        bestMove = getPowerSpotMove(possibleMoves);
-        if (bestMove == -1) {
-            for (int move : possibleMoves) {
-                for (int avoid : avoidSpots) {
-                    if (move != avoid) {
-                        bestMove = move;
-                    }
-                }
-            }
-            if (bestMove == -1) {
-                bestMove = generateRandomMove(possibleMoves);
-            }
-        }
-        /* else {
-            if(possibleMoves.size() > 0){
-                System.out.println(possibleMoves);
-                for (int move : possibleMoves) {
-                    int value = minimax(_reversiModel.getBoard(), 4, true);
-                    if (value > valueOfBestMove) {
-                        valueOfBestMove = value;
-                        bestMove = move;
-                    }
-                }
-            }
-            Util.displayStatus("Possible moves for HardAI:  " + possibleMoves);
-            Util.displayStatus("BestMove:  " + bestMove);
-        }*/
-        // if bestmove is still -1
-        /*if(bestMove == -1) {
+        if (counter++ < 15) {
             bestMove = getPowerSpotMove(possibleMoves);
             if (bestMove == -1) {
                 for (int move : possibleMoves) {
@@ -127,7 +99,20 @@ public class HardAI extends Player implements AI {
                     bestMove = generateRandomMove(possibleMoves);
                 }
             }
-        }*/
+        } else {
+            if(possibleMoves.size() > 0){
+                System.out.println(possibleMoves);
+                for (int move : possibleMoves) {
+                    int value = minimax(_reversiModel.getBoard(), 4, true);
+                    if (value > valueOfBestMove) {
+                        valueOfBestMove = value;
+                        bestMove = move;
+                    }
+                }
+            }
+            Util.displayStatus("Possible moves for HardAI:  " + possibleMoves);
+            Util.displayStatus("BestMove:  " + bestMove);
+        }
         return new VectorXY(bestMove % 8, bestMove / 8);
     }
 
@@ -196,7 +181,6 @@ public class HardAI extends Player implements AI {
      * @return returns the best value for a move
      */
     private int minimax(Player[][] board, int depth, boolean maximizingPlayer){
-        //int bestMove = 0;
         Player currentPlayer = maximizingPlayer ? _reversiController.getPlayer1() : _reversiController.getPlayer2();
 
         if(depth == 0){
@@ -212,12 +196,10 @@ public class HardAI extends Player implements AI {
                 _reversiModel.flipTiles(flippedTiles, currentPlayer, newBoard);
 
                 newBoard[pos % 8][pos / 8] = currentPlayer;
-                //System.out.println("Curr player:" + currentPlayer);
                 int value = minimax(newBoard, depth-1, false);
-                //System.out.println("Curr player na minimax:" + currentPlayer);
                 if(value > bestValue){
                     bestValue = value;
-                    //bestMove = pos;
+                    bestMove = pos;
                 }
             }
             return bestValue;
@@ -234,7 +216,7 @@ public class HardAI extends Player implements AI {
                 int value = minimax(newBoard, depth-1, true);
                 if(value < bestValue){
                     bestValue = value;
-                    //bestMove = pos;
+                    bestMove = pos;
                 }
             }
             return bestValue;
